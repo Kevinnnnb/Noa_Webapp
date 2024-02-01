@@ -58,7 +58,7 @@ def upload_file():
     '''
 
 
-@app.route('/longPoll')
+@app.route('/longPoll', methods=['GET'])
 def return_files_tut():
     while not(os.path.exists("test.txt")):
         time.sleep(1)
