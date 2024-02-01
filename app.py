@@ -31,15 +31,15 @@ def delete_file():
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
+        if 'image_data' not in request.files:
+            return "No image data"
+            # return redirect(request.url)
         file = request.files['file']
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+            return "No selected file"
+            # return redirect(request.url)
         if file:
             filename = secure_filename(file.filename)
             file.save(os.path.join('./', filename))
