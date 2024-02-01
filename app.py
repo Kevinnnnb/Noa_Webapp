@@ -64,6 +64,6 @@ def return_files_tut():
     testFile = open("test.txt","r")
     fileName = testFile.readline()
     try:
-        return send_file(fileName, attachment_filename=os.path.basename(fileName))
+        return send_file(fileName, download_name=os.path.basename(fileName))
     except Exception as e:
         return str(e)
