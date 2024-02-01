@@ -60,13 +60,13 @@ def upload_file():
 
 @app.route('/longPoll', methods=['GET'])
 def return_files_tut():
-    while not(os.path.exists("test.txt")):
-        time.sleep(1)
-    testFile = open("test.txt","r")
-    fileName = testFile.readline()
-    if os.path.exists("test.txt"):
-        os.remove("test.txt") # one file at a time
-    try:
-        return send_file(fileName, download_name=os.path.basename(fileName))
-    except Exception as e:
-        return str(e)
+    if (os.path.exists("test.txt")):
+        testFile = open("test.txt","r")
+        fileName = testFile.readline()
+        if os.path.exists("test.txt"):
+            os.remove("test.txt") # one file at a time
+        try:
+            return send_file(fileName, download_name=os.path.basename(fileName))
+        except Exception as e:
+            return str(e)
+    return "No new file"
