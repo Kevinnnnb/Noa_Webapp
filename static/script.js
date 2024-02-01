@@ -67,7 +67,7 @@ window.uploadPhotos = function(url){
                     count += 1;
                     console.log(newFile);
                     var data = new FormData();
-                    data.append('image_data', newFile);
+                    data.append('file', newFile);
                     try {
                         const response =  fetch("/upload", {
                         method: "POST",
