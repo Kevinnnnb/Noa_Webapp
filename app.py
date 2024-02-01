@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file
+from werkzeug.utils import secure_filename
 import os
 import time
 app = Flask(__name__)
@@ -7,12 +8,12 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html')
 
-@app.route('/longPoll')
-def long_poll():
-    while not(os.path.exists("test.txt")):
-        time.sleep(1)
-    testFile = open("test.txt","r")
-    return "done"
+# @app.route('/longPoll')
+# def long_poll():
+#     while not(os.path.exists("test.txt")):
+#         time.sleep(1)
+#     testFile = open("test.txt","r")
+#     return "done"
 
 @app.route('/loadTest')
 def load_test():
@@ -25,3 +26,44 @@ def delete_file():
     if os.path.exists("test.txt"):
         os.remove("test.txt") # one file at a time
     return "deleted"
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('./', filename))
+            with open('test.txt', 'w') as file:
+                file.write(os.path.join('./', filename))
+            return redirect(url_for('download_file', name=filename))
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    '''
+
+
+@app.route('/longPoll')
+def return_files_tut():
+    while not(os.path.exists("test.txt")):
+        time.sleep(1)
+    testFile = open("test.txt","r")
+    fileName = testFile.readline()
+    try:
+        return send_file(fileName, attachment_filename=os.path.basename(fileName))
+    except Exception as e:
+        return str(e)
