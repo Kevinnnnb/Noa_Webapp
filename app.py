@@ -66,7 +66,9 @@ def return_files_tut():
         if os.path.exists("test.txt"):
             os.remove("test.txt") # one file at a time
         try:
-            return send_file(fileName, download_name=os.path.basename(fileName))
+            response = make_response(send_file(fileName, download_name=os.path.basename(fileName)))
+            response.headers['imgName'] = os.path.basename(fileName)
+            return response
         except Exception as e:
             return str(e)
     return make_response("No new file",500)
