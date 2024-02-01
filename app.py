@@ -1,4 +1,4 @@
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response
 from werkzeug.utils import secure_filename
 import os
 import time
@@ -45,7 +45,7 @@ def upload_file():
             file.save(os.path.join('./', filename))
             with open('test.txt', 'w') as file:
                 file.write(os.path.join('./', filename))
-            return redirect(url_for('download_file', name=filename))
+            return make_response("Sucess", 200)
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -63,6 +63,8 @@ def return_files_tut():
         time.sleep(1)
     testFile = open("test.txt","r")
     fileName = testFile.readline()
+    if os.path.exists("test.txt"):
+        os.remove("test.txt") # one file at a time
     try:
         return send_file(fileName, download_name=os.path.basename(fileName))
     except Exception as e:
