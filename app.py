@@ -1,4 +1,4 @@
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify
 from werkzeug.utils import secure_filename
 import os
 import time
@@ -45,7 +45,8 @@ def upload_file():
             file.save(os.path.join('./', filename))
             with open('test.txt', 'w') as file:
                 file.write(os.path.join('./', filename))
-            return make_response("Sucess", 200)
+            data = {'message': 'Done', 'code': 'SUCCESS'}
+            return make_response(jsonify(data), 201)
     return '''
     <!doctype html>
     <title>Upload new File</title>
