@@ -21,7 +21,7 @@ def load_test():
     return "wrote file"
 
 @app.route('/deleteFile')
-def load_test():
+def delete_file():
     if os.path.exists("test.txt"):
         os.remove("test.txt") # one file at a time
     return "deleted"
