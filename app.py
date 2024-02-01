@@ -45,8 +45,7 @@ def upload_file():
             file.save(os.path.join('./', filename))
             with open('test.txt', 'w') as file:
                 file.write(os.path.join('./', filename))
-            data = {'message': 'Done', 'code': 'SUCCESS'}
-            return make_response(jsonify(data), 201)
+            return "done"
     return '''
     <!doctype html>
     <title>Upload new File</title>
