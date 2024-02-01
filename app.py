@@ -9,7 +9,7 @@ def hello_world():
 
 @app.route('/longPoll')
 def long_poll():
-    while not(os.path.exits("test.txt")):
+    while not(os.path.exists("test.txt")):
         time.sleep(1)
     testFile = open("test.txt","r")
     return "done"
