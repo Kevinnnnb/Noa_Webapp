@@ -29,9 +29,10 @@ def delete_file():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    print("Got upload")
     if request.method == 'POST':
         # check if the post request has the file part
-        if 'image_data' not in request.files:
+        if 'file' not in request.files:
             return "No image data"
             # return redirect(request.url)
         file = request.files['file']
@@ -51,7 +52,7 @@ def upload_file():
     <title>Upload new File</title>
     <h1>Upload new File</h1>
     <form method=post enctype=multipart/form-data>
-      <input type=file name=image_data>
+      <input type=file name=file>
       <input type=submit value=Upload>
     </form>
     '''

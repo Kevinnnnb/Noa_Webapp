@@ -115,7 +115,7 @@ window.uploadPhotos = function(url){
                     var file = new File([resizedImage], "image.png" ,{type:"image/png"});
                     console.log(file);
                     var data = new FormData();
-                    data.append('image_data', file);
+                    data.append('file', file);
                     try {
                         const response =  fetch("/upload", {
                         method: "POST",
