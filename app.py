@@ -69,4 +69,4 @@ def return_files_tut():
             return send_file(fileName, download_name=os.path.basename(fileName))
         except Exception as e:
             return str(e)
-    return "No new file"
+    return make_response("No new file",500)
