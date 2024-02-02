@@ -94,7 +94,7 @@ function submitForm(event,realSubmit) {
                 }
                 
             }else{
-                var image = document.createElement('img');
+                var image = document.getElementById('preview');
                 image.onload = function (imageEvent) {
 
                     // Resize the image
