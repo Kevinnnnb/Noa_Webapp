@@ -87,8 +87,6 @@ function submitForm(event,realSubmit) {
                 }
                 
             }else{
-                var image = document.getElementById("preview");
-                image.onload = function (imageEvent) {
 
                     // Resize the image
                     var canvas = document.getElementById('preview'),
@@ -132,10 +130,7 @@ function submitForm(event,realSubmit) {
                         console.error(e);
                     }
                     document.getElementById("preview").src = file;
-                }
-                    
-                }
-                image.src = readerEvent.target.result;
+                } 
             }
         }
         reader.readAsDataURL(file);
