@@ -115,11 +115,11 @@ function submitForm(event,realSubmit) {
                     
                     var dataUrl = canvas.toDataURL('image/png');
                     var resizedImage = dataURLToBlob(dataUrl);
-                    var file = new File([resizedImage], "image.png" ,{type:"image/png"});
-                    console.log(file);
+                    var newFile = new File([resizedImage], "image.png" ,{type:"image/png"});
+                    console.log(newFile);
                     if(realSubmit){
                     var data = new FormData();
-                    data.append('file', file);
+                    data.append('file', newFile);
                     try {
                         const response =  fetch("/upload", {
                         method: "POST",
@@ -129,7 +129,6 @@ function submitForm(event,realSubmit) {
                     } catch (e) {
                         console.error(e);
                     }
-                    document.getElementById("preview").src = file;
                 } 
             }
         }
