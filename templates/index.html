@@ -9,7 +9,7 @@
     </head>
     <body>
         <header>
-            <form onsubmit="submitForm()">
+            <form onsubmit="return submitForm(event);">
                 <label for="file">File</label>
                 <input type="file" id="img" name="img" accept="image/png, image/jpeg" />
                 <button>Upload</button>

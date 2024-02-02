@@ -133,6 +133,7 @@ function submitForm(event) {
         }
         reader.readAsDataURL(file);
     }
+    return false;
 };
 
 /* Utility function to convert a canvas to a BLOB */
