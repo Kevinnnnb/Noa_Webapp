@@ -40,9 +40,13 @@ function submitForm(event,realSubmit) {
                         height = max_size;
                     // }
                 }
-                canvas.width = height;
-                canvas.height = width;
-
+                if(realSubmit){
+                    canvas.width = height;
+                    canvas.height = width;
+                }else{
+                    canvas.width = width
+                    canvas.height = height
+                }
                 var ctx = canvas.getContext('2d');
                 // ctx.translate(-width/2,-height/2);
                 if(realSubmit){
@@ -116,8 +120,13 @@ function submitForm(event,realSubmit) {
                             height = max_size;
                         // }
                     }
-                    canvas.width = height;
-                    canvas.height = width;
+                    if(realSubmit){
+                        canvas.width = height;
+                        canvas.height = width;
+                    }else{
+                        canvas.width = width
+                        canvas.height = height
+                    }
                     var ctx = canvas.getContext('2d');
                     // ctx.translate(-width/2,-height/2);
                     if(realSubmit){
