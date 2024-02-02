@@ -3,8 +3,8 @@ function submitForm(event,realSubmit) {
     // Read in file
     var file = document.getElementById('img').files[0];
     if(realSubmit){
-        document.getElementById('img').files[0] = null;
-        document.getElementById("preview").src = '/static/sent.gif'
+        document.getElementById('img').reset();
+        document.getElementById("preview").src = ''
     }
     // Ensure it's an image
     if(file.type.match(/image.*/)) {
