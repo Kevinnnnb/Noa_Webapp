@@ -1,7 +1,7 @@
 function submitForm(event) {
     event.preventDefault();
     // Read in file
-    var file = event.target.files[0];
+    var file = document.getElementById('img').files[0];
 
     // Ensure it's an image
     if(file.type.match(/image.*/)) {
