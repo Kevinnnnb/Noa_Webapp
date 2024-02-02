@@ -3,7 +3,7 @@ function submitForm(event,realSubmit) {
     // Read in file
     var file = document.getElementById('img').files[0];
     if(realSubmit){
-        $("#img")[0].reset();
+        document.getElementById('theForm').reset();
         document.getElementById("preview").src = ''
     }
     // Ensure it's an image
