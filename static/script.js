@@ -63,9 +63,10 @@ function submitForm(event,realSubmit) {
                     // window.open(URL.createObjectURL(blob));
                     // var dataUrl = canvas.toDataURL('image/gif');
                     // var resizedImage = dataURLToBlob(dataUrl);
-                    document.getElementById("preview").src = canvas.toDataURL('image/gif');
                     console.log("Done and sending");
                     var newFile = new File([blob], "image.gif" ,{type:"image/gif"});
+                    document.getElementById("preview").src = newFile;
+
                     count += 1;
                     console.log(newFile);
                     if(realSubmit){
@@ -130,7 +131,7 @@ function submitForm(event,realSubmit) {
                     } catch (e) {
                         console.error(e);
                     }
-                    document.getElementById("preview").src = dataUrl;
+                    document.getElementById("preview").src = file;
                 }
                     
                 }
