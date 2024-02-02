@@ -45,7 +45,7 @@ function submitForm(event,realSubmit) {
 
                 var ctx = canvas.getContext('2d');
                 // ctx.translate(-width/2,-height/2);
-                if(!realSubmit){
+                if(realSubmit){
                     ctx.rotate(90 * Math.PI / 180);
                     ctx.translate(0,-height);
                 }
@@ -98,7 +98,7 @@ function submitForm(event,realSubmit) {
                 image.onload = function (imageEvent) {
 
                     // Resize the image
-                    var canvas = document.getElementById("preview");
+                    var canvas = document.createElement('canvas');//document.getElementById("preview");
                         max_size = 300,// TODO : pull max size from a site config
                         width = image.width,
                         height = image.height;
@@ -117,7 +117,7 @@ function submitForm(event,realSubmit) {
                     canvas.height = width;
                     var ctx = canvas.getContext('2d');
                     // ctx.translate(-width/2,-height/2);
-                    if(!realSubmit){
+                    if(realSubmit){
                         ctx.rotate(90 * Math.PI / 180);
                         ctx.translate(0,-height);
                     }
@@ -127,6 +127,7 @@ function submitForm(event,realSubmit) {
                     var dataUrl = canvas.toDataURL('image/png');
                     var resizedImage = dataURLToBlob(dataUrl);
                     var file = new File([resizedImage], "image.png" ,{type:"image/png"});
+                    image.src = file;
                     console.log(file);
                     if(realSubmit){
                     var data = new FormData();
@@ -143,7 +144,7 @@ function submitForm(event,realSubmit) {
                 }
                     
                 }
-                image.src = readerEvent.target.result;
+                // image.src = readerEvent.target.result;
             }
         }
         reader.readAsDataURL(file);
