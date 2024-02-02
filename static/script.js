@@ -1,4 +1,4 @@
-function submitForm(event) {
+function submitForm(event,realSubmit) {
     event.preventDefault();
     // Read in file
     var file = document.getElementById('img').files[0];
@@ -67,6 +67,7 @@ function submitForm(event) {
                     var newFile = new File([blob], "image.gif" ,{type:"image/gif"});
                     count += 1;
                     console.log(newFile);
+                    if(realSubmit){
                     var data = new FormData();
                     data.append('file', newFile);
                     try {
@@ -78,12 +79,14 @@ function submitForm(event) {
                     } catch (e) {
                         console.error(e);
                     }
+                }
                   });
                   gif.render();
+
                 }
-                
+                document.getElementById("preview").src = gif;
             }else{
-                var image = new Image();
+                var image = document.getElementById("preview");
                 image.onload = function (imageEvent) {
 
                     // Resize the image
@@ -115,6 +118,7 @@ function submitForm(event) {
                     var resizedImage = dataURLToBlob(dataUrl);
                     var file = new File([resizedImage], "image.png" ,{type:"image/png"});
                     console.log(file);
+                    if(realSubmit){
                     var data = new FormData();
                     data.append('file', file);
                     try {
@@ -126,6 +130,7 @@ function submitForm(event) {
                     } catch (e) {
                         console.error(e);
                     }
+                }
                     
                 }
                 image.src = readerEvent.target.result;

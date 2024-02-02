@@ -1,0 +1,18 @@
+.center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
+    padding: 20px; /* Optional padding around the content */
+}
+.form-container {
+  background-color: white;
+  padding:20px;
+  border-radius:50px;
+    margin-top: 20px; /* Space between the image and the form */
+}
+body {
+background-image: url('https://lh3.googleusercontent.com/proxy/JNMYSrpSmyF6YZFuZW449kIQ6gS7-qZRHkT5l8F6rtmOjDdei-JvzkT9EfIPFUYM5zBz1hvnyNdGl41bmVuz8wJrRoSrHjM466KmYliezCN2fJ5-UxkkQ_4BiyF4JtHkGJs_28CawFE');
+background-repeat: repeat; /* Tiles the image horizontally and vertically */
+}

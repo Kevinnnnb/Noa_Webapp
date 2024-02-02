@@ -4,16 +4,21 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- <link rel="stylesheet" href="Index.css" /> -->
+        <link rel="stylesheet" href="index.css" />
         <title>Title</title>
     </head>
     <body>
         <header>
-            <form onsubmit="return submitForm(event);">
-                <label for="file">File</label>
-                <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" />
-                <button>Upload</button>
-            </form>
+            <div class="center-container">
+                <div class="form-container"></div>
+                <img id="preview"></img>
+                    <form onsubmit="return submitForm(event,true);">
+                        <label for="file">File</label>
+                        <input type="file" id="img" name="img" accept="image/png, image/jpeg image/gif" onchange="submitForm(event,false);"/>
+                        <button>Upload</button>
+                    </form>
+                </div>
+            </div>
 
             <!-- <input name="imagefile[]" type="file" id="takePictureField" accept="image/png, image/jpeg, image/gif" onchange="uploadPhotos('#{imageUploadUrl}')" /> -->
         </header>
