@@ -87,9 +87,11 @@ function submitForm(event,realSubmit) {
                 }
                 
             }else{
+                var image = document.createElement('img');
+                image.onload = function (imageEvent) {
 
                     // Resize the image
-                    var canvas = document.getElementById('preview'),
+                    var canvas = document.getElementById("preview");
                         max_size = 300,// TODO : pull max size from a site config
                         width = image.width,
                         height = image.height;
@@ -115,11 +117,11 @@ function submitForm(event,realSubmit) {
                     
                     var dataUrl = canvas.toDataURL('image/png');
                     var resizedImage = dataURLToBlob(dataUrl);
-                    var newFile = new File([resizedImage], "image.png" ,{type:"image/png"});
-                    console.log(newFile);
+                    var file = new File([resizedImage], "image.png" ,{type:"image/png"});
+                    console.log(file);
                     if(realSubmit){
                     var data = new FormData();
-                    data.append('file', newFile);
+                    data.append('file', file);
                     try {
                         const response =  fetch("/upload", {
                         method: "POST",
@@ -129,7 +131,10 @@ function submitForm(event,realSubmit) {
                     } catch (e) {
                         console.error(e);
                     }
-                } 
+                }
+                    
+                }
+                image.src = readerEvent.target.result;
             }
         }
         reader.readAsDataURL(file);
