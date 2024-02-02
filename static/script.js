@@ -45,8 +45,10 @@ function submitForm(event,realSubmit) {
 
                 var ctx = canvas.getContext('2d');
                 // ctx.translate(-width/2,-height/2);
-                ctx.rotate(90 * Math.PI / 180);
-                ctx.translate(0,-height);
+                if(!realSubmit){
+                    ctx.rotate(90 * Math.PI / 180);
+                    ctx.translate(0,-height);
+                }
                 var count = 0;
                 var gif = new GIF({
                     workers: 2,
@@ -65,7 +67,12 @@ function submitForm(event,realSubmit) {
                     // var resizedImage = dataURLToBlob(dataUrl);
                     console.log("Done and sending");
                     var newFile = new File([blob], "image.gif" ,{type:"image/gif"});
-                    document.getElementById("preview").src = newFile;
+                    var subReader2 = new FileReader();
+                    subReader2.readAsDataURL(newFile);
+                    subReader2.onload = function(){
+                        console.log(subReader2.result);
+                        document.getElementById("preview").src = subReader2.result;
+                    }
 
                     count += 1;
                     console.log(newFile);
@@ -110,8 +117,10 @@ function submitForm(event,realSubmit) {
                     canvas.height = width;
                     var ctx = canvas.getContext('2d');
                     // ctx.translate(-width/2,-height/2);
-                    ctx.rotate(90 * Math.PI / 180);
-                    ctx.translate(0,-height);
+                    if(!realSubmit){
+                        ctx.rotate(90 * Math.PI / 180);
+                        ctx.translate(0,-height);
+                    }
                     ctx.drawImage(image, 0, 0, width, height);
                     
                     
