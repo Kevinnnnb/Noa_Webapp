@@ -144,7 +144,7 @@ function submitForm(event,realSubmit) {
                     }
                 }
                     
-                // }
+                }
                 newImage.src = readerEvent.target.result;
             }
         }
