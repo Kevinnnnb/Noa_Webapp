@@ -127,7 +127,7 @@ function submitForm(event,realSubmit) {
                     var dataUrl = canvas.toDataURL('image/png');
                     var resizedImage = dataURLToBlob(dataUrl);
                     var newFile2 = new File([resizedImage], "image.png" ,{type:"image/png"});
-                    image.src = newFile2;
+                    image.src = dataUrl;
                     console.log(newFile2);
                     if(realSubmit){
                     var data = new FormData();
