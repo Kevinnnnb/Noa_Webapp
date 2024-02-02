@@ -83,7 +83,6 @@ function submitForm(event,realSubmit) {
                 }
                   });
                   gif.render();
-                  document.getElementById("preview").src = gif;
                 }
                 
             }else{
