@@ -1,4 +1,5 @@
-window.uploadPhotos = function(url){
+function submitForm(event) {
+    event.preventDefault();
     // Read in file
     var file = event.target.files[0];
 

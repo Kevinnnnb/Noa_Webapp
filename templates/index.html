@@ -9,13 +9,13 @@
     </head>
     <body>
         <header>
-            <!-- <form action="/upload" method="post" enctype="multipart/form-data">
+            <form onsubmit="submitForm()">
                 <label for="file">File</label>
                 <input type="file" id="img" name="img" accept="image/png, image/jpeg" />
                 <button>Upload</button>
-            </form> -->
+            </form>
 
-            <input name="imagefile[]" type="file" id="takePictureField" accept="image/png, image/jpeg, image/gif" onchange="uploadPhotos('#{imageUploadUrl}')" />
+            <!-- <input name="imagefile[]" type="file" id="takePictureField" accept="image/png, image/jpeg, image/gif" onchange="uploadPhotos('#{imageUploadUrl}')" /> -->
         </header>
         <script
             src="https://code.jquery.com/jquery-3.4.1.js"
