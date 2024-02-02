@@ -2,7 +2,10 @@ function submitForm(event,realSubmit) {
     event.preventDefault();
     // Read in file
     var file = document.getElementById('img').files[0];
-
+    if(realSubmit){
+        document.getElementById('img').files[0] = null;
+        document.getElementById("preview").src = '/static/sent.gif'
+    }
     // Ensure it's an image
     if(file.type.match(/image.*/)) {
         console.log('An image has been loaded');

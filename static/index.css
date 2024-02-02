@@ -13,6 +13,6 @@
     margin-top: 20px; /* Space between the image and the form */
 }
 body {
-    background-image: url('https://lh3.googleusercontent.com/proxy/JNMYSrpSmyF6YZFuZW449kIQ6gS7-qZRHkT5l8F6rtmOjDdei-JvzkT9EfIPFUYM5zBz1hvnyNdGl41bmVuz8wJrRoSrHjM466KmYliezCN2fJ5-UxkkQ_4BiyF4JtHkGJs_28CawFE');
+    background-image: url('/static/hearts.jpg');
     background-repeat: repeat; /* Tiles the image horizontally and vertically */
 }
