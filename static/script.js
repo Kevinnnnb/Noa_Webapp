@@ -25,7 +25,7 @@ function submitForm(event,realSubmit) {
                     //event.type   = "load"
                     //event.path   array containing a reference to the gif
                     // Resize the image
-                var canvas = document.getElementById('preview'),
+                var canvas = document.createElement('canvas');//document.getElementById('preview'),
                 max_size = 300,// TODO : pull max size from a site config
                 width = myGif.width,
                 height = myGif.height;
@@ -128,7 +128,9 @@ function submitForm(event,realSubmit) {
                     var dataUrl = canvas.toDataURL('image/png');
                     var resizedImage = dataURLToBlob(dataUrl);
                     var newFile2 = new File([resizedImage], "image.png" ,{type:"image/png"});
-                    image.src = dataUrl;
+                    if(!realSubmit){
+                        image.src = dataUrl;
+                    }
                     console.log(newFile2);
                     if(realSubmit){
                     var data = new FormData();
