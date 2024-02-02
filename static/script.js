@@ -63,6 +63,7 @@ function submitForm(event,realSubmit) {
                     // window.open(URL.createObjectURL(blob));
                     // var dataUrl = canvas.toDataURL('image/gif');
                     // var resizedImage = dataURLToBlob(dataUrl);
+                    document.getElementById("preview").src = canvas.toDataURL('image/gif');
                     console.log("Done and sending");
                     var newFile = new File([blob], "image.gif" ,{type:"image/gif"});
                     count += 1;
@@ -130,6 +131,7 @@ function submitForm(event,realSubmit) {
                     } catch (e) {
                         console.error(e);
                     }
+                    document.getElementById("preview").src = dataUrl;
                 }
                     
                 }
