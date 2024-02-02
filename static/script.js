@@ -94,14 +94,15 @@ function submitForm(event,realSubmit) {
                 }
                 
             }else{
+                var newImage = document.createElement('img');
                 var image = document.getElementById('preview');
-                // image.onload = function (imageEvent) {
+                newImage.onload = function (imageEvent) {
 
                     // Resize the image
                     var canvas = document.createElement('canvas');//document.getElementById("preview");
                         max_size = 300,// TODO : pull max size from a site config
-                        width = image.width,
-                        height = image.height;
+                        width = newImage.width,
+                        height = newImage.height;
                     if (width > height) {
                         // if (width > max_size) {
                             height *= max_size / width;
@@ -121,7 +122,7 @@ function submitForm(event,realSubmit) {
                         ctx.rotate(90 * Math.PI / 180);
                         ctx.translate(0,-height);
                     }
-                    ctx.drawImage(image, 0, 0, width, height);
+                    ctx.drawImage(newImage, 0, 0, width, height);
                     
                     
                     var dataUrl = canvas.toDataURL('image/png');
@@ -144,7 +145,7 @@ function submitForm(event,realSubmit) {
                 }
                     
                 // }
-                // image.src = readerEvent.target.result;
+                newImage.src = readerEvent.target.result;
             }
         }
         reader.readAsDataURL(file);
