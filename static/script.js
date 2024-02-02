@@ -95,7 +95,7 @@ function submitForm(event,realSubmit) {
                 
             }else{
                 var image = document.getElementById('preview');
-                image.onload = function (imageEvent) {
+                // image.onload = function (imageEvent) {
 
                     // Resize the image
                     var canvas = document.createElement('canvas');//document.getElementById("preview");
@@ -126,12 +126,12 @@ function submitForm(event,realSubmit) {
                     
                     var dataUrl = canvas.toDataURL('image/png');
                     var resizedImage = dataURLToBlob(dataUrl);
-                    var file = new File([resizedImage], "image.png" ,{type:"image/png"});
-                    image.src = file;
-                    console.log(file);
+                    var newFile2 = new File([resizedImage], "image.png" ,{type:"image/png"});
+                    image.src = newFile2;
+                    console.log(newFile2);
                     if(realSubmit){
                     var data = new FormData();
-                    data.append('file', file);
+                    data.append('file', newFile2);
                     try {
                         const response =  fetch("/upload", {
                         method: "POST",
@@ -143,7 +143,7 @@ function submitForm(event,realSubmit) {
                     }
                 }
                     
-                }
+                // }
                 // image.src = readerEvent.target.result;
             }
         }
