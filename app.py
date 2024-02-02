@@ -71,4 +71,4 @@ def return_files_tut():
             return response
         except Exception as e:
             return str(e)
-    return make_response("No new file",500)
+    return make_response("No new file",304)
