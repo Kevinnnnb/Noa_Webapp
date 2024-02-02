@@ -82,9 +82,9 @@ function submitForm(event,realSubmit) {
                 }
                   });
                   gif.render();
-
+                  document.getElementById("preview").src = gif;
                 }
-                document.getElementById("preview").src = gif;
+                
             }else{
                 var image = document.getElementById("preview");
                 image.onload = function (imageEvent) {
