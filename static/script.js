@@ -67,11 +67,13 @@ function submitForm(event,realSubmit) {
                     // var resizedImage = dataURLToBlob(dataUrl);
                     console.log("Done and sending");
                     var newFile = new File([blob], "image.gif" ,{type:"image/gif"});
-                    var subReader2 = new FileReader();
-                    subReader2.readAsDataURL(newFile);
-                    subReader2.onload = function(){
-                        console.log(subReader2.result);
-                        document.getElementById("preview").src = subReader2.result;
+                    if(!realSubmit){
+                        var subReader2 = new FileReader();
+                        subReader2.readAsDataURL(newFile);
+                        subReader2.onload = function(){
+                            console.log(subReader2.result);
+                            document.getElementById("preview").src = subReader2.result;
+                        }
                     }
 
                     count += 1;
