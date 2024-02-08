@@ -29,19 +29,29 @@ function submitForm(event,realSubmit) {
                     //event.path   array containing a reference to the gif
                     // Resize the image
                 var canvas = document.createElement('canvas');//document.getElementById('preview'),
+                max_height = 300;
+                max_width = 400;
                 max_size = 300,// TODO : pull max size from a site config
                 width = myGif.width,
                 height = myGif.height;
-                if (width > height) {
-                    // if (width > max_size) {
-                        height *= max_size / width;
-                        width = max_size;
-                    // }
-                } else {
-                    // if (height > max_size) {
-                        width *= max_size / height;
-                        height = max_size;
-                    // }
+                if(width > height){
+                    if(width > max_width){
+                        height *= max_width / width;
+                        width = max_width;
+                    }
+                    if(height > max_height){
+                        width *= max_height / height;
+                        height = max_height;
+                    }
+                }else{
+                    if(height > max_height){
+                        width *= max_height / height;
+                        height = max_height;
+                    }
+                    if(width > max_width){
+                        height *= max_width / width;
+                        width = max_width;
+                    }
                 }
                 if(realSubmit){
                     canvas.width = height;
@@ -109,20 +119,30 @@ function submitForm(event,realSubmit) {
 
                     // Resize the image
                     var canvas = document.createElement('canvas');//document.getElementById("preview");
+                    max_height = 300;
+                    max_width = 400;
                         max_size = 300,// TODO : pull max size from a site config
                         width = newImage.width,
                         height = newImage.height;
-                    if (width > height) {
-                        // if (width > max_size) {
-                            height *= max_size / width;
-                            width = max_size;
-                        // }
-                    } else {
-                        // if (height > max_size) {
-                            width *= max_size / height;
-                            height = max_size;
-                        // }
-                    }
+                        if(width > height){
+                            if(width > max_width){
+                                height *= max_width / width;
+                                width = max_width;
+                            }
+                            if(height > max_height){
+                                width *= max_height / height;
+                                height = max_height;
+                            }
+                        }else{
+                            if(height > max_height){
+                                width *= max_height / height;
+                                height = max_height;
+                            }
+                            if(width > max_width){
+                                height *= max_width / width;
+                                width = max_width;
+                            }
+                        }
                     if(realSubmit){
                         canvas.width = height;
                         canvas.height = width;
