@@ -9,15 +9,25 @@
     </head>
     <body>
         <header>
+            <div>
+                <p id="Noa">
+                    Envoie quelque chose à Noa 😁
+                </p>
+            </div>
             <div class="center-container">
                 <img id="preview"></img>
                 <div class="form-container">
                     <form id='theForm' onsubmit="return submitForm(event,true);">
-                        <label for="file">File</label>
+                        <label for="file">Fichier</label>
                         <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event,false);"/>
-                        <button>Upload</button>
+                        <button>Envoyer</button>
                     </form>
                 </div>
+            </div>
+            <div>
+                <p id="fin">
+                    Kevin Bourquenoud ©
+                </p>
             </div>
 
             <!-- <input name="imagefile[]" type="file" id="takePictureField" accept="image/png, image/jpeg, image/gif" onchange="uploadPhotos('#{imageUploadUrl}')" /> -->
