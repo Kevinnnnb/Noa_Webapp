@@ -9,14 +9,10 @@
     </head>
     <body>
         <header>
-            <div>
-                    <center>
-                    Envoie quelque chose à Noa 😁
-                        </center>
-            </div>
             <div class="center-container">
                 <img id="preview"></img>
                 <div class="form-container">
+                    <p>Envoie une image à Noa 😁</p>
                     <form id='theForm' onsubmit="return submitForm(event,true);">
                         <label for="file">Fichier</label>
                         <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event,false);"/>
