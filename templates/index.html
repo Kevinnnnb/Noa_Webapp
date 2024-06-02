@@ -4,16 +4,13 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
+        <link rel="stylesheet" href="/Users/kevin/Desktop/application web/templates/static/heart.css" />
         <title>Title</title>
     </head>
     <body>
+        <center>
+            <br><br<br><br><br>
         <header>
-            <div>
-                <p id="Noa">
-                    Envoie quelque chose à Noa 😁
-                </p>
-            </div>
             <div class="center-container">
                 <img id="preview"></img>
                 <div class="form-container">
@@ -23,13 +20,14 @@
                         <button>Envoyer</button>
                     </form>
                 </div>
-            </div>
-            <div>
-                <p id="fin">
-                    Kevin Bourquenoud ©
-                </p>
-            </div>
-
+            </div></center>
+            <br><br><br><br>
+<center><div class = "noa">
+            <img  src="https://cdn.discordapp.com/attachments/1128029931679535245/1246575737834831983/WhatsApp_Image_2023-07-10_at_15.png?ex=665ce3a0&is=665b9220&hm=0b3fa5c26ca182da203d259efa4077b5bcadcba50febdab8f14de47b560235da&" width= 400 px>
+        </div>
+<br><br>
+        <a  href="https://kevinb1.eu.pythonanywhere.com">Retour</a>
+    </center>
             <!-- <input name="imagefile[]" type="file" id="takePictureField" accept="image/png, image/jpeg, image/gif" onchange="uploadPhotos('#{imageUploadUrl}')" /> -->
         </header>
         <script
@@ -37,8 +35,8 @@
             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
             crossorigin="anonymous">
         </script>
-        <script src="{{url_for('static', filename='gif.js')}}"></script>
-        <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
-        <script src="{{url_for('static', filename='script.js')}}"></script>
+        <script src="/Users/kevin/Desktop/application web/templates/static/gif.js"></script>
+        <script src="/Users/kevin/Desktop/application web/templates/static/gifDecoder.js"></script>
+        <script src="/Users/kevin/Desktop/application web/templates/static/script.js"></script>
     </body>
 </html>
