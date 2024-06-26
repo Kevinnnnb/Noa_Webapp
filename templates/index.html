@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
+    <title>Noa</title>
+    <style>
+        .noa {
+            border-radius: 20px;
+        }
 
-        <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
-        <title>Noa</title>
-    </head>
-    <body>
-        <header>
-            <div class="center-container">
-                <img id="preview"></img>
-                <div class="form-container">
-                    <center><p>Envoie une image à Noa 😁</p></center>
-                    <form id='theForm' onsubmit="return submitForm(event,true);">
-                        <label for="file">Fichier</label>
-                        <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event,false);"/>
-                        <button>Envoyer</button>
-                    </form>
-                </div>
+        body {
+            background-color: pink;
+        }
 
-<style>
-    .noa{
-        border-radius = 10px;
-    }
-</style>
-                
-                <center><div>
-            <img class = "noa" src="https://cdn.discordapp.com/attachments/1128029931679535245/1255539227588825199/noa.jpeg?ex=667d7f86&is=667c2e06&hm=7f5f1429ae5e1872aba99748ba93750125c59b5d30c0c1fcd352c0be639f649d&" width= 400 px; border-radius = 10px;>
-        </div>
-<br>
-                    <a href = "https://kevinb1.eu.pythonanywhere.com">Retour</a>
+        .pute {
+            background-color:white;
+            width: 50%;
+            padding: 3%;
+            border-radius: 20px;
+            
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="center-container">
+            <img id="preview" />
+            <center>
+            <div class = "pute">
+            <div class="form-container">
                 <center>
-                    Kevin Bourquenoud
-                    </center>
-                </p>
+                    <p>Envoie une image à Noa 😁</p>
+                </center>
+                <form id='theForm' onsubmit="return submitForm(event, true);">
+                    <label for="file">Fichier</label>
+                    <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event, false);" />
+                    <button>Envoyer</button>
+                </form>
             </div>
-
-            <!-- <input name="imagefile[]" type="file" id="takePictureField" accept="image/png, image/jpeg, image/gif" onchange="uploadPhotos('#{imageUploadUrl}')" /> -->
-        </header>
-        <script
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-            crossorigin="anonymous">
-        </script>
-        <script src="{{url_for('static', filename='gif.js')}}"></script>
-        <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
-        <script src="{{url_for('static', filename='script.js')}}"></script>
-    </body>
+            <center>
+                <div>
+                    <br><br>
+                    <img class="noa" src="https://cdn.discordapp.com/attachments/1128029931679535245/1255539227588825199/noa.jpeg?ex=667d7f86&is=667c2e06&hm=7f5f1429ae5e1872aba99748ba93750125c59b5d30c0c1fcd352c0be639f649d&" width="400px" />
+                </div>
+                <br>
+                <a href="https://kevinb1.eu.pythonanywhere.com">Retour</a><br>
+                <center>
+                    <br>Kevin Bourquenoud
+                </center>
+            </center>
+        </div>
+        </div></center>
+    </header>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='gif.js')}}"></script>
+    <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+</body>
 </html>
