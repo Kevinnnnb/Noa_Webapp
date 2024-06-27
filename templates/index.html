@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/static/index.css" />
+    <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
     <title>Noa</title>
     <style>
         .noa {
@@ -15,16 +15,11 @@
         }
 
         .pute {
-            background-color: white;
-            width: 80%;
+            background-color:white;
+            width: 90%;
             padding: 3%;
             border-radius: 20px;
-            margin: auto;
-        }
-
-        .center-container {
-            text-align: center;
-            margin-top: 20px;
+            
         }
     </style>
 </head>
@@ -32,62 +27,38 @@
     <header>
         <div class="center-container">
             <img id="preview" />
-            <div class="pute">
-                <div class="form-container">
-                    <marquee><h1>La Marmotte 🦫</h1></marquee>
-                    <form id='theForm' onsubmit="return submitForm(event, true);">
-                        <h3>Envoie lui une photo</h3>
-                        <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event, false);" />
-                        <h3>ou écrit lui un mot :)</h3>
-                        <textarea id="text" name="text"></textarea>
-                        <button type="submit">Envoyer</button>
-                    </form>
-                </div>
-                <br><br>
-                <div>
-                    <img class="noa" src="https://cdn.discordapp.com/attachments/1128029931679535245/1255539227588825199/noa.jpeg?ex=667d7f86&is=667c2e06&hm=7f5f1429ae5e1872aba99748ba93750125c59b5d30c0c1fcd352c0be639f649d&" width="70%" max-width = "300 px" />
-                </div>
-                <div>Kevin Bourquenoud</div>
+            <center>
+            <div class = "pute">
+            <div class="form-container">
+                
+                <center>
+                    <h3>Envoie lui une photo</h3>
+                </center>
+                <form id='theForm' onsubmit="return submitForm(event, true);">
+                    <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event, false);" />
+                <h3>ou écris lui un mot :)</h3>
+                    <input type="text" id="texte" name="text" accept="text" onchange="submitForm(event, false);" />
+                    
+                    <button>Envoyer</button>
+                </form>
             </div>
+            <center>
+                <div>
+                    <br><br>
+                    <img class="noa" src="https://cdn.discordapp.com/attachments/1128029931679535245/1255539227588825199/noa.jpeg?ex=667d7f86&is=667c2e06&hm=7f5f1429ae5e1872aba99748ba93750125c59b5d30c0c1fcd352c0be639f649d&" width="80%" />
+                </div>
+                <br>
+                <a href="https://kevinb1.eu.pythonanywhere.com">Retour</a><br>
+                <center>
+                    <br>Kevin Bourquenoud
+                </center>
+            </center>
         </div>
+        </div></center>
     </header>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="/static/gif.js"></script>
-    <script src="/static/gifDecoder.js"></script>
-    <script src="/static/script.js"></script>
-    <script>
-        function submitForm(event, isSubmit) {
-            event.preventDefault();
-            let formData = new FormData();
-            let imgFile = document.getElementById('img').files[0];
-            let textInput = document.getElementById('text').value;
-
-            if (imgFile) {
-                formData.append('img', imgFile);
-            } else if (textInput) {
-                formData.append('text', textInput);
-            } else {
-                alert('Veuillez sélectionner une image ou entrer du texte.');
-                return false;
-            }
-
-            fetch('/upload', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                      alert('Envoyé avec succès!');
-                  } else {
-                      alert('Échec de l\'envoi.');
-                  }
-              })
-              .catch(error => {
-                  alert('Erreur lors de l\'envoi.');
-              });
-
-            return false;
-        }
-    </script>
+    <script src="{{url_for('static', filename='gif.js')}}"></script>
+    <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
 </body>
 </html>
