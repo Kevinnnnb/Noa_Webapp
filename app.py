@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_file, make_response
 from werkzeug.utils import secure_filename
 import os
+from PIL import Image
 
 app = Flask(__name__)
 
@@ -69,7 +70,17 @@ def last_image():
         with open('last_image.txt', 'r') as f:
             file_path = f.readline().strip()
         if os.path.exists(file_path):
-            return send_file(file_path, mimetype='image/jpeg')
+            try:
+                # Ouvrir l'image, la faire pivoter et sauvegarder temporairement
+                with Image.open(file_path) as img:
+                    rotated_img = img.rotate(90, expand=True)
+                    rotated_img_path = 'rotated_' + os.path.basename(file_path)
+                    rotated_img.save(rotated_img_path)
+
+                # Envoyer l'image pivotée
+                return send_file(rotated_img_path, mimetype='image/jpeg')
+            except Exception as e:
+                return str(e)
         else:
             return "Aucune image trouvée", 404
     return "Aucune image n'a été envoyée actuellement", 404
