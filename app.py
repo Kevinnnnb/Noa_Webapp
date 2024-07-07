@@ -73,6 +73,3 @@ def last_image():
         else:
             return "Aucune image trouvée", 404
     return "Aucune image n'a été envoyée actuellement", 404
-
-if __name__ == "__main__":
-    app.run(debug=True)
