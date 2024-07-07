@@ -1,4 +1,4 @@
- from flask import Flask, request, render_template, send_file, make_response
+from flask import Flask, request, render_template, send_file, make_response
 from werkzeug.utils import secure_filename
 import os
 
