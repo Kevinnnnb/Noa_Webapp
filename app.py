@@ -69,7 +69,13 @@ def last_image():
         with open('last_image.txt', 'r') as f:
             file_path = f.readline().strip()
         if os.path.exists(file_path):
-            return send_file(file_path, mimetype='image/jpeg')
+            return '''
+    <!doctype html>
+    <title>Dernière Image</title>
+    <h1>Denière image reçue</h1>
+    <br><br>
+   <img src="file_path">
+    '''
         else:
             return "Aucune image trouvée", 404
     return "Aucune image n'a été envoyée actuellement", 404
