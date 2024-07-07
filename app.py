@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file, make_response
+ from flask import Flask, request, render_template, send_file, make_response
 from werkzeug.utils import secure_filename
 import os
 
@@ -69,16 +69,7 @@ def last_image():
         with open('last_image.txt', 'r') as f:
             file_path = f.readline().strip()
         if os.path.exists(file_path):
-            try:
-                # Envoyer l'image et appliquer une rotation via CSS
-                return f'''
-                <!doctype html>
-                <title>Last Image</title>
-                <h1>Dernière Image</h1>
-                <img src="{file_path}" style="transform: rotate(-90deg);">
-                '''
-            except Exception as e:
-                return str(e)
+            return send_file(file_path, mimetype='image/jpeg')
         else:
             return "Aucune image trouvée", 404
     return "Aucune image n'a été envoyée actuellement", 404
