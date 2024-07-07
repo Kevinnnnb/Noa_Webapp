@@ -72,3 +72,14 @@ def return_files_tut():
         except Exception as e:
             return str(e)
     return make_response("No new file",304)
+
+@app.route('/last_image', methods=['GET'])
+def last_image():
+    if os.path.exists('last_image.txt'):
+        with open('last_image.txt', 'r') as f:
+            file_path = f.readline().strip()
+        if os.path.exists(file_path):
+            return send_file(file_path, mimetype='image/jpeg')
+        else:
+            return "No image found", 404
+    return "No image uploaded yet", 404
