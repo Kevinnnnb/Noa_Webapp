@@ -1,12 +1,21 @@
-from flask import Flask, request, render_template, send_file, make_response
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify
 from werkzeug.utils import secure_filename
 import os
+import time
 
 app = Flask(__name__)
+last_uploaded_file = None  # Variable globale pour stocker le dernier fichier téléchargé
 
 @app.route('/')
 def hello_world():
     return render_template('index.html')
+
+# @app.route('/longPoll')
+# def long_poll():
+#     while not(os.path.exists("test.txt")):
+#         time.sleep(1)
+#     testFile = open("test.txt","r")
+#     return "done"
 
 @app.route('/loadTest')
 def load_test():
@@ -17,26 +26,28 @@ def load_test():
 @app.route('/deleteFile')
 def delete_file():
     if os.path.exists("test.txt"):
-        os.remove("test.txt")
+        os.remove("test.txt")  # one file at a time
     return "deleted"
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    global last_uploaded_file  # Utiliser la variable globale
     print("Got upload")
     if request.method == 'POST':
+        # check if the post request has the file part
         if 'file' not in request.files:
             return "No image data"
         file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
         if file.filename == '':
             return "No selected file"
         if file:
             filename = secure_filename(file.filename)
-            file_path = os.path.join('./', filename)
-            file.save(file_path)
+            file.save(os.path.join('./', filename))
+            last_uploaded_file = filename  # Mettre à jour le dernier fichier téléchargé
             with open('test.txt', 'w') as file:
-                file.write(file_path)
-            with open('last_image.txt', 'w') as last_file:
-                last_file.write(file_path)
+                file.write(os.path.join('./', filename))
             return "done"
     return '''
     <!doctype html>
@@ -50,11 +61,11 @@ def upload_file():
 
 @app.route('/longPoll', methods=['GET'])
 def return_files_tut():
-    if os.path.exists("test.txt"):
-        with open("test.txt", "r") as testFile:
-            fileName = testFile.readline().strip()
+    if (os.path.exists("test.txt")):
+        testFile = open("test.txt","r")
+        fileName = testFile.readline()
         if os.path.exists("test.txt"):
-            os.remove("test.txt")
+            os.remove("test.txt")  # one file at a time
         try:
             response = make_response(send_file(fileName, download_name=os.path.basename(fileName)))
             response.headers['imgName'] = os.path.basename(fileName)
@@ -63,13 +74,13 @@ def return_files_tut():
             return str(e)
     return make_response("No new file", 304)
 
-@app.route('/last_image', methods=['GET'])
-def last_image():
-    if os.path.exists('last_image.txt'):
-        with open('last_image.txt', 'r') as f:
-            file_path = f.readline().strip()
-        if os.path.exists(file_path):
-            return send_file(file_path, mimetype='image/jpeg')
-        else:
-            return "Aucune image trouvée", 404
-    return "Aucune image n'a été envoyée actuellement", 404
+@app.route('/image', methods=['GET'])
+def display_image():
+    global last_uploaded_file  # Utiliser la variable globale
+    if last_uploaded_file:
+        try:
+            return send_file(last_uploaded_file, mimetype='image/jpeg')  # Assurez-vous que le type MIME correspond au type de fichier
+        except Exception as e:
+            return str(e)
+    else:
+        return "No image uploaded"
