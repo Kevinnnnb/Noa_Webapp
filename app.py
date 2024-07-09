@@ -44,10 +44,11 @@ def upload_file():
             return "No selected file"
         if file:
             filename = secure_filename(file.filename)
-            file.save(os.path.join('./', filename))
+            file_path = os.path.join('static', filename)
+            file.save(file_path)
             last_uploaded_file = filename  # Mettre à jour le dernier fichier téléchargé
             with open('test.txt', 'w') as file:
-                file.write(os.path.join('./', filename))
+                file.write(file_path)
             return "done"
     return '''
     <!doctype html>
@@ -58,6 +59,7 @@ def upload_file():
       <input type=submit value=Upload>
     </form>
     '''
+
 
 @app.route('/longPoll', methods=['GET'])
 def return_files_tut():
