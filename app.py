@@ -2,8 +2,6 @@ from flask import Flask, flash, request, redirect, url_for, render_template, sen
 from werkzeug.utils import secure_filename
 import os
 import time
-from PIL import Image
-
 
 app = Flask(__name__)
 last_uploaded_file = None  # Variable globale pour stocker le dernier fichier téléchargé
@@ -33,33 +31,24 @@ def delete_file():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    global last_uploaded_file
+    global last_uploaded_file  # Utiliser la variable globale
     print("Got upload")
     if request.method == 'POST':
+        # check if the post request has the file part
         if 'file' not in request.files:
             return "No image data"
         file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
         if file.filename == '':
             return "No selected file"
         if file:
             filename = secure_filename(file.filename)
             file_path = os.path.join('static', filename)
-            # Save the file temporarily
-            temp_path = os.path.join('static', 'temp_' + filename)
-            file.save(temp_path)
-
-            # Optimize the image
-            with Image.open(temp_path) as img:
-                img = img.convert("RGB")  # Convert to RGB format
-                optimized_path = os.path.join('static', 'optimized_' + filename)
-                img.save(optimized_path, "JPEG", quality=95)  # Save as JPEG with higher quality
-
-            # Remove the temporary file
-            os.remove(temp_path)
-            
-            last_uploaded_file = 'optimized_' + filename  # Update the last uploaded file
+            file.save(file_path)
+            last_uploaded_file = filename  # Mettre à jour le dernier fichier téléchargé
             with open('test.txt', 'w') as file:
-                file.write(optimized_path)
+                file.write(file_path)
             return "done"
     return '''
     <!doctype html>
