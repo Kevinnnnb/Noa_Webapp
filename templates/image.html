@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Uploaded Image</title>
+</head>
+<body>
+    <h1>Dernière image envoyée</h1>
+    {% if image_file %}
+    <img src="{{ url_for('static', filename=image_file) }}" alt="Last uploaded image">
+    {% else %}
+    <p>Aucune image téléchargée pour le moment.</p>
+    {% endif %}
+</body>
+</html>
