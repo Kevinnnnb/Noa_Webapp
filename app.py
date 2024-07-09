@@ -80,8 +80,6 @@ def return_files_tut():
 def show_image():
     global last_uploaded_file
     if last_uploaded_file:
-        last_uploaded_file= last_uploaded_file.rotate(90, expand=True)
         return render_template('image.html', image_file=last_uploaded_file)
     else:
         return "aucune image n'a été envoyé pour l'instant"
-
