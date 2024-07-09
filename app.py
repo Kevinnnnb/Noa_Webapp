@@ -74,13 +74,11 @@ def return_files_tut():
             return str(e)
     return make_response("No new file", 304)
 
-@app.route('/image', methods=['GET'])
-def display_image():
-    global last_uploaded_file  # Utiliser la variable globale
+@app.route('/image')
+def show_image():
+    global last_uploaded_file
     if last_uploaded_file:
-        try:
-            return send_file(last_uploaded_file, mimetype='image/jpeg')  # Assurez-vous que le type MIME correspond au type de fichier
-        except Exception as e:
-            return str(e)
+        return render_template('image.html', image_file=last_uploaded_file)
     else:
-        return "No image uploaded"
+        return "aucune image n'a été envoyé pour l'instant"
+
