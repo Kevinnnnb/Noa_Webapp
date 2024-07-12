@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css" />
+    <title>User Input Page</title>
+    <style>
+        .noa {
+            border-radius: 25px;
+        }
+
+        body {
+            background-color: pink;
+        }
+
+        .pute {
+            background-color: white;
+            width: 90%;
+            padding: 3%;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="center-container">
+            <center>
+                <div class="pute">
+                    <div class="form-container">
+                        <center>
+                            <h3>Envoie ton message</h3>
+                        </center>
+                        <form id="messageForm" action="/update_input" method="post">
+                            <label for="user_input">Entre ton message:</label><br>
+                            <input type="text" id="user_input" name="user_input" value="{{ user_input }}"><br><br>
+                            <input type="submit" value="Envoyer">
+                        </form>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </header>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="/static/gif.js"></script>
+    <script src="/static/gifDecoder.js"></script>
+    <script src="/static/script.js"></script>
+    <script>
+        document.getElementById('messageForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche la soumission normale du formulaire
+            fetch(this.action, {
+                method: this.method,
+                body: new URLSearchParams(new FormData(this)) // Crée un objet FormData à partir du formulaire et le convertit en URLSearchParams
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = '/'; // Redirige vers la root si la soumission réussit
+                } else {
+                    // Gérez les erreurs ici
+                    console.error('Erreur lors de la soumission du formulaire');
+                }
+            }).catch(error => {
+                console.error('Erreur réseau', error);
+            });
+        });
+    </script>
+</body>
+</html>
