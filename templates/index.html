@@ -15,10 +15,11 @@
         }
 
         .pute {
-            background-color: white;
+            background-color:white;
             width: 90%;
             padding: 3%;
             border-radius: 20px;
+            
         }
     </style>
 </head>
@@ -28,22 +29,20 @@
             <img id="preview" />
             <center>
             <div class="pute">
-                <div class="form-container">
-                    <center>
-                        <h3>Envoie lui une photo</h3>
-                    </center>
-                    <div>
-                        <form id="theForm" onsubmit="return submitForm(event, true);">
-                            <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event, false);" />
-                            <div><br><br>
-                                <button type="submit">Envoyer</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+            <div class="form-container">
+                
+                <center>
+                    <h3>Envoie lui une photo</h3>
+                </center><div>
+                <form id='theForm' onsubmit="return submitForm(event);">
+                    <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event);" />
+                   <div><br><br>
+                    <button type="submit">Envoyer</button></div>
+                </form>
             </div>
-            </center>
+
         </div>
+        </div></center>
     </header>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="{{url_for('static', filename='gif.js')}}"></script>
@@ -51,29 +50,29 @@
     <script src="{{url_for('static', filename='script.js')}}"></script>
 
     <script>
-        var images = ["https://cdn.discordapp.com/attachments/1255966863209533441/1255966937486327839/IMG_6771.jpg?ex=667f0ddc&is=667dbc5c&hm=3beff0908ad9837bc62039867a69f9aefb7d54948569a75cfac9649bdf054b73&","https://cdn.discordapp.com/attachments/1255966863209533441/1255966937918210058/IMG_6772.jpg?ex=667f0ddc&is=667dbc5c&hm=3a6caf8d06bb29d662dbe4ef91d720e96a9e05c8ff65d6453e7136dac617c0c0&","https://cdn.discordapp.com/attachments/1255966863209533441/1255966938207883274/IMG_6774.jpg?ex=667f0ddc&is=667dbc5c&hm=021949cdf0b481583dff27be32fec61e335b75aafdc90721754ce177ee9db82e&","https://cdn.discordapp.com/attachments/1255966863209533441/1255966938648150107/IMG_6775.jpg?ex=667f0ddc&is=667dbc5c&hm=b97d6775206ca75cde593e4ad384df6967fcec87e9f394f0a8eb495e80b38c99&","https://cdn.discordapp.com/attachments/1255966863209533441/1255970869294141450/noaETemma.jpg?ex=667f1186&is=667dc006&hm=01d8b811c94d162a409242eb58900ad16f6b168df79ab94b9d22483d0c8d13e4&"]; // Remplacez avec vos propres images
-        var currentIndex = 0;
-        var slideshowImage = document.getElementById("image");
-        
-        function changeImage() {
-            slideshowImage.src = images[currentIndex];
-            currentIndex = (currentIndex + 1) % images.length;
-        }
-        
-        setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
+        function submitForm(event) {
+            event.preventDefault(); // Empêche le formulaire de se soumettre de manière classique
 
-        function submitForm(event, shouldRedirect) {
-            event.preventDefault(); // Prevent the default form submission behavior
+            var formData = new FormData(document.getElementById('theForm'));
 
-            if (shouldRedirect) {
-                window.location.href = "https://messagenoa.pythonanywhere.com/";
-            } else {
-                // Handle the file upload logic here if needed
-            }
+            // Faire l'upload de l'image via AJAX
+            $.ajax({
+                url: '/upload', // Remplacez par l'URL de votre endpoint d'upload
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    // Si l'upload est réussi, rediriger vers la nouvelle page
+                    window.location.href = "https://messagenoa.pythonanywhere.com/";
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('Échec de l\'upload : ' + textStatus + ' - ' + errorThrown);
+                }
+            });
 
-            return false;
+            return false; // Empêche le formulaire de se soumettre de manière classique
         }
     </script>
 </body>
 </html>
-
