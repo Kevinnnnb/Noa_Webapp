@@ -15,6 +15,8 @@ import threading
 
 app = Flask(__name__)
 last_uploaded_file = None  # Variable globale pour stocker le dernier fichier téléchargé
+user_input = ""  # Variable pour stocker l'entrée utilisateur
+last_update_time = 0
 
 #route d'acceuil
 @app.route('/home')
@@ -24,7 +26,7 @@ def adieuuuu():
 #reoute d'input user pour les strings
 @app.route('/message')
 def index():
-    return render_template('text.html')
+    return render_template('text.html',user_input=user_input)
 
 #route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
