@@ -24,7 +24,7 @@ def adieuuuu():
 #reoute d'input user pour les strings
 @app.route('/message')
 def index():
-    return render_template('index.html', user_input=user_input)
+    return render_template('text.html', user_input=user_input)
 
 #route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
@@ -32,7 +32,7 @@ def update_input():
     global user_input, last_update_time
     user_input = request.form['user_input']
     last_update_time = time.time()
-    return render_template('index.html', user_input=user_input)
+    return render_template('text.html', user_input=user_input)
 
 @app.route('/get_user_input', methods=['GET'])
 def get_user_input():
