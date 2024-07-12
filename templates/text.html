@@ -53,7 +53,7 @@
                 body: new URLSearchParams(new FormData(this)) // Crée un objet FormData à partir du formulaire et le convertit en URLSearchParams
             }).then(response => {
                 if (response.ok) {
-                    window.location.href = '/'; // Redirige vers la root si la soumission réussit
+                    window.location.href = '/home'; // Redirige vers la root si la soumission réussit
                 } else {
                     // Gérez les erreurs ici
                     console.error('Erreur lors de la soumission du formulaire');
