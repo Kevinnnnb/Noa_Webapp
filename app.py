@@ -1,10 +1,50 @@
+'''
+L'idée de ce code c'est de faire en sorte que on va prendre le code qui fonctionne bien
+pour le display et le poll d'îmage donc on va pas le toucher et ensuite on construira l'autre app web
+qui permet de saisir des strings et de les fusiuonner en une seule app web (plus pratique pour le hosting) et aussi 
+pour l'intro d'une nouvelle db pour gérer eventuellement les logs mais ça on verra.
+
+A noter que la version du 12 juillet 2024 à 23h fonctionne nickel si jamais je casse tout
+'''
+
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify
 from werkzeug.utils import secure_filename
 import os
 import time
+import threading
 
 app = Flask(__name__)
 last_uploaded_file = None  # Variable globale pour stocker le dernier fichier téléchargé
+
+#route d'acceuil
+@app.route('/home')
+def adieuuuu():
+    return render_template('bonjour.html') #ne pas oublier de push ce code
+
+#reoute d'input user pour les strings
+@app.route('/message')
+def index():
+    return render_template('index.html', user_input=user_input)
+
+#route d'accès pour l'esp32
+@app.route('/update_input', methods=['POST'])
+def update_input():
+    global user_input, last_update_time
+    user_input = request.form['user_input']
+    last_update_time = time.time()
+    return render_template('index.html', user_input=user_input)
+
+@app.route('/get_user_input', methods=['GET'])
+def get_user_input():
+    global user_input
+    return jsonify({'user_input': user_input})
+
+
+
+
+'''
+Attention depuis ici on touche plus hein ...
+'''
 
 @app.route('/')
 def hello_world():
