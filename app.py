@@ -24,7 +24,7 @@ def adieuuuu():
 #reoute d'input user pour les strings
 @app.route('/message')
 def index():
-    return render_template('text.html', user_input=user_input)
+    return render_template('text.html')
 
 #route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
