@@ -124,4 +124,4 @@ def show_image():
     if last_uploaded_file:
         return render_template('image.html', image_file=last_uploaded_file)
     else:
-        return "Si tu ne vois aucune image qui s'affiche n'hésite pas à rafraichir la page"
+        return "quelque chose c'est mal passé, recharge la page "
