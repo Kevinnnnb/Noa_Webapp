@@ -19,7 +19,7 @@ user_input = ""  # Variable pour stocker l'entrée utilisateur
 last_update_time = 0
 
 #route d'acceuil
-@app.route('/home')
+@app.route('/')
 def adieuuuu():
     return render_template('bonjour.html') #ne pas oublier de push ce code
 
@@ -48,7 +48,7 @@ def get_user_input():
 Attention depuis ici on touche plus hein ...
 '''
 
-@app.route('/')
+@app.route('/image')
 def hello_world():
     return render_template('index.html')
 
