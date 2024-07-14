@@ -29,7 +29,7 @@ def index():
     return render_template('text.html', user_input=user_input)
 
 # Route d'accès pour l'esp32
-@app.route('/update_input', methods=['POST'])
+@app.route('/update_input', methods=['GET'])
 def update_input():
     global user_input, last_update_time
     user_input = request.form['user_input']
