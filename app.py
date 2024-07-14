@@ -18,17 +18,17 @@ last_uploaded_file = None  # Variable globale pour stocker le dernier fichier t�
 user_input = ""  # Variable pour stocker l'entrée utilisateur
 last_update_time = 0
 
-#route d'acceuil
+# Route d'accueil
 @app.route('/home')
 def adieuuuu():
-    return render_template('bonjour.html') #ne pas oublier de push ce code
+    return render_template('bonjour.html')  # ne pas oublier de push ce code
 
-#reoute d'input user pour les strings
+# Route d'input user pour les strings
 @app.route('/message')
 def index():
-    return render_template('text.html',user_input=user_input)
+    return render_template('text.html', user_input=user_input)
 
-#route d'accès pour l'esp32
+# Route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
 def update_input():
     global user_input, last_update_time
@@ -40,6 +40,20 @@ def update_input():
 def get_user_input():
     global user_input
     return jsonify({'user_input': user_input})
+
+# Nouvelle route /poll pour que l'esp32 puisse accéder à l'entrée utilisateur
+@app.route('/poll', methods=['GET'])
+def poll():
+    global user_input
+    return jsonify({'user_input': user_input})
+
+# Nouvelle route /delete_user_input pour réinitialiser l'entrée utilisateur
+@app.route('/delete_user_input', methods=['POST'])
+def delete_user_input():
+    global user_input
+    user_input = ""
+    return jsonify({'message': 'User input has been reset', 'user_input': user_input})
+
 
 
 
