@@ -48,7 +48,7 @@ def poll():
     return jsonify({'user_input': user_input})
 
 # Nouvelle route /delete_user_input pour réinitialiser l'entrée utilisateur
-@app.route('/delete_user_input', methods=['POST'])
+@app.route('/delete_user_input',  methods=['GET'])
 def delete_user_input():
     global user_input
     user_input = ""
