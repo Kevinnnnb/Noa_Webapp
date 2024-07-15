@@ -3,7 +3,7 @@ from app.models import Stats
 
 app = create_app()
 
-@app.cli.command('initdb')
+@app.cli.command('initdb'
 def initdb_command():
     """Initializes the database."""
     db.create_all()
