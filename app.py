@@ -22,27 +22,16 @@ last_update_time = 0
 message_count = 0
 image_count = 0
 
-# Dictionnaire pour stocker les informations des utilisateurs
-users_data = {}
-
 # Route d'accueil
 @app.route('/home')
 def adieuuuu():
     return render_template('bonjour.html')  # ne pas oublier de push ce code
 
 # Route d'input user pour les strings
-@app.route('/message', methods=['GET', 'POST'])
+@app.route('/message')
 def index():
     global message_count
-    if request.method == 'POST':
-        username = request.form['username']
-        user_input = request.form['user_input']
-        if username in users_data:
-            users_data[username]['messages'] += 1
-        else:
-            users_data[username] = {'messages': 1, 'images': 0}
-        message_count += 1
-        return redirect(url_for('adieuuuu'))
+    message_count += 1
     return render_template('text.html', user_input=user_input)
 
 # Route d'accès pour l'esp32
@@ -79,8 +68,11 @@ def admin():
         if 'reset' in request.form:
             message_count = 0
             image_count = 0
-            users_data.clear()
-    return render_template('admin.html', message_count=message_count, image_count=image_count, users_data=users_data)
+    return render_template('admin.html', message_count=message_count, image_count=image_count)
+
+'''
+Attention depuis ici on touche plus hein ...
+'''
 
 @app.route('/')
 def hello_world():
@@ -103,10 +95,12 @@ def upload_file():
     global last_uploaded_file, image_count  # Utiliser la variable globale
     print("Got upload")
     if request.method == 'POST':
-        username = request.form['username']
+        # check if the post request has the file part
         if 'file' not in request.files:
             return "No image data"
         file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
         if file.filename == '':
             return "No selected file"
         if file:
@@ -117,10 +111,6 @@ def upload_file():
             with open('test.txt', 'w') as file:
                 file.write(file_path)
             image_count += 1
-            if username in users_data:
-                users_data[username]['images'] += 1
-            else:
-                users_data[username] = {'messages': 0, 'images': 1}
             return "done"
     return '''
     <!doctype html>
@@ -153,4 +143,4 @@ def show_image():
     if last_uploaded_file:
         return render_template('image.html', image_file=last_uploaded_file)
     else:
-        return "quelque chose c'est mal passé, recharge la page"
+        return "quelque chose c'est mal passé, recharge la page "
