@@ -40,7 +40,6 @@ def update_input():
     global user_input, last_update_time, message_count
     user_input = request.form['user_input']
     last_update_time = time.time()
-    message_count += 1
     return render_template('text.html', user_input=user_input)
 
 @app.route('/get_user_input', methods=['GET'])
