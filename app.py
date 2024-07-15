@@ -11,16 +11,39 @@ from flask import Flask, flash, request, redirect, url_for, render_template, sen
 from werkzeug.utils import secure_filename
 import os
 import time
-import threading
+import sqlite3
 
 app = Flask(__name__)
 last_uploaded_file = None  # Variable globale pour stocker le dernier fichier téléchargé
 user_input = ""  # Variable pour stocker l'entrée utilisateur
 last_update_time = 0
 
-# Variables pour les statistiques
-message_count = 0
-image_count = 0
+def get_db_connection():
+    conn = sqlite3.connect('stats.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def increment_stat(column):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(f'UPDATE stats SET {column} = {column} + 1 WHERE id = 1')
+    conn.commit()
+    conn.close()
+
+def reset_stats():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('UPDATE stats SET message_count = 0, image_count = 0 WHERE id = 1')
+    conn.commit()
+    conn.close()
+
+def get_stats():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT message_count, image_count FROM stats WHERE id = 1')
+    stats = cursor.fetchone()
+    conn.close()
+    return stats
 
 # Route d'accueil
 @app.route('/home')
@@ -30,16 +53,16 @@ def adieuuuu():
 # Route d'input user pour les strings
 @app.route('/message')
 def index():
-    global message_count
-    message_count += 1
+    increment_stat('message_count')
     return render_template('text.html', user_input=user_input)
 
 # Route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
 def update_input():
-    global user_input, last_update_time, message_count
+    global user_input, last_update_time
     user_input = request.form['user_input']
     last_update_time = time.time()
+    increment_stat('message_count')
     return render_template('text.html', user_input=user_input)
 
 @app.route('/get_user_input', methods=['GET'])
@@ -63,12 +86,12 @@ def delete_user_input():
 # Nouvelle route /admin pour afficher les statistiques
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    global message_count, image_count
+    stats = get_stats()
     if request.method == 'POST':
         if 'reset' in request.form:
-            message_count = 0
-            image_count = 0
-    return render_template('admin.html', message_count=message_count, image_count=image_count)
+            reset_stats()
+            stats = get_stats()
+    return render_template('admin.html', message_count=stats['message_count'], image_count=stats['image_count'])
 
 '''
 Attention depuis ici on touche plus hein ...
@@ -92,7 +115,7 @@ def delete_file():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    global last_uploaded_file, image_count  # Utiliser la variable globale
+    global last_uploaded_file  # Utiliser la variable globale
     print("Got upload")
     if request.method == 'POST':
         # check if the post request has the file part
@@ -110,7 +133,7 @@ def upload_file():
             last_uploaded_file = filename  # Mettre à jour le dernier fichier téléchargé
             with open('test.txt', 'w') as file:
                 file.write(file_path)
-            image_count += 1
+            increment_stat('image_count')
             return "done"
     return '''
     <!doctype html>
@@ -144,4 +167,3 @@ def show_image():
         return render_template('image.html', image_file=last_uploaded_file)
     else:
         return "quelque chose c'est mal passé, recharge la page "
-
