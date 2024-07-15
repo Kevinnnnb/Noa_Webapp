@@ -23,7 +23,7 @@ message_count = 0
 image_count = 0
 
 #Route d'explication
-@app.route("/config")
+@app.route("/aide")
 def config():
     return render_template("config.html")
 
