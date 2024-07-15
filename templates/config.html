@@ -1,1 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{url_for('static', filename='index.css')}}" />
+    <title>Configuration du Projet Personnel</title>
+    <style>
+        /* Copiez votre CSS ici */
+        .noa {
+            border-radius: 25px;
+        }
 
+        body {
+            background-color: pink;
+        }
+
+        .pute {
+            background-color: white;
+            width: 90%;
+            padding: 3%;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="center-container">
+            <div class="pute">
+                <div class="form-container">
+                   <center> <h3>Hello Noa 😊</h3> </center>
+                    <p>Tu peux suivre ce "tuto" pour configurer ton cadeau.</p>
+                    </form>
+                    <br></div></div>
+                    <br><br>
+
+        <div class="pute">
+            <div class="form-container">
+                <h3>Etape 1</h3>
+                <p>Branche la cable usb-c à l'arrière de la boîte. <br> Noramlement un message devrais s'afficher sur l'écran.</p>
+                </form>
+                <br></div></div>
+
+<br><br>
+
+        <div class="pute">
+            <div class="form-container">
+                <h3>Etape 2</h3>
+                <p>Après quelques secondes le message va disparaître puis une marche a suivre va s'afficher.
+                    <br><br>Si tu suis les instructions correctement, tu devrais tomber sur cette page
+                </p><img src="" alt="image de la config sur l'esp"> 
+                <p>PS : Pour trouver ton chat_id telegram il faut que tu ailles dans ton app telegram et que tu cherches le bot "IDBot" et que tu appuies sur start. <br><br> Une fois que tu auras fait ça, la dernière ligne du message qu'il t'a envoyé contient ton chat_id que tu peux copeir dans la page web. <br><br>(NE COPIE QUE LES CHIFFRES !) <br><br> Une fois que tu as remplis les 3 champs de texte, tu peux appuyer sur Entrer et quitter cette page.</p>
+                </form>
+                <br></div></div>
+
+                <br><br>
+
+
+        <div class="pute">
+            <div class="form-container">
+                <h3>Etape 3</h3>
+                <p>Si tout c'est bien passé, la boîte est prête à être employée 👍 <br><br> (normalement un message devrait s'afficher sur l'écran de la bôite pour te dire qu'elle s'est bien connectée au wifi et qu'elle a bien été configurée.) <br><br>Après quelques secondes, tu devrais recevoir un message sur Telegram t'indiquant que c'est tout bon.</p>
+                </form>
+                <br></div></div>
+
+
+        <br><br>
+
+        <div class="pute">
+            <div class="form-container">
+                <h3>Etape 4</h3>
+                <p>Pour utiliser la boîte, tu peux te rendre sur <a href="/home">ce site</a> et/ou partager le lien avec tes amis et ev. ta famille</p>
+
+                
+                </form>
+                <br></div></div>
+                <br><br>
+
+
+        <div class="pute">
+            <div class="form-container">
+                <h3>Aide</h3>
+                <p>Si quelque chose s'est mal passé ou si il y a une étape que tu n'as pas compris, n'hésite pas à me demander :)</p>
+                </form>
+                <br></div></div>
+                <br><br>
+
+                <div class="pute">
+                    <div class="form-container">
+
+                   <center><h3>🥳 Tu as terminé ! 🥳</h3></center>
+</div></div>
+        </div>
+    </header>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='gif.js')}}"></script>
+    <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+
+    <!-- Slideshow Script -->
+    <script>
+        var images = [
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966937486327839/IMG_6771.jpg?ex=667f0ddc&is=667dbc5c&hm=3beff0908ad9837bc62039867a69f9aefb7d54948569a75cfac9649bdf054b73&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966937918210058/IMG_6772.jpg?ex=667f0ddc&is=667dbc5c&hm=3a6caf8d06bb29d662dbe4ef91d720e96a9e05c8ff65d6453e7136dac617c0c0&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966938207883274/IMG_6774.jpg?ex=667f0ddc&is=667dbc5c&hm=021949cdf0b481583dff27be32fec61e335b75aafdc90721754ce177ee9db82e&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966938648150107/IMG_6775.jpg?ex=667f0ddc&is=667dbc5c&hm=b97d6775206ca75cde593e4ad384df6967fcec87e9f394f0a8eb495e80b38c99&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255970869294141450/noaETemma.jpg?ex=667f1186&is=667dc006&hm=01d8b811c94d162a409242eb58900ad16f6b168df79ab94b9d22483d0c8d13e4&"
+        ];
+        var currentIndex = 0;
+        var slideshowImage = document.getElementById("preview");
+
+        function changeImage() {
+            slideshowImage.src = images[currentIndex];
+            currentIndex = (currentIndex + 1) % images.length;
+        }
+
+        setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
+    </script>
+</body>
+</html>
