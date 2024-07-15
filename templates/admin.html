@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+  </style>
+<body>
+    <h1>Statistiques</h1>
+    <p>Nombre de messages envoyés : {{ message_count }}</p>
+    <p>Nombre d'images téléchargées : {{ image_count }}</p>
+    <form method="post">
+        <button type="submit" name="reset">Réinitialiser les données</button>
+    </form>
+    <canvas id="statsChart" width="400" height="400"></canvas>
+    <script>
+        const ctx = document.getElementById('statsChart').getContext('2d');
+        const statsChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Messages', 'Images'],
+                datasets: [{
+                    label: 'Statistiques',
+                    data: [{{ message_count }}, {{ image_count }}],
+                    backgroundColor: ['#FF6384', '#36A2EB'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Comparaison des messages et des images'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
