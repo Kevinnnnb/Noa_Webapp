@@ -22,6 +22,11 @@ last_update_time = 0
 message_count = 0
 image_count = 0
 
+#Route d'explication
+@app.route("/config")
+def config():
+    return render_template("config.html")
+
 # Route d'accueil
 @app.route('/home')
 def adieuuuu():
