@@ -1,77 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
-    <style>
-        .noa {
-            border-radius: 25px;
-        }
-
-        body {
-            background-color: pink;
-        }
-
-        .pute {
-            background-color: white;
-            width: 90%;
-            padding: 3%;
-            border-radius: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+p {
+    text-align: center;
+    font-size: 18px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+  </style>
 <body>
-    <header>
-        <div class="center-container">
-            <center>
-                <div class="pute">
-                    <div class="form-container">
-                        <center>
-                            <h3>Statistiques</h3>
-                            <p>Nombre de messages envoyés: {{ message_count }}</p>
-                            <p>Nombre d'images envoyées: {{ image_count }}</p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Prénom</th>
-                                        <th>Messages</th>
-                                        <th>Images</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for username, data in users_data.items() %}
-                                    <tr>
-                                        <td>{{ username }}</td>
-                                        <td>{{ data.messages }}</td>
-                                        <td>{{ data.images }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <form action="/admin" method="post">
-                                <input type="hidden" name="reset" value="true">
-                                <button type="submit">Réinitialiser les statistiques</button>
-                            </form>
-                        </center>
-                    </div>
-                </div>
-            </center>
-        </div>
-    </header>
+    <h1>Statistiques</h1>
+    <p>Nombre de messages envoyés : {{ message_count }}</p>
+    <p>Nombre d'images téléchargées : {{ image_count }}</p>
+    <form method="post">
+        <button type="submit" name="reset">Réinitialiser les données</button>
+    </form>
+    <canvas id="statsChart" width="400" height="400"></canvas>
+    <script>
+        const ctx = document.getElementById('statsChart').getContext('2d');
+        const statsChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Messages', 'Images'],
+                datasets: [{
+                    label: 'Statistiques',
+                    data: [{{ message_count }}, {{ image_count }}],
+                    backgroundColor: ['#FF6384', '#36A2EB'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Comparaison des messages et des images'
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
