@@ -18,6 +18,10 @@ last_uploaded_file = None  # Variable globale pour stocker le dernier fichier t�
 user_input = ""  # Variable pour stocker l'entrée utilisateur
 last_update_time = 0
 
+# Variables pour les statistiques
+message_count = 0
+image_count = 0
+
 # Route d'accueil
 @app.route('/home')
 def adieuuuu():
@@ -26,14 +30,17 @@ def adieuuuu():
 # Route d'input user pour les strings
 @app.route('/message')
 def index():
+    global message_count
+    message_count += 1
     return render_template('text.html', user_input=user_input)
 
 # Route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
 def update_input():
-    global user_input, last_update_time
+    global user_input, last_update_time, message_count
     user_input = request.form['user_input']
     last_update_time = time.time()
+    message_count += 1
     return render_template('text.html', user_input=user_input)
 
 @app.route('/get_user_input', methods=['GET'])
@@ -54,9 +61,15 @@ def delete_user_input():
     user_input = ""
     return jsonify({'message': 'User input has been reset', 'user_input': user_input})
 
-
-
-
+# Nouvelle route /admin pour afficher les statistiques
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    global message_count, image_count
+    if request.method == 'POST':
+        if 'reset' in request.form:
+            message_count = 0
+            image_count = 0
+    return render_template('admin.html', message_count=message_count, image_count=image_count)
 
 '''
 Attention depuis ici on touche plus hein ...
@@ -65,13 +78,6 @@ Attention depuis ici on touche plus hein ...
 @app.route('/')
 def hello_world():
     return render_template('index.html')
-
-# @app.route('/longPoll')
-# def long_poll():
-#     while not(os.path.exists("test.txt")):
-#         time.sleep(1)
-#     testFile = open("test.txt","r")
-#     return "done"
 
 @app.route('/loadTest')
 def load_test():
@@ -87,7 +93,7 @@ def delete_file():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    global last_uploaded_file  # Utiliser la variable globale
+    global last_uploaded_file, image_count  # Utiliser la variable globale
     print("Got upload")
     if request.method == 'POST':
         # check if the post request has the file part
@@ -105,6 +111,7 @@ def upload_file():
             last_uploaded_file = filename  # Mettre à jour le dernier fichier téléchargé
             with open('test.txt', 'w') as file:
                 file.write(file_path)
+            image_count += 1
             return "done"
     return '''
     <!doctype html>
@@ -115,7 +122,6 @@ def upload_file():
       <input type=submit value=Upload>
     </form>
     '''
-
 
 @app.route('/longPoll', methods=['GET'])
 def return_files_tut():
@@ -139,3 +145,4 @@ def show_image():
         return render_template('image.html', image_file=last_uploaded_file)
     else:
         return "quelque chose c'est mal passé, recharge la page "
+
