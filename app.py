@@ -39,10 +39,7 @@ def index():
     message_count += 1
     return render_template('text.html', user_input=user_input)
 
-@app.route("/messages")
-def message():
-    global user_input
-    return render_template("message.html", user_input = user_input)
+
 
 
 # Route d'accès pour l'esp32
@@ -154,4 +151,12 @@ def show_image():
     if last_uploaded_file:
         return render_template('image.html', image_file=last_uploaded_file)
     else:
+        return render_template("/pasimage.html")
+
+@app.route("/messages")
+def message():
+    global user_input
+    if (user_input != "") :
+        return render_template("message.html", user_input = user_input)
+    else: 
         return render_template("/pasimage.html")
