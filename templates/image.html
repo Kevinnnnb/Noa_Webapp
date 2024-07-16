@@ -3,25 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>image</title>
+    <title>Image</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
+    <style>body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+p {
+    font-size: 18px;
+    color: #555;
+}
+
+.rotate-90 {
+    transform: rotate(-90deg);
+}
+</style>
 <body>
-
-    <style>
-        .rotate-90 {
-            transform: rotate(-90deg);
-        }
-    </style>
-
-
-    <h1>Dernière image envoyée</h1>
-
-    <div class="rotate-90">
-    {% if image_file %}
-    <img src="{{ url_for('static', filename=image_file) }}" alt="Last uploaded image">
+    <div class="container">
+        <h1>Dernière image envoyée</h1>
+        <div class="rotate-90">
+            {% if image_file %}
+            <img src="{{ url_for('static', filename=image_file) }}" alt="Last uploaded image">
+        </div>
+            {% else %}
+            <p>Aucune image téléchargée pour le moment.</p>
+            {% endif %}
     </div>
-    {% else %}
-    <p>Aucune image téléchargée pour le moment.</p>
-    {% endif %}
 </body>
 </html>
