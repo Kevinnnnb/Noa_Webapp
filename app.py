@@ -151,7 +151,6 @@ def return_files_tut():
 @app.route('/image')
 def show_image():
     global last_uploaded_file
-    if last_uploaded_file:
-        return render_template('image.html', image_file=last_uploaded_file)
-    else:
-        return "quelque chose c'est mal passé, recharge la page "
+    last_uploaded_file:
+    return render_template('image.html', image_file=last_uploaded_file)
+
