@@ -1,8 +1,7 @@
 '''
-L'idée de ce code c'est de faire en sorte que on va prendre le code qui fonctionne bien
-pour le display et le poll d'îmage donc on va pas le toucher et ensuite on construira l'autre app web
-qui permet de saisir des strings et de les fusiuonner en une seule app web (plus pratique pour le hosting) et aussi 
-pour l'intro d'une nouvelle db pour gérer eventuellement les logs mais ça on verra.
+Faire une version dans laquelle on peut display le message avec le nom du gars qui l'a envoyé -> faire une page d'authentification avec une base de données ... 
+
+Controler pourquoi est-ce que  le servo ne fonctionne pas et éventuellement remplacer les pièces qui ne fonctionnent pas (checker le power supply)
 
 A noter que la version du 12 juillet 2024 à 23h fonctionne nickel si jamais je casse tout
 '''
