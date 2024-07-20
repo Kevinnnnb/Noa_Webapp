@@ -58,7 +58,7 @@ def login():
 
 
 @app.route("/")
-def config():
+def log():
     return render_template("acceuil.html")
 
 
