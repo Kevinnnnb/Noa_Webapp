@@ -21,6 +21,45 @@ last_update_time = 0
 message_count = 0
 image_count = 0
 
+
+
+
+
+def validate(username, password):
+    # Connexion à la base de données
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    
+    # Vérification des identifiants
+    c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
+    result = c.fetchone()
+    
+    # Fermeture de la connexion
+    conn.close()
+    
+    if result:
+        return True
+    return False
+
+@app.route('/login')
+def home():
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+    
+    if validate(username, password):
+        return render_template("/bonjour.html")
+    else:
+        return render_template("/login.html")
+
+
+
+
+
+
 #Route d'explication
 @app.route("/aide")
 def config():
