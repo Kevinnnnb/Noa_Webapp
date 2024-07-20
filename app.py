@@ -27,7 +27,7 @@ image_count = 0
 
 def validate(username, password):
     # Connexion à la base de données
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('/static/users.db')
     c = conn.cursor()
     
     # Vérification des identifiants
