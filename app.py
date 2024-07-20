@@ -54,7 +54,7 @@ def login():
     if validate(username, password):
         return render_template("/bonjour.html")
     else:
-        return render_template("/login.html")
+        return render_template("/login_rate.html")
 
 
 
