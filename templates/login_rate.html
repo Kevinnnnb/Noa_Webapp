@@ -6,7 +6,8 @@
     <title>Login</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-  <style>body {
+<style>
+body {
     font-family: Arial, sans-serif;
     background-color: pink;
     display: flex;
@@ -60,15 +61,15 @@ button {
 
 button:hover {
     background-color: red;
-}</style>
-<body><center>
+}
+</style>
+<body>
     <div class="container">
-<p>Oups... il semblerait que quelque chose s'est mal passé !</p>
-      
+        <p>Oups ! Quelque chose s'est mal passé ... </p>
         <h1>Login</h1>
         <form action="/login" method="post">
             <div>
-                <label for="username">Nom:</label>
+                <label for="username">Prénom:</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div>
@@ -76,9 +77,9 @@ button:hover {
                 <input type="password" id="password" name="password" required>
             </div>
             <div>
-                <button type="submit">connexion</button>
+                <button type="submit">Connexion</button>
             </div>
         </form>
-    </div></center>
+    </div>
 </body>
 </html>
