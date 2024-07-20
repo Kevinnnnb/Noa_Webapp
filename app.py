@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 import os
 import time
 import threading
+import sqlite3
 
 app = Flask(__name__)
 last_uploaded_file = None  # Variable globale pour stocker le dernier fichier téléchargé
