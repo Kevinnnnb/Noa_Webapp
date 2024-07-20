@@ -123,7 +123,7 @@ def admin():
 Attention depuis ici on touche plus hein ...
 '''
 
-@app.route('/message')
+@app.route('/images')
 def hello_world():
     return render_template('index.html')
 
