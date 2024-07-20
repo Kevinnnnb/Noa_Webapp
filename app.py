@@ -57,7 +57,9 @@ def login():
         return render_template("/login_rate.html")
 
 
-
+@app.route("/")
+def config():
+    return render_template("acceuil.html")
 
 
 
@@ -121,7 +123,7 @@ def admin():
 Attention depuis ici on touche plus hein ...
 '''
 
-@app.route('/')
+@app.route('/message')
 def hello_world():
     return render_template('index.html')
 
