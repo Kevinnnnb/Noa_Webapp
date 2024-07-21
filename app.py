@@ -37,29 +37,26 @@ def login():
     else:
         return render_template("/login_rate.html")
 
-@app.route('/sign_in', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        
-        conn = sqlite3.connect('static/users.db')
-        c = conn.cursor()
-        c.execute("SELECT * FROM users WHERE username = ? OR email = ?", (username, email))
-        existing_user = c.fetchone()
-        
-        if existing_user:
-            conn.close()
-            return render_template('sign_in.html', error="Nom d'utilisateur ou email déjà pris")
-        
-        c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
-        conn.commit()
-        conn.close()
-        
-        return render_template('bonjour.html')
-    
+@app.route('/sign_in')
+def sign_in():
     return render_template('sign_in.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    
+    hashed_password = generate_password_hash(password, method='sha256')
+    
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('sign_in'))
+
 
 @app.route("/")
 def log():
