@@ -48,7 +48,8 @@ def register():
     email = request.form['email']
     password = request.form['password']
     
-    hashed_password = generate_password_hash(password, method='sha256')
+    # Utiliser pbkdf2:sha256 au lieu de sha256
+    hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
     
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
