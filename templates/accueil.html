@@ -1,1 +1,83 @@
-// finir de coder la page pour savoir si on a déjà un compte ou non ... 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css" />
+    <title>Bienvenue</title>
+    <style>
+        .noa {
+            border-radius: 25px;
+        }
+
+        body {
+            background-color: pink;
+        }
+
+        .container {
+            background-color: white;
+            width: 90%;
+            padding: 3%;
+            border-radius: 20px;
+            margin: auto;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+
+        .form-container h3 {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: pink;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <center>
+                <h3>Bienvenue 😁</h3>
+                <div class="button-container">
+                    <button onclick="window.location.href='/login'">Login</button>
+                    <button onclick="window.location.href='/sign_in'">Sign In</button>
+                </div>
+            </center>
+            <center>
+                <div>
+                    <br><br>
+                </div>
+            </center>
+        </div>
+        </div></center>
+    </header>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='gif.js')}}"></script>
+    <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+
+
+    </header>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="/static/gif.js"></script>
+    <script src="/static/gifDecoder.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>
