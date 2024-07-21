@@ -1,50 +1,28 @@
 '''
 A noter que la version du 12 juillet 2024 à 23h fonctionne nickel si jamais je casse tout
 '''
-
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify
 from werkzeug.utils import secure_filename
 import os
 import time
-import threading
 import sqlite3
 
 app = Flask(__name__)
-last_uploaded_file = None  # Variable globale pour stocker le dernier fichier téléchargé
-user_input = ""  # Variable pour stocker l'entrée utilisateur
+last_uploaded_file = None
+user_input = ""
 last_update_time = 0
 
 # Variables pour les statistiques
 message_count = 0
 image_count = 0
 
-
-
-
-
-
-
-
-
-
-
-
-
 def validate(username, password):
-    # Connexion à la base de données
     conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
-    
-    # Vérification des identifiants
     c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
     result = c.fetchone()
-    
-    # Fermeture de la connexion
     conn.close()
-    
-    if result:
-        return True
-    return False
+    return bool(result)
 
 @app.route('/login')
 def home():
@@ -54,35 +32,53 @@ def home():
 def login():
     username = request.form['username']
     password = request.form['password']
-    
     if validate(username, password):
         return render_template("/bonjour.html")
     else:
         return render_template("/login_rate.html")
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        
+        conn = sqlite3.connect('static/users.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM users WHERE username = ? OR email = ?", (username, email))
+        existing_user = c.fetchone()
+        
+        if existing_user:
+            conn.close()
+            return render_template('sign_in.html', error="Nom d'utilisateur ou email déjà pris")
+        
+        c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
+        conn.commit()
+        conn.close()
+        
+        return redirect(url_for('home'))
+    
+    return render_template('sign_in.html')
 
 @app.route("/")
 def log():
     return render_template("acceuil.html")
 
-#Route d'explication
 @app.route("/aide")
 def config():
     return render_template("config.html")
 
-# Route d'accueil
 @app.route('/home')
 def adieuuuu():
-    return render_template('bonjour.html')  # ne pas oublier de push ce code
+    return render_template('bonjour.html')
 
-# Route d'input user pour les strings
 @app.route('/message')
 def index():
     global message_count
     message_count += 1
     return render_template('text.html', user_input=user_input)
 
-# Route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
 def update_input():
     global user_input, last_update_time, message_count
@@ -95,20 +91,17 @@ def get_user_input():
     global user_input
     return jsonify({'user_input': user_input})
 
-# Nouvelle route /poll pour que l'esp32 puisse accéder à l'entrée utilisateur
 @app.route('/poll', methods=['GET'])
 def poll():
     global user_input
     return jsonify({'user_input': user_input})
 
-# Nouvelle route /delete_user_input pour réinitialiser l'entrée utilisateur
-@app.route('/delete_user_input',  methods=['GET'])
+@app.route('/delete_user_input', methods=['GET'])
 def delete_user_input():
     global user_input
     user_input = ""
     return jsonify({'message': 'User input has been reset', 'user_input': user_input})
 
-# Nouvelle route /admin pour afficher les statistiques
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     global message_count, image_count
@@ -117,10 +110,6 @@ def admin():
             message_count = 0
             image_count = 0
     return render_template('admin.html', message_count=message_count, image_count=image_count)
-
-'''
-Attention depuis ici on touche plus hein ...
-'''
 
 @app.route('/images')
 def hello_world():
@@ -135,27 +124,23 @@ def load_test():
 @app.route('/deleteFile')
 def delete_file():
     if os.path.exists("test.txt"):
-        os.remove("test.txt")  # one file at a time
+        os.remove("test.txt")
     return "deleted"
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    global last_uploaded_file, image_count  # Utiliser la variable globale
-    print("Got upload")
+    global last_uploaded_file, image_count
     if request.method == 'POST':
-        # check if the post request has the file part
         if 'file' not in request.files:
             return "No image data"
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == '':
             return "No selected file"
         if file:
             filename = secure_filename(file.filename)
             file_path = os.path.join('static', filename)
             file.save(file_path)
-            last_uploaded_file = filename  # Mettre à jour le dernier fichier téléchargé
+            last_uploaded_file = filename
             with open('test.txt', 'w') as file:
                 file.write(file_path)
             image_count += 1
@@ -172,11 +157,11 @@ def upload_file():
 
 @app.route('/longPoll', methods=['GET'])
 def return_files_tut():
-    if (os.path.exists("test.txt")):
-        testFile = open("test.txt","r")
+    if os.path.exists("test.txt"):
+        testFile = open("test.txt", "r")
         fileName = testFile.readline()
         if os.path.exists("test.txt"):
-            os.remove("test.txt")  # one file at a time
+            os.remove("test.txt")
         try:
             response = make_response(send_file(fileName, download_name=os.path.basename(fileName)))
             response.headers['imgName'] = os.path.basename(fileName)
@@ -196,7 +181,7 @@ def show_image():
 @app.route("/messages")
 def message():
     global user_input
-    if (user_input != "") :
-        return render_template("message.html", user_input = user_input)
-    else: 
+    if user_input != "":
+        return render_template("message.html", user_input=user_input)
+    else:
         return render_template("/pasimage.html")
