@@ -48,15 +48,26 @@ def register():
     email = request.form['email']
     password = request.form['password']
     
-    # Utiliser pbkdf2:sha256 au lieu de sha256
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
     
-    conn = sqlite3.connect('static/users.db')
-    c = conn.cursor()
-    c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
-    conn.commit()
-    conn.close()
-
+    try:
+        with sqlite3.connect('database.db') as conn:
+            c = conn.cursor()
+            
+            # Vérifie si l'utilisateur ou l'email existe déjà
+            c.execute("SELECT * FROM users WHERE username = ? OR email = ?", (username, email))
+            existing_user = c.fetchone()
+            
+            if existing_user:
+                flash('Username or email already exists')
+                return redirect(url_for('sign_in'))
+            
+            # Insère le nouvel utilisateur
+            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
+            conn.commit()
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+    
     return redirect(url_for('sign_in'))
 
 
