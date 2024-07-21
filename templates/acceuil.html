@@ -12,14 +12,20 @@
 
         body {
             background-color: pink;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
         .container {
             background-color: white;
             width: 90%;
+            max-width: 600px;
             padding: 3%;
             border-radius: 20px;
-            margin: auto;
+            text-align: center;
         }
 
         .form-container {
@@ -48,39 +54,24 @@
         .button-container button:hover {
             background-color: red;
         }
+
+        img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <center>
-                <h1>Bienvenue</h1>
-                <br><br>
-<img src="static/coeur.gif" width = "50%">
-                <br><br>
-                <div class="button-container">
-                    <button onclick="window.location.href='/login'">Login</button>
-                    <button onclick="window.location.href='/sign_in'">Sign In</button>
-                </div>
-            </center>
-            <center>
-                <div>
-                    <br><br>
-                </div>
-            </center>
+    <div class="container">
+        <h1>Bienvenue</h1>
+        <br><br>
+        <img src="static/coeur.gif" alt="Coeur">
+        <br><br>
+        <div class="button-container">
+            <button onclick="window.location.href='/login'">Login</button>
+            <button onclick="window.location.href='/sign_in'">Sign In</button>
         </div>
-        </div></center>
-    </header>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='gif.js')}}"></script>
-    <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
-    <script src="{{url_for('static', filename='script.js')}}"></script>
-
-
-    </header>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="/static/gif.js"></script>
-    <script src="/static/gifDecoder.js"></script>
-    <script src="/static/script.js"></script>
+    </div>
 </body>
 </html>
