@@ -57,7 +57,7 @@ def register():
         conn.commit()
         conn.close()
         
-        return redirect(url_for('home'))
+        return render_template('bonjour.html')
     
     return render_template('sign_in.html')
 
