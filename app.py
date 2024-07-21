@@ -51,7 +51,7 @@ def register():
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
     
     try:
-        with sqlite3.connect('database.db') as conn:
+        with sqlite3.connect('static/users.db') as conn:
             c = conn.cursor()
             
             # Vérifie si l'utilisateur ou l'email existe déjà
