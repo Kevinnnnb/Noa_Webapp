@@ -51,7 +51,7 @@ def register():
     # Utiliser pbkdf2:sha256 au lieu de sha256
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
     
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
     c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
     conn.commit()
