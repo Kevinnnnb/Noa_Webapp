@@ -37,7 +37,7 @@ def login():
     else:
         return render_template("/login_rate.html")
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/sign_in', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
