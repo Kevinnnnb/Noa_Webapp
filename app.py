@@ -26,6 +26,14 @@ image_count = 0
 
 
 
+
+
+
+
+
+
+
+
 def validate(username, password):
     # Connexion à la base de données
     conn = sqlite3.connect('static/users.db')
@@ -61,8 +69,6 @@ def login():
 def log():
     return render_template("acceuil.html")
 
-
-
 #Route d'explication
 @app.route("/aide")
 def config():
@@ -79,9 +85,6 @@ def index():
     global message_count
     message_count += 1
     return render_template('text.html', user_input=user_input)
-
-
-
 
 # Route d'accès pour l'esp32
 @app.route('/update_input', methods=['POST'])
