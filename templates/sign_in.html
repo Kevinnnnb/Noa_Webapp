@@ -70,23 +70,12 @@ button:hover {
 <body>
     <div class="container">
         <h1>Créer un compte</h1>
-        <form action="/login" method="post">
-            <div>
-                <label for="username">Prénom:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div>
-                <label for="password">Mot de passe:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div>
-                <button type="submit">S'inscrire</button>
-            </div>
-        </form>
+        <form action="/register" method="post">
+    <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Mot de passe" required>
+    <button type="submit">S'inscrire</button>
+</form>
     </div>
 </body>
 </html>
