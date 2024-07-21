@@ -2,7 +2,8 @@
 A noter que la version du 12 juillet 2024 à 23h fonctionne nickel si jamais je casse tout
 '''
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify
-from werkzeug.utils import secure_filename, generate_password_hash
+from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash
 import os
 import time
 import sqlite3
