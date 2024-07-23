@@ -15,6 +15,102 @@ app.secret_key = "bZe60lQsBBurONE6dMVXeKkl4JDwQ4iRZLzJEdY4SMUtD4R7VqsaiVrwWaoo9N
 message_count = 0
 image_count = 0
 
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+def send_email(sender_email, sender_password, recipient_email, subject, body):
+    html_message = MIMEText(body, 'html')
+    html_message['Subject'] = subject
+    html_message['From'] = sender_email
+    html_message['To'] = recipient_email
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, recipient_email, html_message.as_string())
+
+    print("Email envoyé !")
+
+# Exécution de la fonction
+
+sender_email = "aide.arcabox@gmail.com"
+sender_password = "erhn bbka bvuk fydw" # For the password you need to go to your google account and search for app password -> you will have a 16 digits password for your script 
+subject = "Hello World !"
+body = """
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #7bb4e3;
+            font-family: "Lucida Console", "Courier New", monospace;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 3%;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .container h1 {
+            margin: 0 0 20px 0;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: pink;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .button-container a:hover {
+            background-color: red;
+        }
+        img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            border-radius: 25px;
+        }
+
+        .text {
+        text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenue</h1>
+        <br>
+        <h4>Merci d'avoir créer ton compte !</h4>
+        <br>
+        <p class = "text">Tu peux te rendre <a href="https://love-box-noa.onrender.com">ici</a> pour utiliser l'app !
+        
+        <br><br><br>Si quelque chose ne fonctionne pas dis le moi sur <a href="https://love-box-noa.onrender.com/rapport">cette page</a> !
+        
+        <br><br><br>A très bientôt !
+        </p>
+        <h4>Kevin 👋🏻</h4>
+    </div>
+</body>
+</html>
+"""
+
+
+
 def validate(username, password):
     conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
@@ -56,8 +152,10 @@ def register():
                 flash('Username or email already exists')
                 return redirect(url_for('sign_in'))
             # Insère le nouvel utilisateur
-            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
+            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
             conn.commit()
+            recipient_email = email
+            send_email(sender_email, sender_password, recipient_email, subject, body)
     except sqlite3.Error as e:
         print(f"Database error: {e}")
     return redirect(url_for('home'))
