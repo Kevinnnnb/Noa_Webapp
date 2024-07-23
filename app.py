@@ -1,6 +1,6 @@
-from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify
+from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify, Response
 from werkzeug.utils import secure_filename
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import time
 import sqlite3
@@ -45,29 +45,22 @@ def register():
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
-    
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-    
     try:
         with sqlite3.connect('static/users.db') as conn:
             c = conn.cursor()
-            
             # Vérifie si l'utilisateur ou l'email existe déjà
             c.execute("SELECT * FROM users WHERE username = ? OR email = ?", (username, email))
             existing_user = c.fetchone()
-            
             if existing_user:
                 flash('Username or email already exists')
                 return redirect(url_for('sign_in'))
-            
             # Insère le nouvel utilisateur
             c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
             conn.commit()
     except sqlite3.Error as e:
         print(f"Database error: {e}")
-    
     return redirect(url_for('home'))
-
 
 @app.route("/")
 def log():
@@ -158,8 +151,8 @@ def upload_file():
     <title>Upload new File</title>
     <h1>Upload new File</h1>
     <form method=post enctype=multipart/form-data>
-      <input type=file name=file>
-      <input type=submit value=Upload>
+        <input type=file name=file>
+        <input type=submit value=Upload>
     </form>
     '''
 
@@ -196,8 +189,21 @@ def message():
 
 @app.route('/coeur')
 def coeur():
-    gif_path = os.path.join('static', 'image.gif')  # Remplacez 'your_gif.gif' par le nom de votre GIF
+    gif_path = os.path.join('static', 'image.gif')
+    # Remplacez 'your_gif.gif' par le nom de votre GIF
     if os.path.exists(gif_path):
         return send_file(gif_path, mimetype='image/gif')
     else:
         return "GIF not found", 404
+
+@app.route('/database')
+def database():
+    password = request.args.get('password')
+    if password != 'uc9z37h8mn':
+        return Response('Unauthorized', 401)
+    conn = sqlite3.connect('static/users.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM users")
+    data = c.fetchall()
+    conn.close()
+    return render_template('database.html', data=data)
