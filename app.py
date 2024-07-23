@@ -20,6 +20,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 def send_email(sender_email, sender_password, recipient_email, subject, body, user):
+    # Replace the placeholder with the actual username
+    body = body.replace('{{user}}', user)
     html_message = MIMEText(body, 'html')
     html_message['Subject'] = subject
     html_message['From'] = sender_email
