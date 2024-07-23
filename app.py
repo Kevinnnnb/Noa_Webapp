@@ -1,6 +1,3 @@
-'''
-A noter que la version du 12 juillet 2024 à 23h fonctionne nickel si jamais je casse tout
-'''
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
@@ -195,3 +192,11 @@ def message():
         return render_template("message.html", user_input=user_input)
     else:
         return render_template("/pasimage.html")
+
+@app.route('/coeur')
+def coeur():
+    gif_path = os.path.join('static', 'image.gif')  # Remplacez 'your_gif.gif' par le nom de votre GIF
+    if os.path.exists(gif_path):
+        return send_file(gif_path, mimetype='image/gif')
+    else:
+        return "GIF not found", 404
