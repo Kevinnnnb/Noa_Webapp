@@ -93,11 +93,11 @@ body = """
 </head>
 <body>
     <div class="container">
-        <h1>Bienvenue</h1>
+        <h1>Salut {{user}}</h1>
         <br>
         <h4>Merci d'avoir créer ton compte !</h4>
         <br>
-        <p class = "text">Tu peux te rendre <a href="https://love-box-noa.onrender.com">ici</a> pour utiliser l'app !
+        <p class = "text">Tu peux te rendre <a href="https://love-box-noa.onrender.com/login">ici</a> pour utiliser l'app !
         
         <br><br><br>Si quelque chose ne fonctionne pas dis le moi sur <a href="https://love-box-noa.onrender.com/rapport">cette page</a> !
         
@@ -158,7 +158,7 @@ def register():
             c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
             conn.commit()
             recipient_email = email
-            send_email(sender_email, sender_password, recipient_email, subject, body)
+            send_email(sender_email, sender_password, recipient_email, subject, body, user = username)
     except sqlite3.Error as e:
         print(f"Database error: {e}")
     return redirect(url_for('mail'))
