@@ -155,7 +155,7 @@ def register():
                 flash('Username or email already exists')
                 return redirect(url_for('sign_in'))
             # Insère le nouvel utilisateur
-            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
+            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
             conn.commit()
             recipient_email = email
             user = username
