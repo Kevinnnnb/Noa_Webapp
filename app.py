@@ -158,7 +158,8 @@ def register():
             c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
             conn.commit()
             recipient_email = email
-            send_email(sender_email, sender_password, recipient_email, subject, body, user = username)
+            user = username
+            send_email(sender_email, sender_password, recipient_email, subject, body, user)
     except sqlite3.Error as e:
         print(f"Database error: {e}")
     return redirect(url_for('mail'))
