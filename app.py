@@ -19,7 +19,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(sender_email, sender_password, recipient_email, subject, body):
+def send_email(sender_email, sender_password, recipient_email, subject, body, user):
     html_message = MIMEText(body, 'html')
     html_message['Subject'] = subject
     html_message['From'] = sender_email
