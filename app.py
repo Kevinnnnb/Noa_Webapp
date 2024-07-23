@@ -65,7 +65,7 @@ def register():
     except sqlite3.Error as e:
         print(f"Database error: {e}")
     
-    return redirect(url_for('sign_in'))
+    return redirect(url_for('home'))
 
 
 @app.route("/")
