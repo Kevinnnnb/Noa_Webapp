@@ -5,80 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer un compte</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: pink;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 80%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: pink;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: red;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+            color: #555;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
-  <style>body {
-    font-family: Arial, sans-serif;
-    background-color: pink;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: "Lucida Console", "Courier New", monospace;
-}
-
-.container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-}
-
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-form {
-    text-align: center;
-}
-
-form div {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    font-size: 18px;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-input {
-    width: 80%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    text-align: center;
-}
-
-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    background-color: pink;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: red;
-}</style>
-<body><br><br>
+<body>
     <div class="container">
         <h1>Créer un compte</h1>
         <form action="/register" method="post">
-    <input type="text" name="username" placeholder="Nom d'utilisateur" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Mot de passe" required><br><br>
-    <button type="submit">S'inscrire</button>
-</form>
+            <div>
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+            </div>
+            <div>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div>
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <span id="togglePassword" class="toggle-password">Afficher le mot de passe</span>
+            </div>
+            <div>
+                <button type="submit">S'inscrire</button>
+            </div>
+        </form>
     </div>
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // toggle the text
+            this.textContent = type === 'password' ? 'Afficher le mot de passe' : 'Masquer le mot de passe';
+        });
+    </script>
 </body>
 </html>
