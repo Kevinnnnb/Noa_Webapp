@@ -97,7 +97,7 @@ body = """
     <div class="container">
         <h1>Salut {{user}}</h1>
         <br>
-        <h4>Merci d'avoir créer ton compte !</h4>
+        <h4>Merci d'avoir créé ton compte !</h4>
         <br>
         <p class = "text">Tu peux te rendre <a href="https://love-box-noa.onrender.com/login">ici</a> pour utiliser l'app !
         
