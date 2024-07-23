@@ -9,6 +9,7 @@ app = Flask(__name__)
 last_uploaded_file = None
 user_input = ""
 last_update_time = 0
+app.secret_key = "bZe60lQsBBurONE6dMVXeKkl4JDwQ4iRZLzJEdY4SMUtD4R7VqsaiVrwWaoo9NhP"
 
 # Variables pour les statistiques
 message_count = 0
