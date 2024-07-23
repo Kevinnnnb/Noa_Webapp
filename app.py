@@ -132,6 +132,9 @@ def login():
     else:
         return render_template("/login_rate.html")
 
+
+
+
 @app.route('/sign_in')
 def sign_in():
     return render_template('sign_in.html')
@@ -158,7 +161,7 @@ def register():
             send_email(sender_email, sender_password, recipient_email, subject, body)
     except sqlite3.Error as e:
         print(f"Database error: {e}")
-    return redirect(url_for('home'))
+    return redirect(url_for('mail'))
 
 @app.route("/")
 def log():
@@ -209,6 +212,12 @@ def admin():
             message_count = 0
             image_count = 0
     return render_template('admin.html', message_count=message_count, image_count=image_count)
+
+
+@app.route('/mail')
+def mail():
+    return render_template('mail.html')
+
 
 @app.route('/images')
 def hello_world():
