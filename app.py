@@ -99,9 +99,9 @@ body = """
         <br>
         <h4>Merci d'avoir créé ton compte !</h4>
         <br>
-        <p class = "text">Tu peux te rendre <a href="https://love-box-noa.onrender.com/login">ici</a> pour utiliser l'app !
+        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/login">ici</a> pour utiliser l'app !
         
-        <br><br><br>Si quelque chose ne fonctionne pas dis le moi sur <a href="https://love-box-noa.onrender.com/rapport">cette page</a> !
+        <br><br><br>Si quelque chose ne fonctionne pas dis le moi sur <a href="https://arcabox.onrender.com/rapport">cette page</a> !
         
         <br><br><br>A très bientôt !
         </p>
