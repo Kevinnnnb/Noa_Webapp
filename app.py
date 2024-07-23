@@ -196,14 +196,20 @@ def coeur():
     else:
         return "GIF not found", 404
 
-@app.route('/database')
+@app.route('/database', methods=['GET', 'POST'])
 def database():
-    password = request.args.get('password')
-    if password != 'uc9z37h8mn':
-        return Response('Unauthorized', 401)
-    conn = sqlite3.connect('static/users.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM users")
-    data = c.fetchall()
-    conn.close()
-    return render_template('database.html', data=data)
+    if request.method == 'POST':
+        password = request.form['password']
+        if password == 'uc9z37h8mn':
+            conn = sqlite3.connect('static/users.db')
+            c = conn.cursor()
+            c.execute("SELECT * FROM users")
+            data = c.fetchall()
+            conn.close()
+            return render_template('database.html', data=data)
+        else:
+            return Response('Unauthorized', 401)
+    return render_template('password_form.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
