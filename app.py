@@ -56,7 +56,7 @@ def register():
                 flash('Username or email already exists')
                 return redirect(url_for('sign_in'))
             # Insère le nouvel utilisateur
-            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, hashed_password))
+            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
             conn.commit()
     except sqlite3.Error as e:
         print(f"Database error: {e}")
