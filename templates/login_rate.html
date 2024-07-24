@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,10 +38,12 @@
 
         form div {
             margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         label {
-            display: block;
             font-size: 18px;
             color: #555;
             margin-bottom: 5px;
@@ -104,13 +105,13 @@
         const togglePassword = document.querySelector('#togglePassword');
         const password = document.querySelector('#password');
 
-        togglePassword.addEventListener('click', function (e) {
+        togglePassword.addEventListener('click', function () {
             // toggle the type attribute
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
 
             // toggle the text
-            this.textContent = type === 'password' ? 'Afficher le mot de passe' : 'Masquer le mot de passe';
+            this.textContent = type === 'password' ? 'Afficher' : 'Masquer';
         });
     </script>
 </body>
