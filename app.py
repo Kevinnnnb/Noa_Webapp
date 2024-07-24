@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import time
 import sqlite3
+import uuid
 
 app = Flask(__name__)
 last_uploaded_file = None
@@ -421,22 +422,34 @@ def backup_form():
 def backup():
     email = request.args.get('email')
     username = request.args.get('username')
-    
+
+    # Connect to the database
     conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
+
+    # Check if the user exists and retrieve their password
     c.execute("SELECT password FROM users WHERE email = ? AND username = ?", (email, username))
     result = c.fetchone()
-    conn.close()
-    
+
     if result:
+        # User found, generate and store a token
         password = result[0]
-        print(f"Mot de passe pour l'utilisateur {username}: {password}")
+        token = generate_token()  # Generate a new token
+
+        # Insert the token into the database
+        c.execute("INSERT INTO password_reset_tokens (email, token) VALUES (?, ?)", (email, token))
+        conn.commit()
+        
+        conn.close()
+        
+        # Send the email with the token
         user = username
         recipient_email = email
-        token = c.execute("SELECT * FROM password_reset_tokens WHERE token = ?", (token,))
         send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, token)
+        
         return jsonify({"message": "Les informations sont correctes."}), 200
     else:
+        conn.close()
         return jsonify({"message": "Email ou nom d'utilisateur incorrect."}), 400
 
 
