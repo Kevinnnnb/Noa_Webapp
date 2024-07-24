@@ -491,7 +491,7 @@ def generate_token():
 def validate_token():
     token = generate_token()
     correct_token = token
-    return token, correct_token
+    return global token
 
 # Remove the token after use
 def remove_token():
