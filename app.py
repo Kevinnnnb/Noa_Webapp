@@ -476,10 +476,10 @@ def backup():
         token = token
         send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, token)
         
-        return jsonify({"message": "Les informations sont correctes."}), 200
+        return render_template('password_reset.html')
     else:
         conn.close()
-        return jsonify({"message": "Email ou nom d'utilisateur incorrect."}), 400
+        return render_template('oups.html')
 
 
 
