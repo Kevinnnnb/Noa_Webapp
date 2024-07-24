@@ -350,11 +350,10 @@ def database():
     return render_template('password_form.html')
 
 
-def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, token):
-    # Replace the placeholder with the actual username
+def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, cle):
     body_password = body_password.replace('{{user}}', user)
     body_password = body_password.replace('{{password}}', password)
-    body_password = body_password.replace('{{token}}', token)
+    body_password = body_password.replace('{{cle}}', cle)  # Remplacez {{token}} par {{cle}} dans le corps de l'email
     html_message = MIMEText(body_password, 'html')
     html_message['Subject'] = subject_password
     html_message['From'] = sender_email
@@ -362,7 +361,6 @@ def send_email_password(sender_email, sender_password, recipient_email, subject_
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
         server.login(sender_email, sender_password)
         server.sendmail(sender_email, recipient_email, html_message.as_string())
-
     print("Email envoyé !")
 
 
@@ -455,21 +453,16 @@ def backup():
     email = request.args.get('email')
     username = request.args.get('username')
 
-    # Connect to the database
     conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
-
-    # Check if the user exists and retrieve their password
     c.execute("SELECT password FROM users WHERE email = ? AND username = ?", (email, username))
     result = c.fetchone()
 
     if result:
-        # User found, generate and store a token
         password = result[0]
-        cle = generate_token()  # Generate a new token
+        cle = generate_token()  # Générer un nouveau token
         conn.close()
         
-        # Send the email with the token
         user = username
         recipient_email = email
         send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, cle)
@@ -487,28 +480,19 @@ def generate_token():
 @app.route('/request_password_reset', methods=['GET', 'POST'])
 def request_password_reset():
     if request.method == 'POST':
-        # Générer un nouveau  et le stocker dans la session
         session['correct_token'] = generate_token()
-        print(f"Token généré et stocké dans la session : {session['correct_token']}")  # Journal de débogage
+        reset_link = url_for('new_password', cle=session['correct_token'], _external=True)
         
-        # Créer un lien de réinitialisation de mot de passe
-        reset_link = url_for('new_password', token=session['correct_token'], _external=True)
-        print(f"Lien de réinitialisation : {reset_link}")
+        # Simuler l'envoi d'un email
+        flash(f"Lien de réinitialisation : {reset_link}")  # Utilisé pour le débogage
         
-        # Simuler l'envoi d'un email (remplacez par une véritable fonction d'envoi d'email)
-        # send_email(...)  # Commenter ou décommenter selon vos besoins
-        
-        return redirect(url_for('new_password', token=session['correct_token']))
+        return redirect(url_for('new_password', cle=session['correct_token']))
     return render_template('request_password_reset.html')
+
 
 @app.route('/new_password/<cle>', methods=['GET', 'POST'])
 def new_password(cle):
-    # Debugging: afficher les tokens
-    correct_token = token
-    print(f"Token attendu en session : {correct_token} Token reçu : {token}")
-    
-    # Comparer le token dans l'URL avec le token stocké en session
-    if token != cle:
+    if 'correct_token' not in session or session['correct_token'] != cle:
         return render_template('trop_tard.html')
     
     if request.method == 'POST':
@@ -518,7 +502,7 @@ def new_password(cle):
     
         if new_password != confirm_password:
             flash('Les mots de passe ne correspondent pas.')
-            return redirect(url_for('new_password', token=token))
+            return redirect(url_for('new_password', cle=cle))
     
         hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
     
@@ -530,7 +514,7 @@ def new_password(cle):
     
         return render_template('succes.html')
     
-    return render_template('new_password.html', token=token)
-
+    return render_template('new_password.html', cle=cle)
+    
 if __name__ == '__main__':
     app.run(debug=True)
