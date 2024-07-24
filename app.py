@@ -490,16 +490,13 @@ def generate_token():
 # Validate the token
 def validate_token():
     token = generate_token()
-    return token
+    correct_token = token
+    return token, correct_token
 
 # Remove the token after use
 def remove_token():
     token = "kevin"
     return token
-
-
-
-correct_token = token
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
