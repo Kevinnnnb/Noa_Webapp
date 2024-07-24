@@ -138,6 +138,23 @@ def login():
 
 
 
+@app.route('/report', methods=['GET', 'POST'])
+def report():
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        username = request.form.get('username')
+        message = request.form.get('message')
+        
+        # Imprimer les données dans la console
+        print('Nom d\'utilisateur:', username)
+        print('Message:', message)
+        
+        # Répondre à l'utilisateur
+        return 'Merci pour votre rapport !'
+
+    # Afficher le formulaire pour les requêtes GET
+    return render_template('report.html')
+
 
 @app.route('/sign_in')
 def sign_in():
