@@ -221,7 +221,17 @@ def admin():
 
 @app.route('/mail')
 def mail():
-    global recipient_email
+    conn = sqlite3.connect('static/users.db')
+    c = conn.cursor()
+    
+    # Query to get the most recent email
+    c.execute("SELECT email FROM users ORDER BY id DESC LIMIT 1")
+    result = c.fetchone()
+    
+    conn.close()
+
+    recipient_email = result
+    
     return render_template('mail.html', recipient_email)
 
 
@@ -484,7 +494,7 @@ def new_password(token):
     
         conn = sqlite3.connect('static/users.db')
         c = conn.cursor()
-        c.execute("UPDATE users SET password = ? WHERE username = ?", (password, username))
+        c.execute("UPDATE users SET password = ? WHERE username = ?", (new_password, username))
         conn.commit()
         conn.close()
     
