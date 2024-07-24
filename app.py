@@ -229,10 +229,8 @@ def mail():
     result = c.fetchone()
     
     conn.close()
-
-    recipient_email = result
     
-    return render_template('mail.html', recipient_email)
+    return render_template('mail.html', result)
 
 
 @app.route('/images')
