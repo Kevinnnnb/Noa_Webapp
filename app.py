@@ -412,10 +412,15 @@ body_password = """
 </html>
 """
 
-@app.route('/backup', methods=['POST'])
+@app.route('/backup_form')
+def backup_form():
+    return render_template('backup.html')
+
+
+@app.route('/help', methods=['GET'])
 def backup():
-    email = request.form['email']
-    username = request.form['username']
+    email = request.args.get('email')
+    username = request.args.get('username')
     
     conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
@@ -432,6 +437,7 @@ def backup():
         return jsonify({"message": "Les informations sont correctes."}), 200
     else:
         return jsonify({"message": "Email ou nom d'utilisateur incorrect."}), 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
