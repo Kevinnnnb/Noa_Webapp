@@ -404,20 +404,24 @@ body_password = """
         .text {
         text-align: left;
         }
+
+        .jsp {
+        text-align: left;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Salut {{user}}</h1>
-        <br><center>
+        <br><div class = "jsp">
         <h4>Voilà ton mot de passe : {{password}}</h4>
         <br>
         <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour le changer.
 
         <br><br><br> <p>Il faut que tu changes ton mot de passe <bold>RAPIDEMENT</bold> !</p>
         
-        <br><br><br>A très bientôt !</center>
-        </p>
+        <br><br><br>A très bientôt !
+        </p></div>
         <h4>Kevin 👋🏻</h4>
     </div>
 </body>
