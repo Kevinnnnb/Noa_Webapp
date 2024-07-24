@@ -321,5 +321,117 @@ def database():
             return Response('Unauthorized', 401)
     return render_template('password_form.html')
 
+
+def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password):
+    # Replace the placeholder with the actual username
+    body = body.replace('{{user}}', user)
+    password = body.replace('{{password}}', password)
+    html_message = MIMEText(body, 'html')
+    html_message['Subject'] = subject
+    html_message['From'] = sender_email
+    html_message['To'] = recipient_email
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, recipient_email, html_message.as_string())
+
+    print("Email envoyé !")
+
+
+subject_password = "Récupération du mot de passe"
+body_password = """
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #7bb4e3;
+            font-family: "Lucida Console", "Courier New", monospace;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 3%;
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .container h1 {
+            margin: 0 0 20px 0;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: pink;
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .button-container a:hover {
+            background-color: red;
+        }
+        img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            border-radius: 25px;
+        }
+
+        .text {
+        text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Salut {{user}}</h1>
+        <br>
+        <h4>Voilà ton mot de passe : {{password}}</h4>
+        <br>
+        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password">ici</a> pour changer ton mot de passe !
+
+        <br><br><br> <p>C'est important que tu changes ton mot de passe rapidement !</p>
+        
+        <br><br><br>A très bientôt !
+        </p>
+        <h4>Kevin 👋🏻</h4>
+    </div>
+</body>
+</html>
+"""
+
+@app.route('/backup', methods=['POST'])
+def backup():
+    email = request.form['email']
+    username = request.form['username']
+    
+    conn = sqlite3.connect('static/users.db')
+    c = conn.cursor()
+    c.execute("SELECT password FROM users WHERE email = ? AND username = ?", (email, username))
+    result = c.fetchone()
+    conn.close()
+    
+    if result:
+        password = result[0]
+        print(f"Mot de passe pour l'utilisateur {username}: {password}")
+        user = username
+        recipient_email = email
+        send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password)
+        return jsonify({"message": "Les informations sont correctes."}), 200
+    else:
+        return jsonify({"message": "Email ou nom d'utilisateur incorrect."}), 400
+
 if __name__ == '__main__':
     app.run(debug=True)
