@@ -501,6 +501,9 @@ def remove_token():
 @app.route('/new_password/<boobs>', methods=['GET', 'POST'])
 def new_password(boobs):
     # Comparer le token dans l'URL avec le token stocké en mémoire
+    print("Les id uniques pour se connecter sont : ")
+    print(boobs)
+    print(token)
     if boobs != token:
         return render_template('trop_tard.html')
     
