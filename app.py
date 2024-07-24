@@ -403,9 +403,9 @@ body_password = """
         <br>
         <h4>Voilà ton mot de passe : {{password}}</h4>
         <br>
-        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour changer ton mot de passe !
+        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour le changer.
 
-        <br><br><br> <p>C'est important que tu changes ton mot de passe rapidement !</p>
+        <br><br><br> <p>Il faut que tu changes ton mot de passe <bold>RAPIDEMENT</bold> !</p>
         
         <br><br><br>A très bientôt !
         </p>
