@@ -230,7 +230,7 @@ def mail():
     
     conn.close()
     
-    return render_template('mail.html', result)
+    return render_template('mail.html', result=result)
 
 
 @app.route('/images')
