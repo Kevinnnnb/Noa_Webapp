@@ -107,7 +107,7 @@ body = """
         
         <br><br><br>A très bientôt !
         </p>
-        <h4>Kevin 👋🏻</h4>
+        <h4>Kevin 👋🏻 - <a href="https://github.com/Kevinnnnb">GitHub</a></h4>
     </div>
 </body>
 </html>
@@ -439,7 +439,7 @@ body_password = """
         
         <br><br><br>A très bientôt !
         </p></div>
-        <h4>Kevin 👋🏻</h4>
+        <h4>Kevin 👋🏻 - <a href="https://github.com/Kevinnnnb">GitHub</a></h4>
     </div>
 </body>
 </html>
