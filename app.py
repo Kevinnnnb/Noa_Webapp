@@ -325,8 +325,8 @@ def database():
 def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password):
     # Replace the placeholder with the actual username
     body_password = body_password.replace('{{user}}', user)
-    password = body.replace('{{password}}', password)
-    html_message = MIMEText(body, 'html')
+    password = body_password.replace('{{password}}', password)
+    html_message = MIMEText(body_password, 'html')
     html_message['Subject'] = subject
     html_message['From'] = sender_email
     html_message['To'] = recipient_email
