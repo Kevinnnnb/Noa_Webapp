@@ -480,48 +480,50 @@ def generate_token():
 @app.route('/request_password_reset', methods=['GET', 'POST'])
 def request_password_reset():
     if request.method == 'POST':
+        print(f"Session avant ajout du token : {session.items()}")  # Journal de débogage
+
         session['correct_token'] = generate_token()
         print(f"Token généré et stocké dans la session : {session['correct_token']}")  # Journal de débogage
         reset_link = url_for('new_password', cle=session['correct_token'], _external=True)
         print(f"Lien de réinitialisation : {reset_link}")  # Journal de débogage
-        
+
         # Simuler l'envoi d'un email
         flash(f"Lien de réinitialisation : {reset_link}")  # Utilisé pour le débogage
-        
+
+        print(f"Session après ajout du token : {session.items()}")  # Journal de débogage
+
         return redirect(url_for('new_password', cle=session['correct_token']))
     return render_template('request_password_reset.html')
 
 
 @app.route('/new_password/<cle>', methods=['GET', 'POST'])
 def new_password(cle):
-    # Debugging: afficher les tokens
     correct_token = session.get('correct_token')
     print(f"Token attendu en session : {correct_token}, Token reçu : {cle}")  # Journal de débogage
-    
-    # Comparer le token dans l'URL avec le token stocké en session
+
     if correct_token is None or correct_token != cle:
         print("Les tokens ne correspondent pas ou le token n'existe pas dans la session.")  # Journal de débogage
         return render_template('trop_tard.html')
-    
+
     if request.method == 'POST':
         username = request.form['username']
         new_password = request.form['new_password']
         confirm_password = request.form['confirm_password']
-    
+
         if new_password != confirm_password:
             flash('Les mots de passe ne correspondent pas.')
             return redirect(url_for('new_password', cle=cle))
-    
+
         hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-    
+
         conn = sqlite3.connect('static/users.db')
         c = conn.cursor()
-        c.execute("UPDATE users SET password = ? WHERE username = ?", (new_password, username))
+        c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
         conn.commit()
         conn.close()
-    
+
         return render_template('succes.html')
-    
+
     return render_template('new_password.html', cle=cle)
     
 if __name__ == '__main__':
