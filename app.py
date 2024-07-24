@@ -159,30 +159,34 @@ def report():
 def sign_in():
     return render_template('sign_in.html')
 
+import uuid
+
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+    token = str(uuid.uuid4())  # Générer un token unique
+
     try:
         with sqlite3.connect('static/users.db') as conn:
             c = conn.cursor()
-            # Vérifie si l'utilisateur ou l'email existe déjà
             c.execute("SELECT * FROM users WHERE username = ? OR email = ?", (username, email))
             existing_user = c.fetchone()
             if existing_user:
                 flash('Username or email already exists')
                 return redirect(url_for('sign_in'))
-            # Insère le nouvel utilisateur
-            c.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", (username, email, password))
+            c.execute("INSERT INTO users (username, email, password, token) VALUES (?, ?, ?, ?)", (username, email, hashed_password, token))
             conn.commit()
             recipient_email = email
             user = username
             send_email(sender_email, sender_password, recipient_email, subject, body, user)
     except sqlite3.Error as e:
         print(f"Database error: {e}")
+
     return redirect(url_for('mail'))
+
 
 @app.route("/")
 def log():
@@ -417,11 +421,11 @@ body_password = """
         }
 
         .text {
-        text-align: left;
+            text-align: left;
         }
 
         .jsp {
-        text-align: left;
+            text-align: left;
         }
     </style>
 </head>
@@ -431,7 +435,7 @@ body_password = """
         <br><div class = "jsp">
         <h4>Voilà ton mot de passe : {{password}}</h4>
         <br>
-        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{cle}}">ici</a> pour le changer.
+        <p class = "text">Tu peux te rendre <a href="{{token}}">ici</a> pour le changer.
 
         <br><br><br> <p>Il faut que tu changes ton mot de passe <strong>RAPIDEMENT</strong> !</p>
         
@@ -480,51 +484,55 @@ def generate_token():
 @app.route('/request_password_reset', methods=['GET', 'POST'])
 def request_password_reset():
     if request.method == 'POST':
-        print(f"Session avant ajout du token : {session.items()}")  # Journal de débogage
+        email = request.form['email']
+        username = request.form['username']
 
-        session['correct_token'] = generate_token()
-        print(f"Token généré et stocké dans la session : {session['correct_token']}")  # Journal de débogage
-        reset_link = url_for('new_password', cle=session['correct_token'], _external=True)
-        print(f"Lien de réinitialisation : {reset_link}")  # Journal de débogage
-
-        # Simuler l'envoi d'un email
-        flash(f"Lien de réinitialisation : {reset_link}")  # Utilisé pour le débogage
-
-        print(f"Session après ajout du token : {session.items()}")  # Journal de débogage
-
-        return redirect(url_for('new_password', cle=session['correct_token']))
+        with sqlite3.connect('static/users.db') as conn:
+            c = conn.cursor()
+            c.execute("SELECT token FROM users WHERE email = ? AND username = ?", (email, username))
+            result = c.fetchone()
+            
+            if result:
+                token = result[0]
+                reset_link = url_for('new_password', token=token, _external=True)
+                print(f"Lien de réinitialisation : {reset_link}")  # Journal de débogage
+                send_email_password(sender_email, sender_password, email, subject_password, body_password, username, "Votre mot de passe actuel", token)
+                return render_template('password_reset.html')
+            else:
+                flash('Utilisateur non trouvé.')
+                return redirect(url_for('request_password_reset'))
+    
     return render_template('request_password_reset.html')
 
 
-@app.route('/new_password/<cle>', methods=['GET', 'POST'])
-def new_password(cle):
-    correct_token = session.get('correct_token')
-    print(f"Token attendu en session : {correct_token}, Token reçu : {cle}")  # Journal de débogage
-
-    if correct_token is None or correct_token != cle:
-        print("Les tokens ne correspondent pas ou le token n'existe pas dans la session.")  # Journal de débogage
-        return render_template('trop_tard.html')
-
-    if request.method == 'POST':
-        username = request.form['username']
-        new_password = request.form['new_password']
-        confirm_password = request.form['confirm_password']
-
-        if new_password != confirm_password:
-            flash('Les mots de passe ne correspondent pas.')
-            return redirect(url_for('new_password', cle=cle))
-
-        hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-
-        conn = sqlite3.connect('static/users.db')
+@app.route('/new_password/<token>', methods=['GET', 'POST'])
+def new_password(token):
+    with sqlite3.connect('static/users.db') as conn:
         c = conn.cursor()
-        c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
-        conn.commit()
-        conn.close()
+        c.execute("SELECT username FROM users WHERE token = ?", (token,))
+        result = c.fetchone()
 
-        return render_template('succes.html')
+        if not result:
+            print("Token non valide ou expiré.")
+            return render_template('trop_tard.html')
 
-    return render_template('new_password.html', cle=cle)
-    
+        if request.method == 'POST':
+            username = result[0]
+            new_password = request.form['new_password']
+            confirm_password = request.form['confirm_password']
+
+            if new_password != confirm_password:
+                flash('Les mots de passe ne correspondent pas.')
+                return redirect(url_for('new_password', token=token))
+
+            hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
+            c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
+            conn.commit()
+
+            return render_template('succes.html')
+
+        return render_template('new_password.html', token=token)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
