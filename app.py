@@ -504,12 +504,14 @@ def request_password_reset():
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
-    print(f"Token attendu en session : {session.get('correct_token')}, Token reçu : {token}")  # Journal de débogage
+    # Debugging: afficher les tokens
+    correct_token = session.get('correct_token')
+    print(f"Token attendu en session : {correct_token}, Token reçu : {token}")
     
     # Comparer le token dans l'URL avec le token stocké en session
-    if token != session.get('correct_token'):
+    if token != correct_token:
         return render_template('trop_tard.html')
-
+    
     if request.method == 'POST':
         username = request.form['username']
         new_password = request.form['new_password']
