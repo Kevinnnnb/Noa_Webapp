@@ -496,6 +496,15 @@ def validate_token():
     print(f"Token généré : {correct_token}")  # Ajoutez un journal pour vérifier que le token est généré
     return token
 
+# Test initial pour vérifier que le token est généré et mis à jour correctement
+def test_initial_token_generation():
+    global correct_token
+    validate_token()
+    if correct_token is None:
+        print("Échec de la génération du token.")
+    else:
+        print(f"Token initial correct : {correct_token}")
+
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
     global correct_token  # Indiquez que vous allez utiliser la variable globale
@@ -526,4 +535,8 @@ def new_password(token):
     return render_template('new_password.html', token=token)
 
 if __name__ == '__main__':
+    # Test initial pour vérifier que le token est généré et mis à jour correctement
+    test_initial_token_generation()
+    # Avant de démarrer l'application, générez un token
+    validate_token()
     app.run(debug=True)
