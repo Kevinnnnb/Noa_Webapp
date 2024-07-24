@@ -15,7 +15,7 @@ app.secret_key = "bZe60lQsBBurONE6dMVXeKkl4JDwQ4iRZLzJEdY4SMUtD4R7VqsaiVrwWaoo9N
 # Variables pour les statistiques
 message_count = 0
 image_count = 0
-
+correct_token = "salut"
 token = "kevin"
 
 import smtplib
@@ -490,7 +490,7 @@ def generate_token():
 # Validate the token
 def validate_token():
     token = generate_token()
-    global correct_token = token
+    correct_token = token
     return token, correct_token
 
 # Remove the token after use
