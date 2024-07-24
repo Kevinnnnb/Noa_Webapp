@@ -58,6 +58,13 @@
             text-align: center;
         }
 
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+        }
+
         button {
             padding: 10px 15px;
             border: none;
@@ -66,6 +73,8 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
+            flex: 1;
+            margin: 0 5px;
         }
 
         button:hover {
@@ -94,8 +103,9 @@
                 <input type="password" id="password" name="password" required>
                 <span id="togglePassword" class="toggle-password">Afficher</span>
             </div>
-            <div>
-                <button type="submit">Connexion</button> ou <button type="button" onclick="window.location.href='/backup'">Mot de passe oublié</button>
+            <div class="button-container">
+                <button type="submit">Connexion</button>
+                <button type="button" onclick="window.location.href='/backup'">Mot de passe oublié</button>
             </div>
         </form>
         Tu n'as pas de compte ? <a href="/sign_in">Sign in</a>
