@@ -482,35 +482,27 @@ def backup():
 
 
 
-# Déclarez une variable globale pour stocker le token
-correct_token = None
-
 # Générer un token unique pour le lien de réinitialisation du mot de passe
 def generate_token():
     return str(uuid.uuid4())
 
-def validate_token():
-    global correct_token  # Indiquez que vous allez utiliser la variable globale
-    token = generate_token()
-    correct_token = token
-    print(f"Token généré : {correct_token}")  # Ajoutez un journal pour vérifier que le token est généré
-    return token
-
-# Test initial pour vérifier que le token est généré et mis à jour correctement
-def test_initial_token_generation():
-    global correct_token
-    validate_token()
-    if correct_token is None:
-        print("Échec de la génération du token.")
-    else:
-        print(f"Token initial correct : {correct_token}")
+@app.route('/request_password_reset', methods=['GET', 'POST'])
+def request_password_reset():
+    if request.method == 'POST':
+        # Logique pour demander une réinitialisation du mot de passe
+        session['correct_token'] = generate_token()
+        print(f"Token généré : {session['correct_token']}")  # Ajoutez un journal pour vérifier que le token est généré
+        # Envoyer un email avec le lien de réinitialisation contenant le token (simulation ici)
+        reset_link = url_for('new_password', token=session['correct_token'], _external=True)
+        print(f"Lien de réinitialisation : {reset_link}")
+        return redirect(url_for('new_password', token=session['correct_token']))
+    return render_template('request_password_reset.html')
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
-    global correct_token  # Indiquez que vous allez utiliser la variable globale
-    print(f"Token attendu : {correct_token}, Token reçu : {token}")  # Ajoutez un journal pour suivre les tokens
-    # Comparer le token dans l'URL avec le token stocké en mémoire
-    if token != correct_token:
+    print(f"Token attendu : {session.get('correct_token')}, Token reçu : {token}")  # Ajoutez un journal pour suivre les tokens
+    # Comparer le token dans l'URL avec le token stocké en session
+    if token != session.get('correct_token'):
         return render_template('trop_tard.html')
     
     if request.method == 'POST':
@@ -535,8 +527,4 @@ def new_password(token):
     return render_template('new_password.html', token=token)
 
 if __name__ == '__main__':
-    # Test initial pour vérifier que le token est généré et mis à jour correctement
-    test_initial_token_generation()
-    # Avant de démarrer l'application, générez un token
-    validate_token()
     app.run(debug=True)
