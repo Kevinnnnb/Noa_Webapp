@@ -487,20 +487,18 @@ def generate_token():
     return str(uuid.uuid4())
 
 correct_token = None
+
 def validate_token():
     global correct_token  # Indiquez que vous allez utiliser la variable globale
     token = generate_token()
     correct_token = token
     return token
 
-@app.route('/new_password/<boobs>', methods=['GET', 'POST'])
-def new_password(boobs):
-    global correct_token 
+@app.route('/new_password/<token>', methods=['GET', 'POST'])
+def new_password(token):
+    global correct_token  # Indiquez que vous allez utiliser la variable globale
     # Comparer le token dans l'URL avec le token stocké en mémoire
-    print("Les id uniques pour se connecter sont : ")
-    print(boobs)
-    print(correct_token)
-    if boobs != correct_token:
+    if token != correct_token:
         return render_template('trop_tard.html')
     
     if request.method == 'POST':
