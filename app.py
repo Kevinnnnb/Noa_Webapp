@@ -111,8 +111,7 @@ body = """
 </html>
 """
 
-
-
+# Database validation
 def validate(username, password):
     conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
@@ -322,10 +321,11 @@ def database():
     return render_template('password_form.html')
 
 
-def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password):
+def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, token):
     # Replace the placeholder with the actual username
     body_password = body_password.replace('{{user}}', user)
     body_password = body_password.replace('{{password}}', password)
+    body_password = body_password.replace('{{token}}', token)
     html_message = MIMEText(body_password, 'html')
     html_message['Subject'] = subject
     html_message['From'] = sender_email
@@ -400,7 +400,7 @@ body_password = """
         <br>
         <h4>Voilà ton mot de passe : {{password}}</h4>
         <br>
-        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password">ici</a> pour changer ton mot de passe !
+        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour changer ton mot de passe !
 
         <br><br><br> <p>C'est important que tu changes ton mot de passe rapidement !</p>
         
@@ -433,11 +433,84 @@ def backup():
         print(f"Mot de passe pour l'utilisateur {username}: {password}")
         user = username
         recipient_email = email
-        send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password)
+        token = c.execute("SELECT * FROM password_reset_tokens WHERE token = ?", (token,))
+        send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, token)
         return jsonify({"message": "Les informations sont correctes."}), 200
     else:
         return jsonify({"message": "Email ou nom d'utilisateur incorrect."}), 400
 
 
+def create_password_reset_tokens_table():
+    conn = sqlite3.connect('static/users.db')
+    c = conn.cursor()
+    
+    # Create table if it doesn't exist
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS password_reset_tokens (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL,
+        token TEXT NOT NULL UNIQUE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    ''')
+    
+    conn.commit()
+    conn.close()
+
+
+
+# Generate unique token for password reset link
+def generate_token():
+    return str(uuid.uuid4())
+
+# Validate the token
+def validate_token(token):
+    conn = sqlite3.connect('static/users.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM password_reset_tokens WHERE token = ?", (token,))
+    result = c.fetchone()
+    conn.close()
+    return result is not None
+
+# Remove the token after use
+def remove_token(token):
+    conn = sqlite3.connect('static/users.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM password_reset_tokens WHERE token = ?", (token,))
+    conn.commit()
+    conn.close()
+
+
+
+@app.route('/new_password/<token>', methods=['GET', 'POST'])
+def new_password(token):
+    if not validate_token(token):
+        return "Invalid or expired token", 400
+
+    if request.method == 'POST':
+        username = request.form['username']
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+
+        if new_password != confirm_password:
+            flash('Les mots de passe ne correspondent pas.')
+            return redirect(url_for('new_password', token=token))
+
+        hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
+
+        conn = sqlite3.connect('static/users.db')
+        c = conn.cursor()
+        c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
+        conn.commit()
+        conn.close()
+
+        remove_token(token)
+        return "Mot de passe changé avec succès!"
+
+    return render_template('new_password.html', token=token)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+    # Run the function to create the table
+    create_password_reset_tokens_table()
