@@ -409,14 +409,14 @@ body_password = """
 <body>
     <div class="container">
         <h1>Salut {{user}}</h1>
-        <br>
+        <br><center>
         <h4>Voilà ton mot de passe : {{password}}</h4>
         <br>
         <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour le changer.
 
         <br><br><br> <p>Il faut que tu changes ton mot de passe <bold>RAPIDEMENT</bold> !</p>
         
-        <br><br><br>A très bientôt !
+        <br><br><br>A très bientôt !</center>
         </p>
         <h4>Kevin 👋🏻</h4>
     </div>
