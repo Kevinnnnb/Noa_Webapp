@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +14,6 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            font-family: "Lucida Console", "Courier New", monospace;
-            width: 90%;
-            max-width: 400px;
         }
 
         .container {
@@ -25,6 +22,9 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 90%;
+            max-width: 400px;
+            margin: auto;
         }
 
         h1 {
@@ -79,7 +79,7 @@
         }
     </style>
 </head>
-<body><center>
+<body>
     <div class="container">
         <p>Oups ! Quelque chose s'est mal passé ...</p>
         <h1>Login</h1>
@@ -92,13 +92,13 @@
                 <label for="password">Mot de passe:</label>
                 <input type="password" id="password" name="password" required>
                 <span id="togglePassword" class="toggle-password">Afficher le mot de passe</span>
-                <br>ou<br><button type="button" class="toggle-password" onclick="window.location.href='/backup'">Mot de passe oublié</button>
             </div>
             <div>
-                <button type="submit">Connexion</button> ou 
-                <button type="button" onclick="window.location.href='/sign_in'">Sign In</button>
+                <button type="submit">Connexion</button> ou <br>ou<br>
+                <button type="button" onclick="window.location.href='/backup'">Mot de passe oublié</button>
             </div>
         </form>
+        Tu n'as pas de compte ? <a href="/sign_in">Sign in</a>
     </div>
     <script>
         const togglePassword = document.querySelector('#togglePassword');
@@ -112,6 +112,6 @@
             // toggle the text
             this.textContent = type === 'password' ? 'Afficher le mot de passe' : 'Masquer le mot de passe';
         });
-    </script></center>
+    </script>
 </body>
 </html>
