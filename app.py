@@ -357,7 +357,7 @@ def database():
 def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, cle):
     body_password = body_password.replace('{{user}}', user)
     body_password = body_password.replace('{{password}}', password)
-    body_password = body_password.replace('{{cle}}', cle)  # Remplacez {{token}} par {{cle}} dans le corps de l'email
+    body_password = body_password.replace('{{token}}', cle)  # Remplacez {{token}} par {{cle}} dans le corps de l'email
     html_message = MIMEText(body_password, 'html')
     html_message['Subject'] = subject_password
     html_message['From'] = sender_email
