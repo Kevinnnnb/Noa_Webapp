@@ -357,7 +357,7 @@ def send_email_password(sender_email, sender_password, recipient_email, subject_
     body_password = body_password.replace('{{password}}', password)
     body_password = body_password.replace('{{token}}', token)
     html_message = MIMEText(body_password, 'html')
-    html_message['Subject'] = subject
+    html_message['Subject'] = subject_password
     html_message['From'] = sender_email
     html_message['To'] = recipient_email
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
