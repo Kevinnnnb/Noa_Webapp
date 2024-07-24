@@ -499,8 +499,14 @@ def remove_token():
 
 
 
+correct_token = token
+
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
+    # Comparer le token dans l'URL avec le token stocké en mémoire
+    if token != correct_token:
+        return render_template('trop_tard.html')
+    
     if request.method == 'POST':
         username = request.form['username']
         new_password = request.form['new_password']
@@ -514,7 +520,7 @@ def new_password(token):
     
         conn = sqlite3.connect('static/users.db')
         c = conn.cursor()
-        c.execute("UPDATE users SET password = ? WHERE username = ?", (new_password, username))
+        c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
         conn.commit()
         conn.close()
     
