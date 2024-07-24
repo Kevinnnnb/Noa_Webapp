@@ -15,8 +15,7 @@ app.secret_key = "bZe60lQsBBurONE6dMVXeKkl4JDwQ4iRZLzJEdY4SMUtD4R7VqsaiVrwWaoo9N
 # Variables pour les statistiques
 message_count = 0
 image_count = 0
-correct_token = "salut"
-token = "kevin"
+token = "test"
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -487,24 +486,21 @@ def backup():
 def generate_token():
     return str(uuid.uuid4())
 
-# Validate the token
+correct_token = None
 def validate_token():
+    global correct_token  # Indiquez que vous allez utiliser la variable globale
     token = generate_token()
     correct_token = token
-    return global token
-
-# Remove the token after use
-def remove_token():
-    token = "kevin"
     return token
 
 @app.route('/new_password/<boobs>', methods=['GET', 'POST'])
 def new_password(boobs):
+    global correct_token 
     # Comparer le token dans l'URL avec le token stocké en mémoire
     print("Les id uniques pour se connecter sont : ")
     print(boobs)
-    print(token)
-    if boobs != token:
+    print(correct_token)
+    if boobs != correct_token:
         return render_template('trop_tard.html')
     
     if request.method == 'POST':
