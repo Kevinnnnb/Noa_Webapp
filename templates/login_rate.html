@@ -79,7 +79,7 @@
         }
     </style>
 </head>
-<body>
+<body><center>
     <div class="container">
         <p>Oups ! Quelque chose s'est mal passé ...</p>
         <h1>Login</h1>
@@ -96,6 +96,7 @@
             <div>
                 <button type="submit">Connexion</button> ou 
                 <button type="button" onclick="window.location.href='/sign_in'">Sign In</button>
+                ou <button type="button" onclick="window.location.href='/oublie'">Mot de passe oublié</button>
             </div>
         </form>
     </div>
@@ -111,6 +112,6 @@
             // toggle the text
             this.textContent = type === 'password' ? 'Afficher le mot de passe' : 'Masquer le mot de passe';
         });
-    </script>
+    </script></center>
 </body>
 </html>
