@@ -433,7 +433,7 @@ body_password = """
         <br><div class = "jsp">
         <h4>Voilà ton mot de passe : {{password}}</h4>
         <br>
-        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour le changer.
+        <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{cle}}">ici</a> pour le changer.
 
         <br><br><br> <p>Il faut que tu changes ton mot de passe <strong>RAPIDEMENT</strong> !</p>
         
@@ -466,14 +466,13 @@ def backup():
     if result:
         # User found, generate and store a token
         password = result[0]
-        token = generate_token()  # Generate a new token
+        cle = generate_token()  # Generate a new token
         conn.close()
         
         # Send the email with the token
         user = username
         recipient_email = email
-        token = token
-        send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, token)
+        send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, cle)
         
         return render_template('password_reset.html')
     else:
@@ -488,7 +487,7 @@ def generate_token():
 @app.route('/request_password_reset', methods=['GET', 'POST'])
 def request_password_reset():
     if request.method == 'POST':
-        # Générer un nouveau token et le stocker dans la session
+        # Générer un nouveau  et le stocker dans la session
         session['correct_token'] = generate_token()
         print(f"Token généré et stocké dans la session : {session['correct_token']}")  # Journal de débogage
         
@@ -502,14 +501,14 @@ def request_password_reset():
         return redirect(url_for('new_password', token=session['correct_token']))
     return render_template('request_password_reset.html')
 
-@app.route('/new_password/<token>', methods=['GET', 'POST'])
-def new_password(token):
+@app.route('/new_password/<cle>', methods=['GET', 'POST'])
+def new_password(cle):
     # Debugging: afficher les tokens
-    correct_token = session.get('correct_token')
+    correct_token = token
     print(f"Token attendu en session : {correct_token}, Token reçu : {token}")
     
     # Comparer le token dans l'URL avec le token stocké en session
-    if token != correct_token:
+    if token != cle:
         return render_template('trop_tard.html')
     
     if request.method == 'POST':
