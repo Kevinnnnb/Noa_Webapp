@@ -505,7 +505,7 @@ def request_password_reset():
 def new_password(cle):
     # Debugging: afficher les tokens
     correct_token = token
-    print(f"Token attendu en session : {correct_token}, Token reçu : {token}")
+    print(f"Token attendu en session : {correct_token} Token reçu : {token}")
     
     # Comparer le token dans l'URL avec le token stocké en session
     if token != cle:
