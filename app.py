@@ -516,7 +516,7 @@ def new_password(cle):
     
         conn = sqlite3.connect('static/users.db')
         c = conn.cursor()
-        c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
+        c.execute("UPDATE users SET password = ? WHERE username = ?", (new_password, username))
         conn.commit()
         conn.close()
     
