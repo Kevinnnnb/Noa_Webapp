@@ -518,7 +518,7 @@ def new_password(token):
         conn.commit()
         conn.close()
     
-        return "Mot de passe changé avec succès!"
+        return render_template('succes.html')
     
     return render_template('new_password.html', token=token)
 
