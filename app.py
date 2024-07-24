@@ -481,7 +481,9 @@ def generate_token():
 def request_password_reset():
     if request.method == 'POST':
         session['correct_token'] = generate_token()
+        print(f"Token généré et stocké dans la session : {session['correct_token']}")  # Journal de débogage
         reset_link = url_for('new_password', cle=session['correct_token'], _external=True)
+        print(f"Lien de réinitialisation : {reset_link}")  # Journal de débogage
         
         # Simuler l'envoi d'un email
         flash(f"Lien de réinitialisation : {reset_link}")  # Utilisé pour le débogage
@@ -492,7 +494,13 @@ def request_password_reset():
 
 @app.route('/new_password/<cle>', methods=['GET', 'POST'])
 def new_password(cle):
-    if 'correct_token' not in session or session['correct_token'] != cle:
+    # Debugging: afficher les tokens
+    correct_token = session.get('correct_token')
+    print(f"Token attendu en session : {correct_token}, Token reçu : {cle}")  # Journal de débogage
+    
+    # Comparer le token dans l'URL avec le token stocké en session
+    if correct_token is None or correct_token != cle:
+        print("Les tokens ne correspondent pas ou le token n'existe pas dans la session.")  # Journal de débogage
         return render_template('trop_tard.html')
     
     if request.method == 'POST':
