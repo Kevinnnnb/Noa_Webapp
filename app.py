@@ -419,7 +419,7 @@ body_password = """
         <br>
         <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour le changer.
 
-        <br><br><br> <p>Il faut que tu changes ton mot de passe <bold>RAPIDEMENT</bold> !</p>
+        <br><br><br> <p>Il faut que tu changes ton mot de passe <strong>RAPIDEMENT</strong> !</p>
         
         <br><br><br>A très bientôt !
         </p></div>
