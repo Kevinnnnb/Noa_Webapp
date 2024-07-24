@@ -16,6 +16,8 @@ app.secret_key = "bZe60lQsBBurONE6dMVXeKkl4JDwQ4iRZLzJEdY4SMUtD4R7VqsaiVrwWaoo9N
 message_count = 0
 image_count = 0
 
+token = "kevin"
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -435,16 +437,12 @@ def backup():
         # User found, generate and store a token
         password = result[0]
         token = generate_token()  # Generate a new token
-
-        # Insert the token into the database
-        c.execute("INSERT INTO password_reset_tokens (email, token) VALUES (?, ?)", (email, token))
-        conn.commit()
-        
         conn.close()
         
         # Send the email with the token
         user = username
         recipient_email = email
+        token = token
         send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, token)
         
         return jsonify({"message": "Les informations sont correctes."}), 200
@@ -453,77 +451,47 @@ def backup():
         return jsonify({"message": "Email ou nom d'utilisateur incorrect."}), 400
 
 
-def create_password_reset_tokens_table():
-    conn = sqlite3.connect('static/users.db')
-    c = conn.cursor()
-    
-    # Create table if it doesn't exist
-    c.execute('''
-    CREATE TABLE IF NOT EXISTS password_reset_tokens (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT NOT NULL,
-        token TEXT NOT NULL UNIQUE,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-    ''')
-    
-    conn.commit()
-    conn.close()
-
-
 
 # Generate unique token for password reset link
 def generate_token():
     return str(uuid.uuid4())
 
 # Validate the token
-def validate_token(token):
-    conn = sqlite3.connect('static/users.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM password_reset_tokens WHERE token = ?", (token,))
-    result = c.fetchone()
-    conn.close()
-    return result is not None
+def validate_token():
+    token = generate_token()
+    return token
 
 # Remove the token after use
-def remove_token(token):
-    conn = sqlite3.connect('static/users.db')
-    c = conn.cursor()
-    c.execute("DELETE FROM password_reset_tokens WHERE token = ?", (token,))
-    conn.commit()
-    conn.close()
+def remove_token():
+    token = "kevin"
+    return token
 
 
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
-def new_password(token):
-    if not validate_token(token):
-        return "Invalid or expired token", 400
-
+def bite():
     if request.method == 'POST':
         username = request.form['username']
         new_password = request.form['new_password']
         confirm_password = request.form['confirm_password']
-
+    
         if new_password != confirm_password:
             flash('Les mots de passe ne correspondent pas.')
             return redirect(url_for('new_password', token=token))
-
+    
         hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-
+    
         conn = sqlite3.connect('static/users.db')
         c = conn.cursor()
-        c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
+        c.execute("UPDATE users SET password = ? WHERE username = ?", (password, username))
         conn.commit()
         conn.close()
-
+    
         remove_token(token)
         return "Mot de passe changé avec succès!"
-
+    
     return render_template('new_password.html', token=token)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-    # Run the function to create the table
-    create_password_reset_tokens_table()
