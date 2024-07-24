@@ -221,7 +221,8 @@ def admin():
 
 @app.route('/mail')
 def mail():
-    return render_template('mail.html')
+    global recipient_email
+    return render_template('mail.html', recipient_email)
 
 
 @app.route('/images')
