@@ -487,7 +487,7 @@ def bite():
         conn.commit()
         conn.close()
     
-        remove_token(token)
+        
         return "Mot de passe changé avec succès!"
     
     return render_template('new_password.html', token=token)
