@@ -229,9 +229,10 @@ def mail():
     result = c.fetchone()
     
     conn.close()
+    recipient_email = result  # Exemple de tuple
+    recipient_email_str = recipient_email[0]  # Extraire l'email du tuple
     
-    return render_template('mail.html', result=result)
-
+    return render_template('mail.html', email=recipient_email_str)
 
 @app.route('/images')
 def hello_world():
