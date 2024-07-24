@@ -482,29 +482,34 @@ def backup():
 
 
 
-# Générer un token unique pour le lien de réinitialisation du mot de passe
 def generate_token():
     return str(uuid.uuid4())
 
 @app.route('/request_password_reset', methods=['GET', 'POST'])
 def request_password_reset():
     if request.method == 'POST':
-        # Logique pour demander une réinitialisation du mot de passe
+        # Générer un nouveau token et le stocker dans la session
         session['correct_token'] = generate_token()
-        print(f"Token généré : {session['correct_token']}")  # Ajoutez un journal pour vérifier que le token est généré
-        # Envoyer un email avec le lien de réinitialisation contenant le token (simulation ici)
+        print(f"Token généré et stocké dans la session : {session['correct_token']}")  # Journal de débogage
+        
+        # Créer un lien de réinitialisation de mot de passe
         reset_link = url_for('new_password', token=session['correct_token'], _external=True)
         print(f"Lien de réinitialisation : {reset_link}")
+        
+        # Simuler l'envoi d'un email (remplacez par une véritable fonction d'envoi d'email)
+        # send_email(...)  # Commenter ou décommenter selon vos besoins
+        
         return redirect(url_for('new_password', token=session['correct_token']))
     return render_template('request_password_reset.html')
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
-    print(f"Token attendu : {session.get('correct_token')}, Token reçu : {token}")  # Ajoutez un journal pour suivre les tokens
+    print(f"Token attendu en session : {session.get('correct_token')}, Token reçu : {token}")  # Journal de débogage
+    
     # Comparer le token dans l'URL avec le token stocké en session
     if token != session.get('correct_token'):
         return render_template('trop_tard.html')
-    
+
     if request.method == 'POST':
         username = request.form['username']
         new_password = request.form['new_password']
