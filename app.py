@@ -469,7 +469,7 @@ def remove_token():
 
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
-def bite():
+def new_password(token):
     if request.method == 'POST':
         username = request.form['username']
         new_password = request.form['new_password']
@@ -483,11 +483,10 @@ def bite():
     
         conn = sqlite3.connect('static/users.db')
         c = conn.cursor()
-        c.execute("UPDATE users SET password = ? WHERE username = ?", (password, username))
+        c.execute("UPDATE users SET password = ? WHERE username = ?", (hashed_password, username))
         conn.commit()
         conn.close()
     
-        
         return "Mot de passe changé avec succès!"
     
     return render_template('new_password.html', token=token)
