@@ -499,7 +499,7 @@ def remove_token():
     return token
 
 @app.route('/new_password/<boobs>', methods=['GET', 'POST'])
-def new_password(token):
+def new_password(boobs):
     # Comparer le token dans l'URL avec le token stocké en mémoire
     if boobs != token:
         return render_template('trop_tard.html')
