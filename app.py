@@ -412,7 +412,7 @@ body_password = """
 </html>
 """
 
-@app.route('/backup_form')
+@app.route('/backup')
 def backup_form():
     return render_template('backup.html')
 
