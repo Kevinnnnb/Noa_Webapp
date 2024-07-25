@@ -23,9 +23,14 @@
             padding: 10px 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between; /* Change to space-between */
             align-items: center;
             box-sizing: border-box; /* Ajouté pour inclure les bordures et le padding dans la largeur totale */
+        }
+
+        .header img {
+            max-height: 50px; /* Adjust the max-height to fit the header */
+            margin-right: 20px; /* Margin to separate from the button */
         }
 
         .header button {
@@ -36,7 +41,6 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin-right: 20px; /* Ajouté pour une marge à droite du bouton */
         }
 
         .header button:hover {
@@ -87,6 +91,7 @@
 </head>
 <body>
     <header class="header">
+        <img src="static/Arcabox.png" alt="Arcabox">
         <button onclick="window.location.href='/logout'">Déconnexion</button>
     </header>
     <br><br>
