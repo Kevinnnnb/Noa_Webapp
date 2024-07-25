@@ -130,8 +130,8 @@ def home():
 def login():
     username = request.form['username']
     password = request.form['password']
-    password = generate_password_hash(password, method='pbkdf2:sha256')
-    if validate(username, password):
+    hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+    if validate(username, hashed_password):
         return render_template("/bonjour.html")
     else:
         return render_template("/login_rate.html")
@@ -148,6 +148,90 @@ def report():
         # Imprimer les données dans la console
         print('Nom d\'utilisateur:', username)
         print('Message:', message)
+
+
+        sender_email = "aide.arcabox@gmail.com"
+        sender_password = "erhn bbka bvuk fydw" # For the password you need to go to your google account and search for app password -> you will have a 16 digits password for your script 
+        
+        recipient_email = "kevin.bourquenoud@icloud.com"
+        subject = "Nouveau rapport"
+        body = """
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body {
+                    background-color: #7bb4e3;
+                    font-family: "Lucida Console", "Courier New", monospace;
+                    margin: 0;
+                    padding: 0;
+                    text-align: center;
+                }
+                .container {
+                    background-color: white;
+                    width: 90%;
+                    max-width: 400px;
+                    margin: 20px auto;
+                    padding: 3%;
+                    border-radius: 20px;
+                    display: inline-block;
+                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                }
+                .container h1 {
+                    margin: 0 0 20px 0;
+                }
+                .button-container {
+                    margin-top: 20px;
+                }
+                .button-container a {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    margin: 10px;
+                    border: none;
+                    border-radius: 5px;
+                    background-color: pink;
+                    color: white;
+                    font-size: 16px;
+                    text-decoration: none;
+                }
+                .button-container a:hover {
+                    background-color: red;
+                }
+                img {
+                    max-width: 300px;
+                    width: 100%;
+                    height: auto;
+                    border-radius: 25px;
+                }
+        
+                .text {
+                text-align: left;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Salut Kevin</h1>
+                <br>
+                <h4>Tu as reçu un message de {{username}} :</h4>
+                <br>
+                <p> {{message}}
+                </p>
+               <h4>Kevin 👋🏻 - <a href="https://github.com/Kevinnnnb">GitHub</a></h4>
+            </div>
+        </body>
+        </html>"""
+        html_message = MIMEText(body, 'html')
+        html_message['Subject'] = subject
+        html_message['From'] = sender_email
+        html_message['To'] = recipient_email
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, recipient_email, html_message.as_string())
+    
+        print("Email envoyé !")
         
         # Répondre à l'utilisateur
         return 'Merci pour votre rapport !'
