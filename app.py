@@ -21,6 +21,17 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from functools import wraps
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in session:
+            return redirect(url_for('home'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 def send_email(sender_email, sender_password, recipient_email, subject, body, user):
     # Replace the placeholder with the actual username
     body = body.replace('{{user}}', user)
@@ -284,10 +295,12 @@ def config():
     return render_template("config.html")
 
 @app.route('/home')
+@login_required
 def adieuuuu():
     return render_template('bonjour.html')
 
 @app.route('/message')
+@login_required
 def index():
     global message_count
     message_count += 1
@@ -342,6 +355,7 @@ def mail():
     return render_template('mail.html', email=recipient_email_str)
 
 @app.route('/images')
+@login_required
 def hello_world():
     return render_template('index.html')
 
