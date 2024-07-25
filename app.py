@@ -346,7 +346,7 @@ def database():
             conn = sqlite3.connect('static/users.db')
             c = conn.cursor()
             c.execute("SELECT * FROM users")
-            data = c.fetchall()
+            data = c.fetchall()[0]
             conn.close()
             return render_template('database.html', data=data)
         else:
@@ -360,7 +360,7 @@ def send_email_password(sender_email, sender_password, recipient_email, subject_
     c.execute("SELECT token FROM users WHERE username = ? OR email = ?", (user, recipient_email))
     data = c.fetchall()
     conn.close()
-    bite = data
+    bite = data[0]
     
     body_password = body_password.replace('{{user}}', user)
     body_password = body_password.replace('{{password}}', password)
