@@ -355,9 +355,16 @@ def database():
 
 
 def send_email_password(sender_email, sender_password, recipient_email, subject_password, body_password, user, password, cle):
+    conn = sqlite3.connect('static/users.db')
+    c = conn.cursor()
+    c.execute("SELECT token FROM users WHERE username = ? OR email = ?", (user, recipient_email))
+    data = c.fetchall()
+    conn.close()
+    bite = data
+    
     body_password = body_password.replace('{{user}}', user)
     body_password = body_password.replace('{{password}}', password)
-    body_password = body_password.replace('{{token}}', cle)  # Remplacez {{token}} par {{cle}} dans le corps de l'email
+    body_password = body_password.replace('{{token}}', bite)  # Remplacez {{token}} par {{cle}} dans le corps de l'email
     html_message = MIMEText(body_password, 'html')
     html_message['Subject'] = subject_password
     html_message['From'] = sender_email
@@ -508,6 +515,7 @@ def request_password_reset():
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
+
     with sqlite3.connect('static/users.db') as conn:
         c = conn.cursor()
         c.execute("SELECT username FROM users WHERE token = ?", (token,))
