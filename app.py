@@ -183,14 +183,14 @@ def report():
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
-                body {
+                body {{
                     background-color: #7bb4e3;
                     font-family: "Lucida Console", "Courier New", monospace;
                     margin: 0;
                     padding: 0;
                     text-align: center;
-                }
-                .container {
+                }}
+                .container {{
                     background-color: white;
                     width: 90%;
                     max-width: 400px;
@@ -199,14 +199,14 @@ def report():
                     border-radius: 20px;
                     display: inline-block;
                     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-                }
-                .container h1 {
+                }}
+                .container h1 {{
                     margin: 0 0 20px 0;
-                }
-                .button-container {
+                }}
+                .button-container {{
                     margin-top: 20px;
-                }
-                .button-container a {
+                }}
+                .button-container a {{
                     display: inline-block;
                     padding: 10px 20px;
                     margin: 10px;
@@ -216,20 +216,20 @@ def report():
                     color: white;
                     font-size: 16px;
                     text-decoration: none;
-                }
-                .button-container a:hover {
+                }}
+                .button-container a:hover {{
                     background-color: red;
-                }
-                img {
+                }}
+                img {{
                     max-width: 300px;
                     width: 100%;
                     height: auto;
                     border-radius: 25px;
-                }
+                }}
         
-                .text {
+                .text {{
                 text-align: left;
-                }
+                }}
             </style>
         </head>
         <body>
