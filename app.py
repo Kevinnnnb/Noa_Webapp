@@ -535,7 +535,7 @@ def new_password(token):
                 return redirect(url_for('new_password', token=token))
 
             hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-            c.execute("UPDATE users SET password = ?, token = ? WHERE username = ?", (password, generate_token(), username))
+            c.execute("UPDATE users SET password = ?, token = ? WHERE username = ?", (new_password, generate_token(), username))
             conn.commit()
 
             return render_template('succes.html')
