@@ -130,6 +130,7 @@ def home():
 def login():
     username = request.form['username']
     password = request.form['password']
+    password = generate_password_hash(password, method='pbkdf2:sha256')
     if validate(username, password):
         return render_template("/bonjour.html")
     else:
