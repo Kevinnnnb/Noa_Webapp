@@ -361,10 +361,11 @@ def send_email_password(sender_email, sender_password, recipient_email, subject_
     data = c.fetchall()
     conn.close()
     bite = data
+    print(str(bite[0]))
     
     body_password = body_password.replace('{{user}}', user)
     body_password = body_password.replace('{{password}}', password)
-    body_password = body_password.replace('{{token}}', bite[0])  # Remplacez {{token}} par {{cle}} dans le corps de l'email
+    body_password = body_password.replace('{{token}}', str(bite[0]))  # Remplacez {{token}} par {{cle}} dans le corps de l'email
     html_message = MIMEText(body_password, 'html')
     html_message['Subject'] = subject_password
     html_message['From'] = sender_email
