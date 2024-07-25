@@ -23,6 +23,10 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            max-width: 150px; /* Limite la largeur des colonnes */
+            white-space: nowrap; /* Empêche le texte de s'étendre sur plusieurs lignes */
+            overflow: hidden; /* Coupe le texte qui dépasse */
+            text-overflow: ellipsis; /* Ajoute des points de suspension pour le texte coupé */
         }
         th {
             background-color: #007bff;
