@@ -542,5 +542,12 @@ def new_password(token):
 
         return render_template('new_password.html', token=token)
 
+#Permet de telecharger la base de donnée
+@app.route('/download')
+def download():
+    # Chemin du fichier de la base de données
+    path = "/static/users.db"
+    return send_file(path, as_attachment=True)
+
 if __name__ == '__main__':
     app.run(debug=True)
