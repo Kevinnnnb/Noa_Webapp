@@ -177,7 +177,7 @@ def register():
             if existing_user:
                 flash('Username or email already exists')
                 return redirect(url_for('sign_in'))
-            c.execute("INSERT INTO users (username, email, password, token) VALUES (?, ?, ?, ?)", (username, email, password, token))
+            c.execute("INSERT INTO users (username, email, password, token) VALUES (?, ?, ?, ?)", (username, email, hashed_password, token))
             conn.commit()
             recipient_email = email
             user = username
@@ -440,12 +440,9 @@ body_password = """
     <div class="container">
         <h1>Salut {{user}}</h1>
         <br><div class = "jsp">
-        <h4>Voilà ton mot de passe : {{password}}</h4>
+        <h4>Réinitilisation du mot de passe</h4>
         <br>
         <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/new_password/{{token}}">ici</a> pour le changer.
-
-        <br><br><br> <p>Il faut que tu changes ton mot de passe <strong>RAPIDEMENT</strong> !</p>
-        
         <br><br><br>A très bientôt !
         </p></div>
         <h4>Kevin 👋🏻 - <a href="https://github.com/Kevinnnnb">GitHub</a></h4>
@@ -535,7 +532,7 @@ def new_password(token):
                 return redirect(url_for('new_password', token=token))
 
             hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-            c.execute("UPDATE users SET password = ?, token = ? WHERE username = ?", (new_password, generate_token(), username))
+            c.execute("UPDATE users SET password = ?, token = ? WHERE username = ?", (hashed_password, generate_token(), username))
             conn.commit()
 
             return render_template('succes.html')
