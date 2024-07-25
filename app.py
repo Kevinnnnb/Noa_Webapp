@@ -117,10 +117,13 @@ body = """
 def validate(username, password):
     conn = sqlite3.connect('static/users.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
+    c.execute("SELECT password FROM users WHERE username = ?", (username,))
     result = c.fetchone()
     conn.close()
-    return bool(result)
+    if result:
+        stored_password = result[0]
+        return check_password_hash(stored_password, password)
+    return False
 
 @app.route('/login')
 def home():
@@ -130,8 +133,7 @@ def home():
 def login():
     username = request.form['username']
     password = request.form['password']
-    hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-    if validate(username, hashed_password):
+    if validate(username, password):
         return render_template("/bonjour.html")
     else:
         return render_template("/login_rate.html")
