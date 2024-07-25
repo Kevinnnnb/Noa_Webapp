@@ -237,7 +237,6 @@ def report():
                 <h1>Salut Kevin</h1>
                 <br>
                 <h4>Tu as reçu un message de {username} :</h4>
-                <br>
                 <p>{message}</p>
                <h4>Kevin 👋🏻 - <a href="https://github.com/Kevinnnnb">GitHub</a></h4>
             </div>
