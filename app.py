@@ -171,9 +171,8 @@ def report():
         print('Nom d\'utilisateur:', username)
         print('Message:', message)
 
-
         sender_email = "aide.arcabox@gmail.com"
-        sender_password = "erhn bbka bvuk fydw" # For the password you need to go to your google account and search for app password -> you will have a 16 digits password for your script 
+        sender_password = "erhn bbka bvuk fydw" # Pour le mot de passe, vous devez aller dans votre compte Google et chercher "app password" -> vous aurez un mot de passe à 16 chiffres pour votre script 
         
         recipient_email = "kevin.bourquenoud@icloud.com"
         subject = "Nouveau rapport"
@@ -237,18 +236,19 @@ def report():
             <div class="container">
                 <h1>Salut Kevin</h1>
                 <br>
-                <h4>Tu as reçu un message de {{username}} :</h4>
+                <h4>Tu as reçu un message de {username} :</h4>
                 <br>
-                <p> {{message}}
-                </p>
+                <p>{message}</p>
                <h4>Kevin 👋🏻 - <a href="https://github.com/Kevinnnnb">GitHub</a></h4>
             </div>
         </body>
-        </html>"""
+        </html>""".format(username=username, message=message)
+
         html_message = MIMEText(body, 'html')
         html_message['Subject'] = subject
         html_message['From'] = sender_email
         html_message['To'] = recipient_email
+        
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, recipient_email, html_message.as_string())
