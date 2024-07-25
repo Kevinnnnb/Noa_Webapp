@@ -1,10 +1,12 @@
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify, Response, session
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 import os
 import time
 import sqlite3
 import uuid
+
 
 app = Flask(__name__)
 last_uploaded_file = None
@@ -26,7 +28,7 @@ from functools import wraps
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'username' not in session:
+        if 'logged_in' not in session:
             return redirect(url_for('home'))
         return f(*args, **kwargs)
     return decorated_function
@@ -145,11 +147,18 @@ def login():
     username = request.form['username']
     password = request.form['password']
     if validate(username, password):
-        return render_template("/bonjour.html")
+        session['logged_in'] = True
+        session['username'] = username
+        return redirect(url_for('adieuuuu'))
     else:
         return render_template("/login_rate.html")
 
-
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    session.pop('username', None)
+    return redirect(url_for('home'))
+    
 
 @app.route('/report', methods=['GET', 'POST'])
 def report():
