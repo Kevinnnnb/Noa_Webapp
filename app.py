@@ -486,24 +486,25 @@ def request_password_reset():
     if request.method == 'POST':
         email = request.form['email']
         username = request.form['username']
+        new_token = generate_token()  # Générer un nouveau token
 
         with sqlite3.connect('static/users.db') as conn:
             c = conn.cursor()
-            c.execute("SELECT token FROM users WHERE email = ? AND username = ?", (email, username))
+            c.execute("SELECT * FROM users WHERE email = ? AND username = ?", (email, username))
             result = c.fetchone()
             
             if result:
-                token = result[0]
-                reset_link = url_for('new_password', token=token, _external=True)
+                c.execute("UPDATE users SET token = ? WHERE email = ? AND username = ?", (new_token, email, username))
+                conn.commit()
+                reset_link = url_for('new_password', token=new_token, _external=True)
                 print(f"Lien de réinitialisation : {reset_link}")  # Journal de débogage
-                send_email_password(sender_email, sender_password, email, subject_password, body_password, username, "Votre mot de passe actuel", token)
+                send_email_password(sender_email, sender_password, email, subject_password, body_password, username, "Votre mot de passe actuel", new_token)
                 return render_template('password_reset.html')
             else:
                 flash('Utilisateur non trouvé.')
                 return redirect(url_for('request_password_reset'))
     
     return render_template('request_password_reset.html')
-
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
 def new_password(token):
@@ -526,13 +527,12 @@ def new_password(token):
                 return redirect(url_for('new_password', token=token))
 
             hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-            c.execute("UPDATE users SET password = ? WHERE username = ?", (password, username))
+            c.execute("UPDATE users SET password = ?, token = ? WHERE username = ?", (hashed_password, generate_token(), username))
             conn.commit()
 
             return render_template('succes.html')
 
         return render_template('new_password.html', token=token)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
