@@ -157,7 +157,7 @@ def login():
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
-    return redirect(url_for('/'))
+    return redirect(url_for('/login'))
     
 
 @app.route('/report', methods=['GET', 'POST'])
