@@ -361,11 +361,11 @@ def send_email_password(sender_email, sender_password, recipient_email, subject_
     data = c.fetchall()
     conn.close()
     bite = data
-    print(str(bite[0])[0])
+    print(str(bite[0])[2])
     
     body_password = body_password.replace('{{user}}', user)
     body_password = body_password.replace('{{password}}', password)
-    body_password = body_password.replace('{{token}}', str(bite[0])[0])  # Remplacez {{token}} par {{cle}} dans le corps de l'email
+    body_password = body_password.replace('{{token}}', str(bite[0])[2])  # Remplacez {{token}} par {{cle}} dans le corps de l'email
     html_message = MIMEText(body_password, 'html')
     html_message['Subject'] = subject_password
     html_message['From'] = sender_email
@@ -536,7 +536,7 @@ def new_password(token):
                 return redirect(url_for('new_password', token=token))
 
             hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-            c.execute("UPDATE users SET password = ?, token = ? WHERE username = ?", (hashed_password, generate_token(), username))
+            c.execute("UPDATE users SET password = ?, token = ? WHERE username = ?", (password, generate_token(), username))
             conn.commit()
 
             return render_template('succes.html')
