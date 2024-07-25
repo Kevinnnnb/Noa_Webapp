@@ -13,6 +13,32 @@
         body {
             background-color: pink;
             font-family: "Lucida Console", "Courier New", monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: white;
+            width: 100%;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .header button {
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .header button:hover {
+            background-color: darkred;
         }
 
         .container {
@@ -20,7 +46,7 @@
             width: 90%;
             padding: 3%;
             border-radius: 20px;
-            margin: auto;
+            margin: 20px auto;
         }
 
         .form-container {
@@ -49,6 +75,7 @@
         .button-container button:hover {
             background-color: red;
         }
+
         img {
             max-width: 300px;
             width: 100%;
@@ -57,48 +84,41 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <center>
-                <h3>Choisissez une option</h3>
-                <div class="button-container">
-                    <button onclick="window.location.href='/message'">Envoyer un Message</button>
-                    <button onclick="window.location.href='/images'">Envoyer une Image</button>
-                </div>
-            </center>
-            <center>
-                <div>
-                    <br><br>
-                    <div class="slideshow-container">
-                        <img id="image" src="/static/18ans.jpg" alt="Image 1" width="80%">
-                        </div>
-                </div>
-            </center>
-        </div>
-        </div></center>
+    <header class="header">
+        <button onclick="window.location.href='/logout'">Déconnexion</button>
     </header>
+    <div class="container">
+        <center>
+            <h3>Choisissez une option</h3>
+            <div class="button-container">
+                <button onclick="window.location.href='/message'">Envoyer un Message</button>
+                <button onclick="window.location.href='/images'">Envoyer une Image</button>
+            </div>
+        </center>
+        <center>
+            <div>
+                <br><br>
+                <div class="slideshow-container">
+                    <img id="image" src="/static/18ans.jpg" alt="Image 1" width="80%">
+                </div>
+            </div>
+        </center>
+    </div>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="{{url_for('static', filename='gif.js')}}"></script>
     <script src="{{url_for('static', filename='gifDecoder.js')}}"></script>
     <script src="{{url_for('static', filename='script.js')}}"></script>
-
     <script>
-        var images = ["/static/image2.jpg","/static/image1.jpg","/static/image3.jpg","/static/image4.jpg","/static/image5.jpg","/static/18ans.jpg"]
-            var currentIndex = 0;
-            var slideshowImage = document.getElementById("image");
+        var images = ["/static/image2.jpg", "/static/image1.jpg", "/static/image3.jpg", "/static/image4.jpg", "/static/image5.jpg", "/static/18ans.jpg"];
+        var currentIndex = 0;
+        var slideshowImage = document.getElementById("image");
 
-            function changeImage() {
-              slideshowImage.src = images[currentIndex];
-              currentIndex = (currentIndex + 1) % images.length;
-            }
+        function changeImage() {
+            slideshowImage.src = images[currentIndex];
+            currentIndex = (currentIndex + 1) % images.length;
+        }
 
-            setInterval(changeImage, 1000); // Change l'image toutes les 3 secondes
-            </script>
-        </div>
-    </header>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="/static/gif.js"></script>
-    <script src="/static/gifDecoder.js"></script>
-    <script src="/static/script.js"></script>
+        setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
+    </script>
 </body>
 </html>
