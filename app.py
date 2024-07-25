@@ -103,7 +103,7 @@ body = """
         <br>
         <p class = "text">Tu peux te rendre <a href="https://arcabox.onrender.com/login">ici</a> pour utiliser l'app !
         
-        <br><br><br>Si quelque chose ne fonctionne pas dis le moi sur <a href="https://arcabox.onrender.com/rapport">cette page</a> !
+        <br><br><br>Si quelque chose ne fonctionne pas dis le moi sur <a href="https://arcabox.onrender.com/report">cette page</a> !
         
         <br><br><br>A très bientôt !
         </p>
