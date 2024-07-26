@@ -11,7 +11,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100%;
+            min-height: "100vh";
             font-family: "Lucida Console", "Courier New", monospace;
             overflow-x: hidden; /* Empêcher le défilement horizontal */
         }
@@ -30,7 +30,7 @@
         }
 
         #gif-container {
-            margin-top: 20px;
+            margin-top: "20px";
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -39,15 +39,15 @@
         .gif {
             width: 100%;
             height: auto;
-            margin: 10px;
-            border-radius: 10px;
+            margin: "10px";
+            border-radius: "10px";
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 200px;
+            max-width: "200px";
             cursor: pointer;
         }
 
         #search-form {
-            margin-bottom: 20px;
+            margin-bottom: "20px";
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -55,45 +55,45 @@
         }
 
         #search-input {
-            padding: 10px;
-            font-size: 16px;
+            padding: "10px";
+            font-size: "16px";
             border: 1px solid #ddd;
-            border-radius: 4px;
-            margin-bottom: 10px;
+            border-radius: "4px";
+            margin-bottom: "10px";
             width: 100%;
             box-sizing: border-box;
         }
 
         button {
-            padding: 10px 15px;
+            padding: "10px" "15px";
             border: none;
-            border-radius: 4px;
+            border-radius: "4px";
             background-color: pink;
             color: white;
-            font-size: 16px;
+            font-size: "16px";
             cursor: pointer;
-            margin: 5px;
+            margin: "5px";
         }
 
         button:hover {
             background-color: red;
         }
 
-        @media (min-width: 600px) {
+        @media (min-width: "600px") {
             #search-form {
                 flex-direction: row;
             }
 
             #search-input {
                 margin-bottom: 0;
-                margin-right: 10px;
+                margin-right: "10px";
                 width: auto;
                 flex-grow: 1;
             }
 
             .gif {
                 width: auto;
-                margin: 10px;
+                margin: "10px";
             }
         }
     </style>
