@@ -285,7 +285,7 @@ def sign_in():
 
 
 @app.route('/search_gif')
-def sign_in():
+def searchGIF():
     return render_template('gif.html')
 
 import uuid
