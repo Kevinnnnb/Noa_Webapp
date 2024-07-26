@@ -60,12 +60,32 @@
 
         #gif-container {
             margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .gif {
             width: 200px;
             height: auto;
             margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #search-form {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+            width: 300px;
         }
 
     </style>
@@ -81,10 +101,15 @@
                         <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event, false);" />
                         <button type="submit">Envoyer</button>
                         <button type="button" onclick="window.location.href = '/home';">Retour</button>
-                        <button type="button" onclick="fetchGifs()">Afficher des GIFs</button>
                     </form>
                 </div>
-                <div id="gif-container"></div>
+                <div id="gif-section">
+                    <form id="search-form" onsubmit="return fetchGifs(event);">
+                        <input type="text" id="search-input" placeholder="Rechercher un GIF" required />
+                        <button type="submit">Rechercher</button>
+                    </form>
+                    <div id="gif-container"></div>
+                </div>
             </div>
         </div>
     </header>
@@ -105,10 +130,11 @@
 
         setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
 
-        async function fetchGifs() {
-            const apiKey = 'L0ShI5mRJUndorPXzD1y7mV5YpJZTU4s';
-            const query = 'funny cats';
-            const limit = 5;
+        async function fetchGifs(event) {
+            event.preventDefault();
+            const apiKey = 'YOUR_GIPHY_API_KEY';
+            const query = document.getElementById('search-input').value;
+            const limit = 10;
             const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query}&limit=${limit}`;
 
             try {
