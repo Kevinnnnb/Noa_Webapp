@@ -47,6 +47,10 @@ def noa():
 def status():
     return jsonify({'show_image': show_image})
 
+@app.route('/api/show_image_status')
+def show_image_status():
+    return jsonify({'show_image': show_image})
+
 
 def send_email(sender_email, sender_password, recipient_email, subject, body, user):
     # Replace the placeholder with the actual username
