@@ -36,7 +36,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
+            width: 90%;
         }
 
         input[type="file"] {
@@ -162,7 +162,7 @@
 
         async function fetchGifs(event) {
             event.preventDefault();
-            const apiKey = 'YOUR_GIPHY_API_KEY';
+            const apiKey = 'L0ShI5mRJUndorPXzD1y7mV5YpJZTU4s';
             const query = document.getElementById('search-input').value;
             const limit = 10;
             const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query}&limit=${limit}`;
