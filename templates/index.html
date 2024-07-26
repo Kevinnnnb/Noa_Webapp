@@ -176,7 +176,7 @@
                     const file = new File([blob], 'image.gif', { type: 'image/gif' });
                     const formData = new FormData();
                     formData.append('img', file);
-                    
+
                     // Send the form data to the server
                     fetch('/upload', {
                         method: 'POST',
