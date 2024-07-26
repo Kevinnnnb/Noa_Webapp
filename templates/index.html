@@ -29,18 +29,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            box-sizing: border-box;
         }
 
         .form-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 90%;
+            width: 100%;
         }
 
         input[type="file"] {
-            width: 80%;
+            width: 100%;
             margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
         button {
@@ -66,17 +68,21 @@
         }
 
         .gif {
-            width: 200px;
+            width: 100%;
             height: auto;
             margin: 10px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 200px;
+            cursor: pointer;
         }
 
         #search-form {
             margin-bottom: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
+            width: 100%;
         }
 
         #search-input {
@@ -84,10 +90,28 @@
             font-size: 16px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            margin-right: 10px;
-            width: 300px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
+        @media (min-width: 600px) {
+            #search-form {
+                flex-direction: row;
+            }
+
+            #search-input {
+                margin-bottom: 0;
+                margin-right: 10px;
+                width: auto;
+                flex-grow: 1;
+            }
+
+            .gif {
+                width: auto;
+                margin: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -97,7 +121,7 @@
             <div class="pute">
                 <div class="form-container">
                     <h3>Envoie lui une photo</h3>
-                    <form id='theForm' onsubmit="return submitForm(event, true);">
+                    <form id="theForm" onsubmit="return submitForm(event, true);">
                         <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event, false);" />
                         <button type="submit">Envoyer</button>
                         <button type="button" onclick="window.location.href = '/home';">Retour</button>
@@ -119,7 +143,13 @@
     <script src="{{url_for('static', filename='script.js')}}"></script>
 
     <script>
-        var images = ["https://cdn.discordapp.com/attachments/1255966863209533441/1255966937486327839/IMG_6771.jpg?ex=667f0ddc&is=667dbc5c&hm=3beff0908ad9837bc62039867a69f9aefb7d54948569a75cfac9649bdf054b73&","https://cdn.discordapp.com/attachments/1255966863209533441/1255966937918210058/IMG_6772.jpg?ex=667f0ddc&is=667dbc5c&hm=3a6caf8d06bb29d662dbe4ef91d720e96a9e05c8ff65d6453e7136dac617c0c0&","https://cdn.discordapp.com/attachments/1255966863209533441/1255966938207883274/IMG_6774.jpg?ex=667f0ddc&is=667dbc5c&hm=021949cdf0b481583dff27be32fec61e335b75aafdc90721754ce177ee9db82e&","https://cdn.discordapp.com/attachments/1255966863209533441/1255966938648150107/IMG_6775.jpg?ex=667f0ddc&is=667dbc5c&hm=b97d6775206ca75cde593e4ad384df6967fcec87e9f394f0a8eb495e80b38c99&","https://cdn.discordapp.com/attachments/1255966863209533441/1255970869294141450/noaETemma.jpg?ex=667f1186&is=667dc006&hm=01d8b811c94d162a409242eb58900ad16f6b168df79ab94b9d22483d0c8d13e4&"]; // Remplacez avec vos propres images
+        var images = [
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966937486327839/IMG_6771.jpg?ex=667f0ddc&is=667dbc5c&hm=3beff0908ad9837bc62039867a69f9aefb7d54948569a75cfac9649bdf054b73&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966937918210058/IMG_6772.jpg?ex=667f0ddc&is=667dbc5c&hm=3a6caf8d06bb29d662dbe4ef91d720e96a9e05c8ff65d6453e7136dac617c0c0&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966938207883274/IMG_6774.jpg?ex=667f0ddc&is=667dbc5c&hm=021949cdf0b481583dff27be32fec61e335b75aafdc90721754ce177ee9db82e&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255966938648150107/IMG_6775.jpg?ex=667f0ddc&is=667dbc5c&hm=b97d6775206ca75cde593e4ad384df6967fcec87e9f394f0a8eb495e80b38c99&",
+            "https://cdn.discordapp.com/attachments/1255966863209533441/1255970869294141450/noaETemma.jpg?ex=667f1186&is=667dc006&hm=01d8b811c94d162a409242eb58900ad16f6b168df79ab94b9d22483d0c8d13e4&"
+        ]; // Remplacez avec vos propres images
         var currentIndex = 0;
         var slideshowImage = document.getElementById("image");
 
@@ -132,7 +162,7 @@
 
         async function fetchGifs(event) {
             event.preventDefault();
-            const apiKey = 'L0ShI5mRJUndorPXzD1y7mV5YpJZTU4s';
+            const apiKey = 'YOUR_GIPHY_API_KEY';
             const query = document.getElementById('search-input').value;
             const limit = 10;
             const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query}&limit=${limit}`;
@@ -148,11 +178,33 @@
                     img.src = gif.images.fixed_height.url;
                     img.alt = gif.title;
                     img.className = 'gif';
+                    img.addEventListener('click', () => uploadGif(gif.images.fixed_height.url));
                     gifContainer.appendChild(img);
                 });
             } catch (error) {
                 console.error('Erreur lors de la récupération des GIFs:', error);
             }
+        }
+
+        function uploadGif(gifUrl) {
+            fetch(gifUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const formData = new FormData();
+                    formData.append('img', blob, 'image.gif');
+                    
+                    // Simulate form submission
+                    const form = document.createElement('form');
+                    form.action = '/upload'; // Change to your upload endpoint
+                    form.method = 'POST';
+                    form.enctype = 'multipart/form-data';
+                    form.style.display = 'none';
+
+                    form.appendChild(formData);
+                    document.body.appendChild(form);
+                    form.submit();
+                })
+                .catch(error => console.error('Erreur lors de l\'upload du GIF:', error));
         }
     </script>
 </body>
