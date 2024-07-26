@@ -321,12 +321,15 @@ def config():
 def adieuuuu():
     return render_template('bonjour.html')
 
+# Route pour envoyer un message
 @app.route('/message')
 @login_required
 def index():
-    global message_count
+    global message_count, show_image
     message_count += 1
+    show_image = False  # Réinitialiser show_image à False
     return render_template('text.html', user_input=user_input)
+
 
 @app.route('/update_input', methods=['POST'])
 def update_input():
@@ -393,9 +396,10 @@ def delete_file():
         os.remove("test.txt")
     return "deleted"
 
+# Route pour envoyer une image
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
-    global last_uploaded_file, image_count
+    global last_uploaded_file, image_count, show_image
     if request.method == 'POST':
         if 'file' not in request.files:
             return "No image data"
@@ -410,6 +414,7 @@ def upload_file():
             with open('test.txt', 'w') as file:
                 file.write(file_path)
             image_count += 1
+            show_image = False  # Réinitialiser show_image à False
             return "done"
     return '''
     <!doctype html>
@@ -420,7 +425,7 @@ def upload_file():
         <input type=submit value=Upload>
     </form>
     '''
-
+    
 @app.route('/longPoll', methods=['GET'])
 def return_files_tut():
     if os.path.exists("test.txt"):
