@@ -36,7 +36,7 @@ def login_required(f):
 # Variable globale pour stocker l'état
 show_image = False
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/noa', methods=['GET', 'POST'])
 def index():
     global show_image
     if request.method == 'POST':
