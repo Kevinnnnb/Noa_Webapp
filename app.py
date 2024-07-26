@@ -283,6 +283,11 @@ def report():
 def sign_in():
     return render_template('sign_in.html')
 
+
+@app.route('/search_gif')
+def sign_in():
+    return render_template('gif.html')
+
 import uuid
 
 @app.route('/register', methods=['POST'])
