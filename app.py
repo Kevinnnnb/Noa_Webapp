@@ -33,6 +33,20 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# Variable globale pour stocker l'état
+show_image = False
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    global show_image
+    if request.method == 'POST':
+        show_image = 'show_image' in request.form
+    return render_template('show.html', show_image=show_image)
+
+@app.route('/status', methods=['GET'])
+def status():
+    return jsonify({'show_image': show_image})
+
 
 def send_email(sender_email, sender_password, recipient_email, subject, body, user):
     # Replace the placeholder with the actual username
