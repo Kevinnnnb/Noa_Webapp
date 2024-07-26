@@ -365,12 +365,7 @@ def delete_user_input():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    global message_count, image_count
-    if request.method == 'POST':
-        if 'reset' in request.form:
-            message_count = 0
-            image_count = 0
-    return render_template('admin.html', message_count=message_count, image_count=image_count)
+    return render_template('board.html')
 
 
 @app.route('/mail')
