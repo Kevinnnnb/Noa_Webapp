@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
+    <title>Control Panel</title>
+</head>
+  <style>
+    .noa {
+    border-radius: 25px;
+}
+
+body {
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.container {
+    background-color: white;
+    width: 90%;
+    max-width: 400px;
+    padding: 3%;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.form-container {
+    margin-top: 20px;
+}
+
+.form-container h3 {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.button-container button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: pink;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button-container button:hover {
+    background-color: red;
+}
+
+img {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+}
+  </style>
+<body>
+    <div class="container">
+        <h1>Contrôle d'Affichage</h1>
+        <div class="form-container">
+            <form method="POST">
+                <label>
+                    <input type="checkbox" name="show_image" {% if show_image %}checked{% endif %}>
+                    Afficher l'image
+                </label>
+                <div class="button-container">
+                    <button type="submit">Mettre à jour</button>
+                </div>
+            </form>
+          <img src="static/apollo.png">
+        </div>
+    </div>
+</body>
+</html>
