@@ -58,6 +58,16 @@
             background-color: red;
         }
 
+        #gif-container {
+            margin-top: 20px;
+        }
+
+        .gif {
+            width: 200px;
+            height: auto;
+            margin: 10px;
+        }
+
     </style>
 </head>
 <body>
@@ -71,8 +81,10 @@
                         <input type="file" id="img" name="img" accept="image/png, image/jpeg, image/gif" onchange="submitForm(event, false);" />
                         <button type="submit">Envoyer</button>
                         <button type="button" onclick="window.location.href = '/home';">Retour</button>
+                        <button type="button" onclick="fetchGifs()">Afficher des GIFs</button>
                     </form>
                 </div>
+                <div id="gif-container"></div>
             </div>
         </div>
     </header>
@@ -92,6 +104,30 @@
         }
 
         setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
+
+        async function fetchGifs() {
+            const apiKey = 'L0ShI5mRJUndorPXzD1y7mV5YpJZTU4s';
+            const query = 'funny cats';
+            const limit = 5;
+            const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${query}&limit=${limit}`;
+
+            try {
+                const response = await fetch(url);
+                const result = await response.json();
+                const gifContainer = document.getElementById('gif-container');
+                gifContainer.innerHTML = '';
+
+                result.data.forEach(gif => {
+                    const img = document.createElement('img');
+                    img.src = gif.images.fixed_height.url;
+                    img.alt = gif.title;
+                    img.className = 'gif';
+                    gifContainer.appendChild(img);
+                });
+            } catch (error) {
+                console.error('Erreur lors de la récupération des GIFs:', error);
+            }
+        }
     </script>
 </body>
 </html>
