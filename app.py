@@ -46,7 +46,7 @@
             cursor: pointer;
         }
 
-        #search-form {
+        search-form {
             margin-bottom: "20px";
             display: flex;
             flex-direction: column;
@@ -54,7 +54,7 @@
             width: 100%;
         }
 
-        #search-input {
+        search-input {
             padding: "10px";
             font-size: "16px";
             border: 1px solid #ddd;
