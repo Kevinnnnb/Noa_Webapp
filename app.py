@@ -29,7 +29,7 @@
             box-sizing: border-box;
         }
 
-        #gif-container {
+        .gif-container {
             margin-top: "20px";
             display: flex;
             flex-wrap: wrap;
