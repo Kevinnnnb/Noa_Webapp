@@ -37,7 +37,7 @@ def login_required(f):
 show_image = False
 
 @app.route('/noa', methods=['GET', 'POST'])
-def index():
+def noa():
     global show_image
     if request.method == 'POST':
         show_image = 'show_image' in request.form
