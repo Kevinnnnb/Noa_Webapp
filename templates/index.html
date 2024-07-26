@@ -173,20 +173,20 @@
             fetch(gifUrl)
                 .then(response => response.blob())
                 .then(blob => {
+                    const file = new File([blob], 'image.gif', { type: 'image/gif' });
                     const formData = new FormData();
-                    formData.append('img', blob, 'image.gif');
+                    formData.append('img', file);
                     
-                    // Simulate form submission
-                    const form = document.createElement('form');
-                    form.action = '/upload'; // Change to your upload endpoint
-                    form.method = 'POST';
-                    form.enctype = 'multipart/form-data';
-                    form.style.display = 'none';
-
-                    document.body.appendChild(form);
-                    form.submit();
+                    // Send the form data to the server
+                    fetch('/upload', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    .then(response => response.text())
+                    .then(result => console.log('Success:', result))
+                    .catch(error => console.error('Erreur lors de l\'upload du GIF:', error));
                 })
-                .catch(error => console.error('Erreur lors de l\'upload du GIF:', error));
+                .catch(error => console.error('Erreur lors de la récupération du GIF:', error));
         }
     </script>
 </body>
