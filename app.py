@@ -19,9 +19,9 @@
         .container {
             background-color: white;
             width: 90%;
-            max-width: 600px; /* Limite la largeur maximale pour éviter d'être trop large sur les téléphones */
+            max-width: "600px"; 
             padding: 3%;
-            border-radius: 20px;
+            border-radius: "20px";
             text-align: center;
             display: flex;
             flex-direction: column;
