@@ -349,6 +349,15 @@ def update_input():
     global user_input, last_update_time, message_count
     user_input = request.form['user_input']
     last_update_time = time.time()
+    
+    # Stocker le message dans la base de données
+    if 'username' in session:
+        username = session['username']
+        with sqlite3.connect('static/user.db') as conn:
+            c = conn.cursor()
+            c.execute("INSERT INTO messages (username, message) VALUES (?, ?)", (username, user_input))
+            conn.commit()
+    
     return render_template('text.html', user_input=user_input)
 
 @app.route('/get_user_input', methods=['GET'])
@@ -409,6 +418,8 @@ def delete_file():
         os.remove("test.txt")
     return "deleted"
 
+
+
 # Route pour envoyer une image
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -421,13 +432,17 @@ def upload_file():
             return "No selected file"
         if file:
             filename = secure_filename(file.filename)
-            file_path = os.path.join('static', filename)
-            file.save(file_path)
+            file_data = file.read()  # Lire les données binaires de l'image
             last_uploaded_file = filename
-            with open('test.txt', 'w') as file:
-                file.write(file_path)
             image_count += 1
             show_image = False  # Réinitialiser show_image à False
+            
+            # Stocker l'image dans la base de données
+            with sqlite3.connect('static/user.db') as conn:
+                c = conn.cursor()
+                c.execute("INSERT INTO images (filename, data) VALUES (?, ?)", (filename, file_data))
+                conn.commit()
+            
             return "done"
     return '''
     <!doctype html>
@@ -458,17 +473,30 @@ def return_files_tut():
 def show_image():
     global last_uploaded_file
     if last_uploaded_file:
-        return render_template('image.html', image_file=last_uploaded_file)
+        with sqlite3.connect('static/user.db') as conn:
+            c = conn.cursor()
+            c.execute("SELECT data FROM images WHERE filename = ?", (last_uploaded_file,))
+            img_data = c.fetchone()
+            if img_data:
+                response = make_response(img_data[0])
+                response.headers.set('Content-Type', 'image/jpeg')
+                response.headers.set('Content-Disposition', 'inline', filename=last_uploaded_file)
+                return response
     else:
         return render_template("/pasimage.html")
 
-@app.route("/messages")
+@app.route('/messages')
 def message():
-    global user_input
-    if user_input != "":
-        return render_template("message.html", user_input=user_input)
-    else:
-        return render_template("/pasimage.html")
+    if 'username' in session:
+        username = session['username']
+        with sqlite3.connect('static/user.db') as conn:
+            c = conn.cursor()
+            c.execute("SELECT message FROM messages WHERE username = ? ORDER BY timestamp DESC LIMIT 1", (username,))
+            message_row = c.fetchone()
+            if message_row:
+                user_input = message_row[0]
+                return render_template("message.html", user_input=user_input)
+    return render_template("/pasimage.html")
 
 @app.route('/coeur')
 def coeur():
