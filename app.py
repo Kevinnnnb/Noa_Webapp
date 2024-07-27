@@ -181,14 +181,9 @@ def logout():
 @app.route('/report', methods=['GET', 'POST'])
 def report():
     if request.method == 'POST':
+        # Récupérer les données du formulaire
         username = request.form.get('username')
         message = request.form.get('message')
-        # Enregistrement du message dans la base de données
-        with sqlite3.connect('static/users.db') as conn:
-            c = conn.cursor()
-            c.execute("INSERT INTO messages (username, message) VALUES (?, ?)", (username, message))
-            conn.commit()
-        # Envoi de l'email (comme précédemment)
         
         # Imprimer les données dans la console
         print('Nom d\'utilisateur:', username)
@@ -370,7 +365,12 @@ def delete_user_input():
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    return render_template('board.html')
+    global message_count, image_count
+    if request.method == 'POST':
+        if 'reset' in request.form:
+            message_count = 0
+            image_count = 0
+    return render_template('admin.html', message_count=message_count, image_count=image_count)
 
 
 @app.route('/mail')
@@ -405,43 +405,35 @@ def delete_file():
         os.remove("test.txt")
     return "deleted"
 
-@app.route('/upload', methods=['POST'])
-def upload():
-    if 'file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '':
-        flash('No selected file')
-        return redirect(request.url)
-    if file:
-        filename = secure_filename(file.filename)
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(file_path)
-        # Enregistrement de l'image dans la base de données
-        with sqlite3.connect('static/users.db') as conn:
-            c = conn.cursor()
-            c.execute("INSERT INTO images (username, file_path) VALUES (?, ?)", (session['username'], file_path))
-            conn.commit()
-        return redirect(url_for('uploaded_file', filename=filename))
-
-@app.route('/lastmessage')
-@login_required
-def message_history():
-    with sqlite3.connect('static/users.db') as conn:
-        c = conn.cursor()
-        c.execute("SELECT username, message, timestamp FROM messages ORDER BY timestamp DESC")
-        messages = c.fetchall()
-    return render_template('message_history.html', messages=messages)
-
-@app.route('/lastimage')
-@login_required
-def image_history():
-    with sqlite3.connect('static/users.db') as conn:
-        c = conn.cursor()
-        c.execute("SELECT username, file_path, timestamp FROM images ORDER BY timestamp DESC")
-        images = c.fetchall()
-    return render_template('image_history.html', images=images)
+# Route pour envoyer une image
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    global last_uploaded_file, image_count, show_image
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return "No image data"
+        file = request.files['file']
+        if file.filename == '':
+            return "No selected file"
+        if file:
+            filename = secure_filename(file.filename)
+            file_path = os.path.join('static', filename)
+            file.save(file_path)
+            last_uploaded_file = filename
+            with open('test.txt', 'w') as file:
+                file.write(file_path)
+            image_count += 1
+            show_image = False  # Réinitialiser show_image à False
+            return "done"
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+    </form>
+    '''
     
 @app.route('/longPoll', methods=['GET'])
 def return_files_tut():
