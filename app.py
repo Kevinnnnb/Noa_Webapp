@@ -6,6 +6,8 @@ import os
 import time
 import sqlite3
 import uuid
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 
 app = Flask(__name__)
