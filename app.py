@@ -6,8 +6,6 @@ import os
 import time
 import sqlite3
 import uuid
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 
 
 app = Flask(__name__)
@@ -37,10 +35,6 @@ def login_required(f):
 
 # Variable globale pour stocker l'état
 show_image = False
-
-@app.errorhandler(429)
-def ratelimit_handler(e):
-    return render_template("ratelimit.html"), 429
 
 @app.route('/noa', methods=['GET', 'POST'])
 def noa():
@@ -163,12 +157,10 @@ def validate(username, password):
     return False
 
 @app.route('/login')
-@limiter.limit("5 per minute")
 def home():
     return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
-@limiter.limit("5 per minute")
 def login():
     username = request.form['username']
     password = request.form['password']
@@ -187,7 +179,6 @@ def logout():
     
 
 @app.route('/report', methods=['GET', 'POST'])
-@limiter.limit("5 per minute")
 def report():
     if request.method == 'POST':
         # Récupérer les données du formulaire
@@ -289,7 +280,6 @@ def report():
 
 
 @app.route('/sign_in')
-@limiter.limit("5 per minute")
 def sign_in():
     return render_template('sign_in.html')
 
@@ -301,7 +291,6 @@ def searchGIF():
 import uuid
 
 @app.route('/register', methods=['POST'])
-@limiter.limit("5 per minute")
 def register():
     username = request.form['username']
     email = request.form['email']
@@ -343,7 +332,6 @@ def adieuuuu():
 
 # Route pour envoyer un message
 @app.route('/message')
-@limiter.limit("5 per minute")
 @login_required
 def index():
     global message_count, show_image
@@ -635,7 +623,6 @@ def generate_token():
     return str(uuid.uuid4())
 
 @app.route('/request_password_reset', methods=['GET', 'POST'])
-@limiter.limit("5 per minute")
 def request_password_reset():
     if request.method == 'POST':
         email = request.form['email']
@@ -661,7 +648,6 @@ def request_password_reset():
     return render_template('request_password_reset.html')
 
 @app.route('/new_password/<token>', methods=['GET', 'POST'])
-@limiter.limit("5 per minute")
 def new_password(token):
 
     with sqlite3.connect('static/users.db') as conn:
