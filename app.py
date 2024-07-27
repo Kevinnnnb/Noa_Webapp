@@ -1,3 +1,5 @@
+#Si jamais j'ai tout cassé la version du 27 juillet 2024 avant 22h fonctionne nickel hein
+
 from flask import Flask, flash, request, redirect, url_for, render_template, send_file, make_response, jsonify, Response, session
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
