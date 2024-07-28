@@ -472,7 +472,7 @@ def message():
 
 @app.route('/coeur')
 def coeur():
-    gif_path = os.path.join('static', 'image.gif')
+    gif_path = os.path.join('static', 'Show_Image.png')
     # Remplacez 'your_gif.gif' par le nom de votre GIF
     if os.path.exists(gif_path):
         return send_file(gif_path, mimetype='image/gif')
