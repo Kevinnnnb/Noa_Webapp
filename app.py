@@ -40,6 +40,10 @@ show_image = False
 def ratelimit_handler(e):
     return render_template("ratelimit.html"), 429
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 @app.route('/noa', methods=['GET', 'POST'])
 def noa():
     global show_image
