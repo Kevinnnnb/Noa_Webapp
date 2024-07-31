@@ -90,8 +90,9 @@
                     <br><br><br>Il m'aura fallu un moment avant de le faire. En réalité, c'est un peu grâce à Darius et aux cours d'AV qu'on a commencé à se parler.
                     <br><br><br>Puis on a commencé à rester après les cours avec les autres et c'est à ce moment que tu es devenue ma petite marmotte. (et tu l'es toujours et ça c'est beau !)
                     <br><br><br>A Noël j'ai enfin porté mes couilles et je t'ai envoyé un message pour te remercier pour le mot que tu m'as écrit. Ce fut le début de notre amitié <strong>//insérrer le mot et le message que je lui ait envoyé !</strong>
-                    <br><br><br>Ensuite il y a eu la sortie à Lucerne avec toute l'équipe, c'était GENIAL ! <strong>//Insérer une image ici</strong>
+                    <br><br><br>Ensuite il y a eu la sortie à Lucerne avec toute l'équipe, c'était GENIAL ! <br><br><br><center><img id="lucerne" class="kevin" src="static/photos pour Noa/Luzern/17.jpeg" alt="Image 1" width="80%"></center>
                     <br><br><br>Un mois plus tard, grâce à monsieur Forni, on est allé à Düsseldorf. ça aussi c'était cool !
+                    <br><br><br><center><img id="dusseldorf" class="kevin" src="static/photos pour Noa/Dusseldorf/6.jpeg" alt="Image 1" width="80%"></center>
                     <br><br><br>Puis les vacances d'été où on a passé une grande partie du mois de juillet ensemble avec les autres gigolos. <br><br><br><center><img id="gigolo" class="kevin" src="static/photos pour Noa/amis/IMG_7165.JPG" alt="Image 1" width="80%"></center>
                     <br><br><br><strong>Et enfin la 2ème année !</strong>
                     <br><br><br>Tu t'es rapprochée de ton Leandrinou... puis au Nouvel An, vous vous êtes mis en couple !
@@ -114,10 +115,16 @@
     <script>
         var images = ["static/photos pour Noa/Noa/21.jpg","static/photos pour Noa/Noa/22.jpeg","static/photos pour Noa/Noa/23.jpg","static/photos pour Noa/Noa/24.jpeg", "static/photos pour Noa/Noa/25.jpeg","static/photos pour Noa/Noa/26.jpg","static/photos pour Noa/Noa/27.jpeg","static/photos pour Noa/Noa/28.jpg","static/photos pour Noa/Noa/29.png","static/photos pour Noa/Noa/30.jpg","static/photos pour Noa/Noa/31.jpg","static/photos pour Noa/Noa/32.jpg","static/photos pour Noa/Noa/33.jpeg","static/photos pour Noa/Noa/34.png","static/photos pour Noa/Noa/35.jpg","static/photos pour Noa/Noa/36.jpeg","static/photos pour Noa/Noa/37.jpeg"];
         var gigolos = ["static/photos pour Noa/amis/Les gars qui t'ont pas péchos.jpeg","static/photos pour Noa/amis/2GY2.jpg","static/photos pour Noa/amis/IMG_7165.JPG"];
+        var Lucern = ["static/photos pour Noa/Luzern/18.jpeg","static/photos pour Noa/Luzern/19.jpeg","static/photos pour Noa/Luzern/20.jpeg","static/photos pour Noa/Luzern/17.jpeg"];
+        var DUSSELFORF = ["static/photos pour Noa/Dusseldorf/7.jpg", "static/photos pour Noa/Dusseldorf/8.jpeg", "static/photos pour Noa/Dusseldorf/9.jpeg", "static/photos pour Noa/Dusseldorf/6.jpeg"];
         var currentIndex = 0;
         var currentIndex1 = 0;
+        var currentIndex2 = 0;
+        var currentIndex3 = 0;
         var slideshowImage = document.getElementById("image");
         var slidegigolos = document.getElementById("gigolo");
+        var slidelucerne = document.getElementById("lucerne");
+        var slideDusseldorf = document.getElementById("dusseldorf");
 
         function changeImage() {
             slideshowImage.src = images[currentIndex];
@@ -126,6 +133,14 @@
         function Changegigolos() {
             slidegigolos.src = gigolos[currentIndex1];
             currentIndex1 = (currentIndex1 + 1) % 3;
+        }
+        function Changelucerne() {
+            slidelucerne.src = Lucern[currentIndex2];
+            currentIndex2 = (currentIndex2 + 1) % Lucern.length;
+        }
+        function Changedusseldorf() {
+            slideDusseldorf.src = DUSSELFORF[currentIndex3];
+            currentIndex3 = (currentIndex3 + 1) % DUSSELFORF.length;
         }
 
         setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
