@@ -92,7 +92,7 @@
                     <br><br><br>A Noël j'ai enfin porté mes couilles et je t'ai envoyé un message pour te remercier pour le mot que tu m'as écrit. Ce fut le début de notre amitié <strong>//insérrer le mot et le message que je lui ait envoyé !</strong>
                     <br><br><br>Ensuite il y a eu la sortie à Lucerne avec toute l'équipe, c'était GENIAL ! <strong>//Insérer une image ici</strong>
                     <br><br><br>Un mois plus tard, grâce à monsieur Forni, on est allé à Düsseldorf. ça aussi c'était cool !
-                    <br><br><br>Puis les vacances d'été où on a passé une grande partie du mois de juillet ensemble avec les autres gigolos. <center><img id="gigolos" class="kevin" src="static/photos pour Noa/amis/2.jpg" alt="Image 1" width="80%"></center>
+                    <br><br><br>Puis les vacances d'été où on a passé une grande partie du mois de juillet ensemble avec les autres gigolos. <br><br><center><img id="gigolo" class="kevin" src="static/photos pour Noa/amis/2.jpg" alt="Image 1" width="80%"></center>
                     <br><br><br><strong>Et enfin la 2ème année !</strong>
                     <br><br><br>Tu t'es rapprochée de ton Leandrinou... puis au Nouvel An, vous vous êtes mis en couple !
                     <br><br><br>Tu as bien commencé cette nouvelle année. J'étais très content pour toi.
@@ -115,19 +115,19 @@
         var gigolos = ["static/photos pour Noa/amis/2.jpg","static/photos pour Noa/amis/Les gars qui t'ont pas péchos.jpeg","static/photos pour Noa/amis/2GY2.jpg"];
         var currentIndex = 0;
         var slideshowImage = document.getElementById("image");
-        var slidegigolos = document.getElementById("gigolos");
+        var slidegigolos = document.getElementById("gigolo");
 
         function changeImage() {
             slideshowImage.src = images[currentIndex];
             currentIndex = (currentIndex + 1) % images.length;
         }
-        function gigolos() {
+        function Changegigolos() {
             slidegigolos.src = gigolos[currentIndex];
             currentIndex = (currentIndex + 1) % gigolos.length;
         }
 
         setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
-        setInterval(gigolos, 3000);
+        setInterval(Changegigolos, 3000);
     </script>
 </body>
 </html>
