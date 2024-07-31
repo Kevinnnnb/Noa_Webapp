@@ -295,6 +295,9 @@ def report():
 def sign_in():
     return render_template('sign_in.html')
 
+@app.route('/haha')
+def haha():
+    return render_template('haha.html')
 
 @app.route('/search_gif')
 def searchGIF():
