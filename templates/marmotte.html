@@ -115,6 +115,7 @@
         var images = ["static/photos pour Noa/Noa/21.jpg","static/photos pour Noa/Noa/22.jpeg","static/photos pour Noa/Noa/23.jpg","static/photos pour Noa/Noa/24.jpeg", "static/photos pour Noa/Noa/25.jpeg","static/photos pour Noa/Noa/26.jpg","static/photos pour Noa/Noa/27.jpeg","static/photos pour Noa/Noa/28.jpg","static/photos pour Noa/Noa/29.png","static/photos pour Noa/Noa/30.jpg","static/photos pour Noa/Noa/31.jpg","static/photos pour Noa/Noa/32.jpg","static/photos pour Noa/Noa/33.jpeg","static/photos pour Noa/Noa/34.png","static/photos pour Noa/Noa/35.jpg","static/photos pour Noa/Noa/36.jpeg","static/photos pour Noa/Noa/37.jpeg"];
         var gigolos = ["static/photos pour Noa/amis/Les gars qui t'ont pas péchos.jpeg","static/photos pour Noa/amis/2GY2.jpg","static/photos pour Noa/amis/IMG_7165.JPG"];
         var currentIndex = 0;
+        var currentIndex1 = 0;
         var slideshowImage = document.getElementById("image");
         var slidegigolos = document.getElementById("gigolo");
 
@@ -123,8 +124,8 @@
             currentIndex = (currentIndex + 1) % images.length;
         }
         function Changegigolos() {
-            slidegigolos.src = gigolos[currentIndex];
-            currentIndex = (currentIndex + 1) % 3;
+            slidegigolos.src = gigolos[currentIndex1];
+            currentIndex1 = (currentIndex1 + 1) % 3;
         }
 
         setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
