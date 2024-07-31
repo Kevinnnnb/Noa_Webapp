@@ -77,6 +77,9 @@
                     <br><br><br>Tout commence le 25 août 2022 dans l'auditorium du Collège (comme c'est romantique 💘)
                     <br><br><br>C'était notre premier jour au gymnase avec madame Piccand.
                     <br><br><br>C'est la première fois que je t'ai vue. J'ai tout de suite trouvé que tu étais mignonne et très jolie 😊. (et j'ai eu la trouille de te parler 😅)
+                    
+                    <img id="image" class="kevin" src="/static/photos pour Noa/Noa/21.jpg" alt="Image 1" width="80%">
+                    
                     <br><br><br>Il m'aura fallu un moment avant de le faire. En réalité, c'est un peu grâce à Darius et aux cours d'AV qu'on a commencé à se parler.
                     <br><br><br>Puis on a commencé à rester après les cours avec les autres et c'est à ce moment que tu es devenue ma petite marmotte. (et tu l'es toujours et ça c'est beau !)
                     <br><br><br>A Noël j'ai enfin porté mes couilles et je t'ai envoyé un message pour te remercier pour le mot que tu m'as écrit. Ce fut le début de notre amitié <strong>//insérrer le mot et le message que je lui ait envoyé !</strong>
@@ -98,5 +101,17 @@
         </center>
         </div>
     </header>
+    <script>
+        var images = ["static/photos pour Noa/Noa/21.jpg","static/photos pour Noa/Noa/22.jpeg","static/photos pour Noa/Noa/23.jpg","static/photos pour Noa/Noa/24.jpeg", "static/photos pour Noa/Noa/25.jpeg","static/photos pour Noa/Noa/26.jpg","static/photos pour Noa/Noa/27.jpeg","static/photos pour Noa/Noa/28.jpg","static/photos pour Noa/Noa/29.png","static/photos pour Noa/Noa/30.jpg","static/photos pour Noa/Noa/31.jpg","static/photos pour Noa/Noa/32.jpg","static/photos pour Noa/Noa/33.jpeg","static/photos pour Noa/Noa/34.png","static/photos pour Noa/Noa/35.jpg","static/photos pour Noa/Noa/36.jpeg","static/photos pour Noa/Noa/37.jpeg"];
+        var currentIndex = 0;
+        var slideshowImage = document.getElementById("image");
+
+        function changeImage() {
+            slideshowImage.src = images[currentIndex];
+            currentIndex = (currentIndex + 1) % images.length;
+        }
+
+        setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
+    </script>
 </body>
 </html>
