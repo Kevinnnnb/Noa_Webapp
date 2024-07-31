@@ -2,6 +2,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+#This is a code that I save in case I need it in ein andere Project
+
 def send_email(sender_email, sender_password, recipient_email, subject, body):
     html_message = MIMEText(body, 'html')
     html_message['Subject'] = subject
