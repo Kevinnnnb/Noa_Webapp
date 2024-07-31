@@ -96,6 +96,8 @@
 <br><br><br>Puis les vacances d'été où on a passé une grande partie du mois de juillet ensemble avec les autres gigolos. <br><br><br><center><img id="gigolo" class="kevin" src="static/photos pour Noa/amis/IMG_7165.JPG" alt="Image 1" width="80%"></center>
 <br><br><br><strong>Et enfin la 2ème année !</strong>
 <br><br><br>Tu t'es rapprochée de ton Leandrinou... puis au Nouvel An, vous vous êtes mis en couple !
+<br><br>
+<center><img id="leandro" class="kevin" src="static/photos pour Noa/Leandro/10.jpg" alt="Image 1" width="80%"></center>
 <br><br><br>Tu as bien commencé cette nouvelle année. J'étais très content pour toi.
 <br><br><br>Quelques temps après, nous sommes allés à Constance. C'était super !
 <br><br><br>Comme toujours entre nous, il y a eu des hauts et des bas. Malgré le fait que tu sois ma meilleure amie, il est souvent arrivé que nous nous fâchions, souvent pour rien. La plupart du temps, je devais me forcer pour ne pas te pardonner trop vite...
@@ -119,14 +121,17 @@
         var gigolos = ["static/photos pour Noa/amis/Les gars qui t'ont pas péchos.jpeg","static/photos pour Noa/amis/2GY2.jpg","static/photos pour Noa/amis/IMG_7165.JPG"];
         var Lucern = ["static/photos pour Noa/Luzern/18.jpeg","static/photos pour Noa/Luzern/19.jpeg","static/photos pour Noa/Luzern/20.jpeg","static/photos pour Noa/Luzern/17.jpeg"];
         var DUSSELFORF = ["static/photos pour Noa/Dusseldorf/7.jpg", "static/photos pour Noa/Dusseldorf/8.jpeg", "static/photos pour Noa/Dusseldorf/9.jpeg", "static/photos pour Noa/Dusseldorf/6.jpeg"];
+        var LEANDDRO = ["static/photos pour Noa/Leandro/11.jpeg","static/photos pour Noa/Leandro/12.jpeg","static/photos pour Noa/Leandro/13.jpg", "static/photos pour Noa/Leandro/14.jpg","static/photos pour Noa/Leandro/15.jpg", "static/photos pour Noa/Leandro/16.jpg", "static/photos pour Noa/Leandro/10.jpg"];
         var currentIndex = 0;
         var currentIndex1 = 0;
         var currentIndex2 = 0;
         var currentIndex3 = 0;
+        var currentIndex4 = 0;
         var slideshowImage = document.getElementById("image");
         var slidegigolos = document.getElementById("gigolo");
         var slidelucerne = document.getElementById("lucerne");
         var slideDusseldorf = document.getElementById("dusseldorf");
+        var slideLeandro = document.getElementById("leandro");
 
         function changeImage() {
             slideshowImage.src = images[currentIndex];
@@ -144,11 +149,16 @@
             slideDusseldorf.src = DUSSELFORF[currentIndex3];
             currentIndex3 = (currentIndex3 + 1) % DUSSELFORF.length;
         }
+        function ChangeLeandro() {
+            slideLeandro.src = LEANDDRO[currentIndex4];
+            currentIndex4 = (currentIndex+1) % LEANDRO.lenght;
+        }
 
         setInterval(changeImage, 3000); // Change l'image toutes les 3 secondes
         setInterval(Changegigolos, 3000);
         setInterval(Changelucerne, 3000);
         setInterval(Changedusseldorf, 3000);
+        setInterval(ChangeLeandro, 3000);
 
     </script>
 </body>
