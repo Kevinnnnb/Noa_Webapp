@@ -19,6 +19,8 @@ message_count = 0
 image_count = 0
 token = "test"
 
+sender_password = "erhn bbka bvuk fydw" #Secret Key to have acces to a Google account from a Python Script
+
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -76,7 +78,7 @@ def send_email(sender_email, sender_password, recipient_email, subject, body, us
 # Exécution de la fonction
 
 sender_email = "aide.arcabox@gmail.com"
-sender_password = "erhn bbka bvuk fydw" # For the password you need to go to your google account and search for app password -> you will have a 16 digits password for your script 
+ # For the password you need to go to your google account and search for app password -> you will have a 16 digits password for your script 
 subject = "Hello World !"
 body = """
 <!DOCTYPE html>
