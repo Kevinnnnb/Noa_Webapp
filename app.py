@@ -379,6 +379,18 @@ def index():
         flash('User ID not found in session.')
         return redirect(url_for('home'))
 
+@app.route('/get_user', methods=['GET'])
+def get_user():
+    token = request.args.get('token')
+    if 'user_id' in session:
+        user_id = session['user_id']
+        username = get_username(user_id)
+        if username:
+            return jsonify({'username': username})
+        else:
+            return jsonify({'error': 'Token non valide'}), 400
+    return jsonify({'error': 'Token manquant'}), 400
+
 
 def get_username(user_id):
     conn = sqlite3.connect('static/users.db')
