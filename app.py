@@ -354,8 +354,18 @@ def index():
     global message_count, show_image
     message_count += 1
     show_image = False  # Réinitialiser show_image à False
+    user_id = session['user_id']
+    username = get_username(user_id)
+    print(f"Le message a été envoyé par {username}")
     return render_template('text.html', user_input=user_input)
 
+def get_username(user_id):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT username FROM users WHERE id = ?", (user_id,))
+    username = cursor.fetchone()
+    conn.close()
+    return username[0] if username else None
 
 @app.route('/update_input', methods=['POST'])
 def update_input():
@@ -408,6 +418,9 @@ def mail():
 @app.route('/images')
 @login_required
 def hello_world():
+    user_id = session['user_id']
+    username = get_username(user_id)
+    print(f"L'image a été envoyée par {username}")
     return render_template('index.html')
 
 @app.route('/loadTest')
