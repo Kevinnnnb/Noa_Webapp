@@ -178,21 +178,23 @@ def home():
 def marmotte():
     return render_template('marmotte.html')
 
-app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     global last_connected_user_id
-    username = request.form['username']
-    password = request.form['password']
-    user_id = validate_login(username, password)
-    if user_id:
-        last_connected_user_id = user_id
-        # Enregistrer d'autres informations dans la session si nécessaire
-        session['logged_in'] = True
-        session['user_id'] = user_id
-        return redirect(url_for('home'))
-    else:
-        flash('Nom d\'utilisateur ou mot de passe incorrect', 'error')
-        return redirect(url_for('login'))
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user_id = validate_login(username, password)
+        if user_id:
+            last_connected_user_id = user_id
+            # Enregistrer d'autres informations dans la session si nécessaire
+            session['logged_in'] = True
+            session['user_id'] = user_id
+            return redirect(url_for('home'))
+        else:
+            flash('Nom d\'utilisateur ou mot de passe incorrect', 'error')
+            return redirect(url_for('login'))
+    return render_template('login.html')  # Rendre la page de login pour GET
 
 def validate_login(username, password):
     conn = sqlite3.connect('static/users.db')
