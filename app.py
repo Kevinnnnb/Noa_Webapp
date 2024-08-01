@@ -381,7 +381,7 @@ def index():
 
 
 def get_username(user_id):
-    conn = sqlite3.connect('users.db')
+    conn = sqlite3.connect('static/users.db')
     cursor = conn.cursor()
     cursor.execute("SELECT username FROM users WHERE id = ?", (user_id,))
     username = cursor.fetchone()
