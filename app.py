@@ -179,11 +179,24 @@ def login():
     username = request.form['username']
     password = request.form['password']
     if validate(username, password):
+        # Assurez-vous que vous obtenez l'user_id à partir de votre base de données
+        user_id = get_user_id(username)  # Vous devez implémenter cette fonction pour récupérer l'user_id basé sur le nom d'utilisateur
         session['logged_in'] = True
         session['username'] = username
+        session['user_id'] = user_id  # Ajoutez cette ligne pour définir user_id dans la session
         return redirect(url_for('adieuuuu'))
     else:
         return render_template("/login_rate.html")
+
+
+def get_user_id(username):
+    conn = sqlite3.connect('static/users.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users WHERE username = ?", (username,))
+    user_id = cursor.fetchone()
+    conn.close()
+    return user_id[0] if user_id else None
+
 
 @app.route('/logout')
 def logout():
@@ -354,10 +367,18 @@ def index():
     global message_count, show_image
     message_count += 1
     show_image = False  # Réinitialiser show_image à False
-    user_id = session['user_id']
-    username = get_username(user_id)
-    print(f"Le message a été envoyé par {username}")
-    return render_template('text.html', user_input=user_input)
+
+    # Vérifiez si 'user_id' est dans la session
+    if 'user_id' in session:
+        user_id = session['user_id']
+        username = get_username(user_id)
+        print(f"Le message a été envoyé par {username}")
+        return render_template('text.html', user_input=user_input)
+    else:
+        # Redirigez ou gérez le cas où 'user_id' n'est pas dans la session
+        flash('User ID not found in session.')
+        return redirect(url_for('home'))
+
 
 def get_username(user_id):
     conn = sqlite3.connect('users.db')
