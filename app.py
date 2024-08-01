@@ -18,7 +18,6 @@ app.secret_key = "bZe60lQsBBurONE6dMVXeKkl4JDwQ4iRZLzJEdY4SMUtD4R7VqsaiVrwWaoo9N
 message_count = 0
 image_count = 0
 token = "test"
-last_update_time = 0
 
 sender_password = "erhn bbka bvuk fydw" #Secret Key to have acces to a Google account from a Python Script
 
@@ -27,9 +26,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from functools import wraps
-
-# Variable globale pour stocker le dernier utilisateur connecté
-last_connected_user_id = None
 
 def login_required(f):
     @wraps(f)
@@ -178,33 +174,20 @@ def home():
 def marmotte():
     return render_template('marmotte.html')
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    global last_connected_user_id
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user_id = validate_login(username, password)
-        if user_id:
-            last_connected_user_id = user_id
-            # Enregistrer d'autres informations dans la session si nécessaire
-            session['logged_in'] = True
-            session['user_id'] = user_id
-            return redirect(url_for('home'))
-        else:
-            flash('Nom d\'utilisateur ou mot de passe incorrect', 'error')
-            return redirect(url_for('login'))
-    return render_template('login.html')  # Rendre la page de login pour GET
+    username = request.form['username']
+    password = request.form['password']
+    if validate(username, password):
+        # Assurez-vous que vous obtenez l'user_id à partir de votre base de données
+        user_id = get_user_id(username)  # Vous devez implémenter cette fonction pour récupérer l'user_id basé sur le nom d'utilisateur
+        session['logged_in'] = True
+        session['username'] = username
+        session['user_id'] = user_id  # Ajoutez cette ligne pour définir user_id dans la session
+        return redirect(url_for('adieuuuu'))
+    else:
+        return render_template("/login_rate.html")
 
-def validate_login(username, password):
-    conn = sqlite3.connect('static/users.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, password FROM users WHERE username = ?", (username,))
-    result = cursor.fetchone()
-    conn.close()
-    if result and check_password_hash(result[1], password):
-        return result[0]
-    return None
 
 def get_user_id(username):
     conn = sqlite3.connect('static/users.db')
@@ -396,25 +379,14 @@ def index():
         flash('User ID not found in session.')
         return redirect(url_for('home'))
 
-@app.route('/get_user', methods=['GET'])
-def get_user():
-    global last_connected_user_id
-    if last_connected_user_id:
-        username = get_username(last_connected_user_id)
-        if username:
-            return jsonify({'username': username})
-        else:
-            return jsonify({'error': 'Utilisateur non valide'}), 400
-    return jsonify({'error': 'Aucun utilisateur connecté récemment'}), 400
-
 
 def get_username(user_id):
     conn = sqlite3.connect('static/users.db')
     cursor = conn.cursor()
     cursor.execute("SELECT username FROM users WHERE id = ?", (user_id,))
-    result = cursor.fetchone()
+    username = cursor.fetchone()
     conn.close()
-    return result[0] if result else None
+    return username[0] if username else None
 
 @app.route('/update_input', methods=['POST'])
 def update_input():
