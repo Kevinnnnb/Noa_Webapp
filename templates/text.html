@@ -90,7 +90,7 @@
             }).catch(error => {
                 console.error('Erreur réseau', error);
             }).finally(() => {
-                document.getElementById('user_input').value = ''; // Efface le champ de texte
+                event.target.reset(); // Réinitialise le formulaire
             });
         });
     </script>
