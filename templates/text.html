@@ -82,6 +82,7 @@
                 body: new URLSearchParams(new FormData(this)) // Crée un objet FormData à partir du formulaire et le convertit en URLSearchParams
             }).then(response => {
                 if (response.ok) {
+                    this.reset(); // Réinitialise le formulaire
                     window.location.href = '/home'; // Redirige vers la root si la soumission réussit
                 } else {
                     // Gérez les erreurs ici
@@ -89,9 +90,7 @@
                 }
             }).catch(error => {
                 console.error('Erreur réseau', error);
-            }).finally(() => {
-                event.target.reset(); // Réinitialise le formulaire
-            });
+            })
         });
     </script>
 </body>
