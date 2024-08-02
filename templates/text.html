@@ -55,20 +55,20 @@
 </head>
 <body>
     <header>
-            <center>
-                <div class="pute">
-                    <div class="form-container">
-                        <h3>Envoie ton message</h3>
-                        <br><p>PS : N'utilise pas de charectères accentués !</p>
-                        <br>
-                        <form id="messageForm" action="/update_input" method="post">
-                            <label for="user_input">Entre ton message:</label><br>
-                            <input type="text" id="user_input" name="user_input" value="{{ user_input }}"><br><br>
-                            <input type="submit" value="Envoyer">
-                        </form>
-                    </div>
+        <center>
+            <div class="pute">
+                <div class="form-container">
+                    <h3>Envoie ton message</h3>
+                    <br><p>PS : N'utilise pas de caractères accentués !</p>
+                    <br>
+                    <form id="messageForm" action="/update_input" method="post">
+                        <label for="user_input">Entre ton message:</label><br>
+                        <input type="text" id="user_input" name="user_input" value="{{ user_input }}"><br><br>
+                        <input type="submit" value="Envoyer">
+                    </form>
                 </div>
-            </center>
+            </div>
+        </center>
     </header>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="/static/gif.js"></script>
@@ -89,6 +89,8 @@
                 }
             }).catch(error => {
                 console.error('Erreur réseau', error);
+            }).finally(() => {
+                document.getElementById('user_input').value = ''; // Efface le champ de texte
             });
         });
     </script>
