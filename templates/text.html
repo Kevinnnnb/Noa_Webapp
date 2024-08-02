@@ -3,85 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/index.css" />
+    <title>Message</title>
     <style>
-        body {
-            background-color: #7bb4e3;
-            font-family: "Lucida Console", "Courier New", monospace;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+        .noa {
+            border-radius: 25px;
         }
-        .container {
+
+        body {
+            background-color: pink;
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+
+        .pute {
             background-color: white;
             width: 90%;
-            max-width: 400px;
-            margin: 20px auto;
-            padding: 3%;
             border-radius: 20px;
-            display: inline-block;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            align-items: center;
         }
-        .container h1 {
-            margin: 0 0 20px 0;
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .button-container {
-            margin-top: 20px;
+
+        input[type="text"] {
+            width: 80%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            text-align: center;
         }
-        .button-container a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
+
+        input[type="submit"] {
+            padding: 10px 15px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             background-color: pink;
             color: white;
             font-size: 16px;
-            text-decoration: none;
+            cursor: pointer;
         }
-        .button-container a:hover {
+
+        input[type="submit"]:hover {
             background-color: red;
         }
-        img {
-            max-width: 300px;
-            width: 100%;
-            height: auto;
-            border-radius: 25px;
-        }
-        .text {
-            text-align: left;
-        }
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
     </style>
-    <script>
-        function validatePassword() {
-            const newPassword = document.getElementById("new_password").value;
-            const confirmPassword = document.getElementById("confirm_password").value;
-            const errorMessage = document.getElementById("error-message");
-
-            if (newPassword !== confirmPassword) {
-                errorMessage.textContent = "Les mots de passe ne correspondent pas.";
-                return false;
-            }
-
-            errorMessage.textContent = "";
-            return true;
-        }
-    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Réinitialiser le mot de passe</h1>
-        <form method="post" onsubmit="return validatePassword()">
-            <label for="new_password">Nouveau mot de passe :</label>
-            <input type="password" id="new_password" name="new_password" required><br><br>
-            <label for="confirm_password">Confirmer le mot de passe :</label>
-            <input type="password" id="confirm_password" name="confirm_password" required><br><br>
-            <div id="error-message" class="error"></div>
-            <input type="submit" value="Réinitialiser">
-        </form>
-    </div>
+    <header>
+        <center>
+            <div class="pute">
+                <div class="form-container">
+                    <h3>Envoie ton message</h3>
+                    <br><p>PS : N'utilise pas de caractères accentués !</p>
+                    <br>
+                    <form id="messageForm" action="/update_input" method="post">
+                        <label for="user_input">Entre ton message:</label><br>
+                        <input type="text" id="user_input" name="user_input" value=""><br><br>
+                        <input type="submit" value="Envoyer">
+                    </form>
+                </div>
+            </div>
+        </center>
+    </header>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="/static/gif.js"></script>
+    <script src="/static/gifDecoder.js"></script>
+    <script src="/static/script.js"></script>
+    <script>
+        document.getElementById('messageForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Empêche la soumission normale du formulaire
+            fetch(this.action, {
+                method: this.method,
+                body: new URLSearchParams(new FormData(this)) // Crée un objet FormData à partir du formulaire et le convertit en URLSearchParams
+            }).then(response => {
+                if (response.ok) {
+                    this.reset(); // Réinitialise le formulaire
+                    window.location.href = '/home'; // Redirige vers la root si la soumission réussit
+                } else {
+                    // Gérez les erreurs ici
+                    console.error('Erreur lors de la soumission du formulaire');
+                }
+            }).catch(error => {
+                console.error('Erreur réseau', error);
+            })
+        });
+    </script>
+
 </body>
 </html>
