@@ -179,11 +179,10 @@ def login():
     username = request.form['username']
     password = request.form['password']
     if validate(username, password):
-        # Assurez-vous que vous obtenez l'user_id à partir de votre base de données
-        user_id = get_user_id(username)  # Vous devez implémenter cette fonction pour récupérer l'user_id basé sur le nom d'utilisateur
+        user_id = get_user_id(username)
         session['logged_in'] = True
         session['username'] = username
-        session['user_id'] = user_id  # Ajoutez cette ligne pour définir user_id dans la session
+        session['user_id'] = user_id  # Ajoutez cette ligne
         return redirect(url_for('adieuuuu'))
     else:
         return render_template("/login_rate.html")
@@ -505,7 +504,12 @@ def return_files_tut():
 def show_image():
     global last_uploaded_file
     if last_uploaded_file:
-        return render_template('image.html', image_file=last_uploaded_file)
+        if 'user_id' in session:
+            user_id = session['user_id']
+            username = get_username(user_id)
+            return render_template("image_username.html", image_file=last_uploaded_file, username=username)
+        else:
+            return render_template('image.html', image_file=last_uploaded_file)
     else:
         return render_template("/pasimage.html")
 
@@ -513,7 +517,12 @@ def show_image():
 def message():
     global user_input
     if user_input != "":
-        return render_template("message.html", user_input=user_input)
+        if 'user_id' in session:
+            user_id = session['user_id']
+            username = get_username(user_id)
+            return render_template("message_username.html", user_input=user_input, username=username)
+        else:
+            return render_template("message.html", user_input=user_input)
     else:
         return render_template("/pasimage.html")
 
