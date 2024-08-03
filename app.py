@@ -391,6 +391,13 @@ def get_username(user_id):
 def update_input():
     global user_input, last_update_time, message_count
     user_input = request.form['user_input']
+    if 'user_id' in session:
+        user_id = session['user_id']
+        username = get_username(user_id)
+        user_input = f"Tu as reçu un message de {username}:\n\n{user_input}"
+        print(user_input)
+    else:
+        print(f"Dernier message: {user_input}")
     last_update_time = time.time()
     return render_template('text.html', user_input=user_input)
 
